@@ -1,6 +1,4 @@
 local Matrix3 = {}
-Matrix3.__index = Matrix3
-Matrix3.__class = "Matrix3"
 
 export type Matrix3 = {
 	M00: number, M01: number, M02: number,
@@ -13,12 +11,21 @@ export type Matrix3 = {
 function Matrix3.new(m00: number, m01: number, m02: number,
 					m10: number, m11: number, m12: number,
 					m20: number, m21: number, m22: number)
-
-	return setmetatable({
+	local self = setmetatable({
 		M00 = m00, M01 = m01, M02 = m02,
 		M10 = m10, M11 = m11, M12 = m12,
 		M20 = m20, M21 = m21, M22 = m22
-	}, Matrix3)
+	}, {
+		__index = Matrix3,
+		__class = "Matrix3",
+		__tostring = function(self)
+			return string.format("Matrix3(%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+			self.M00, self.M01, self.M02, self.M10, self.M11, self.M12, self.M20, self.M21, self.M22)
+		end
+	})
+
+	table.freeze(self)
+	return self
 end
 
 function Matrix3.Identity()

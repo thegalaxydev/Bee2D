@@ -3,6 +3,7 @@ local RunService = game:GetService("RunService")
 
 local Bee2D = require(script.Parent.Main)
 local Scene = require(script.Parent.Components.Scene)
+local Stopwatch = require(script.Parent.Components.Stopwatch)
 local Scenes = script.Parent.Scenes
 
 Engine.SCREEN_WIDTH = 800
@@ -101,6 +102,9 @@ function Engine.RemoveScene(scene: Scene.Scene)
 end
 
 function Engine.Run()
+	local _stopwatch = Stopwatch.new();
+	_stopwatch:Start();
+
 	for _, Scene in pairs(Scenes:GetChildren()) do
 		if Scene:IsA("ModuleScript") then
 			local scene = require(Scene)
@@ -110,10 +114,22 @@ function Engine.Run()
 
 	Engine.Start()
 
-	RunService:BindToRenderStep("Bee2DEngine", Enum.RenderPriority.First.Value, function(deltaTime)
-		Engine.Update(deltaTime)
-		Engine.Draw()
-	end)
+	local currentTime = 0;
+	local lastTime = 0;
+	local deltaTime = 0;
+
+	while(not Bee2D.WindowShouldClose()) do
+		currentTime = _stopwatch.ElapsedTime;
+
+		deltaTime = currentTime - lastTime;
+
+		Engine.Update(deltaTime);
+		Engine.Draw();
+
+		lastTime = currentTime;
+
+		task.wait()
+	end
 end
 
 
