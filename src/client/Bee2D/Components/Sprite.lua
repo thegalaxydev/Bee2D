@@ -5,31 +5,31 @@ Sprite.__index = Sprite
 Sprite.__class = "Sprite"
 
 export type Sprite = {
-    Width: number,
-    Height: number,
-    Color: Color3,
-    Image: string,
+	Width: number,
+	Height: number,
+	Color: Color3,
+	Image: string,
 }
 
 function Sprite.new(color: Color3, image: string)
-    local self = setmetatable({}, Sprite)
-    self.Width = newproxy()
-    self.Height = newproxy()
-    self.Color = color
-    self.Image = image
+	local self = setmetatable({}, Sprite)
+	self.Width = newproxy()
+	self.Height = newproxy()
+	self.Color = color
+	self.Image = image
 
-    return self
+	return self
 end
 
 function Sprite:Draw(transform: Transform2D.Transform)
-    self.Width = math.round(transform:GetScale().X);
-    self.Height = math.round(transform:GetScale().Y);
+	self.Width = math.round(transform:GetScale().X);
+	self.Height = math.round(transform:GetScale().Y);
 
-    local position = Vector2.new(transform:GetPosition().X, transform:GetPosition().Y)
+	local position = Vector2.new(transform:GetPosition().X, transform:GetPosition().Y)
 
-    local rotation = transform.RotationAngle;
+	local rotation = transform.RotationAngle;
 
-    Bee2D.DrawImage(self.Image, position, (rotation * 180 / math.pi), Vector2.new(self.Width, self.Height), self.Color)
+	Bee2D.DrawImage(self.Image, position, (rotation * 180 / math.pi), Vector2.new(self.Width, self.Height), self.Color)
 end
 
 

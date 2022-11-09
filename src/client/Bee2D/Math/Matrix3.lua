@@ -21,7 +21,9 @@ function Matrix3.new(m00: number, m01: number, m02: number,
 	}, Matrix3)
 end
 
-Matrix3.Identity = Matrix3.new(1, 0, 0, 0, 1, 0, 0, 0, 1)
+function Matrix3.Identity()
+	return Matrix3.new(1, 0, 0, 0, 1, 0, 0, 0, 1)
+end
 
 function Matrix3.FromArray(a): Matrix3
 	return Matrix3.new(

@@ -22,26 +22,27 @@ function Actor.new(name: string, graphic: Sprite.Sprite)
 	self.Name = name
 	self.Graphic = graphic
 	self.Transform = Transform2D.new(self)
-	self.CollisionVolume = CircleCollider.new(self.Transform.LocalScale, self)
+	self.CollisionVolume = CircleCollider.new(self.Transform:GetScale().X, self)
 
 	return self
 end
 
-function Actor:Update(deltaTime)
-	self._lastPosition = self.Transform:GetPosition();
-	local direction = Input.GetMoveInput()
-	local velocity = direction * 15 * deltaTime;
-	
-	
-	self:Translate(velocity);
+function Actor:Start()
 end
+
+function Actor:Update(deltaTime)
+	self.CollisionVolume.Radius = self.Transform:GetScale().X
+end
+
 
 function Actor:Translate(direction: Vector2)
 	self.Transform:SetPosition(self.Transform:GetPosition() + direction)
 end
 
 function Actor:Draw()
-	self.Graphic:Draw(self.Transform)
+	if self.Graphic then
+		self.Graphic:Draw(self.Transform)
+	end
 end
 
 

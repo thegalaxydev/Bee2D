@@ -14,11 +14,11 @@ export type Transform = {
 function Transform2D.new(owner): Transform
 	assert(owner.__class == "Actor", "Transform2D must be initialized with an Actor")
 	local self = setmetatable({}, Transform2D)
-	self.Local = Matrix3.Identity
+	self.Local = Matrix3.Identity()
 	self.Owner = owner
-	self.Rotation = Matrix3.Identity
-	self.LocalScale = Matrix3.Identity
-	self.Translation = Matrix3.Identity
+	self.Rotation = Matrix3.Identity()
+	self.LocalScale = Matrix3.Identity()
+	self.Translation = Matrix3.Identity()
 
 
 	self.RotationAngle = 0;
@@ -45,7 +45,7 @@ function Transform2D:SetRotation(m: Matrix3.Matrix3)
 end
 
 function Transform2D:GetPosition(): Vector2
-	return Vector2.new(self.Local.M20, self.Local.M21)
+	return Vector2.new(self.Translation.M20, self.Translation.M21)
 end
 
 function Transform2D:SetPosition(v: Vector2)
