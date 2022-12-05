@@ -128,7 +128,7 @@ function Bee2D.DrawCircleLine(posX: number, posY: number, radius: number, color:
 	local backFrame = Instance.new("Frame")
 	backFrame.Name = "Circle"
 	backFrame.AnchorPoint = Vector2.new(0.5,0.5)
-	backFrame.Size = UDim2.new(0, radius, 0, radius)
+	backFrame.Size = UDim2.new(0, radius * 2, 0, radius * 2)
 	backFrame.Position = UDim2.new(0, posX, 0, posY)
 	backFrame.BackgroundTransparency = 1
 	backFrame.Parent = Frame

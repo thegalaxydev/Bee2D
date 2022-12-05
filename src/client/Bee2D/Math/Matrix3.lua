@@ -24,7 +24,6 @@ function Matrix3.new(m00: number, m01: number, m02: number,
 		end
 	})
 
-	table.freeze(self)
 	return self
 end
 

@@ -1,5 +1,5 @@
 local Actor = {}
-local CircleCollider = require(script.Parent.CircleCollider)
+local Collider = require(script.Parent.Collider)
 local Transform2D = require(script.Parent.Transform2D)
 local Input = require(script.Parent.Input)
 local Sprite = require(script.Parent.Sprite)
@@ -11,7 +11,7 @@ Actor.__class = "Actor"
 export type Actor = {
 	Name: string,
 	Transform: Transform2D.Transform,
-	CollisionVolume: CircleCollider.CircleCollider,
+	CollisionVolume: Collider.Collider,
 	Draw: () -> nil,
 }
 
@@ -22,7 +22,8 @@ function Actor.new(name: string, graphic: Sprite.Sprite)
 	self.Name = name
 	self.Graphic = graphic
 	self.Transform = Transform2D.new(self)
-	self.CollisionVolume = CircleCollider.new(self.Transform:GetScale().X, self)
+	self.CollisionVolume = Collider.new(self, "Circle")
+	self.CollisionVolume.CollisionInformation.Radius = self.Transform:GetScale().X / 2
 
 	return self
 end
@@ -31,7 +32,7 @@ function Actor:Start()
 end
 
 function Actor:Update(deltaTime)
-	self.CollisionVolume.Radius = self.Transform:GetScale().X
+	self.CollisionVolume.Radius = self.Transform:GetScale().X / 2
 end
 
 
