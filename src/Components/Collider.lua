@@ -10,6 +10,7 @@ export type Collider = {
 
 local CollisionInformation = {
 	['Circle'] = {
+
 		["Radius"] = 0;
 	},
 	['Box'] = {
@@ -33,7 +34,7 @@ function Collider:CircleCircleCollision(other: Collider): boolean
 end
 
 function Collider:BoxBoxCollision(other: Collider): boolean
-	return (self.Owner.Transform:GetPosition() - other.Owner.Transform:GetPosition()).Magnitude <= self.CollisionInformation.Radius + other.CollisionInformation.Radius
+	return false;
 end
 
 function Collider:CheckCollision(other: {}): boolean
@@ -41,7 +42,7 @@ function Collider:CheckCollision(other: {}): boolean
 	assert(other.__class == "Actor", "[Bee2D] Collision can only be checked with Actor")
 	if other.CollisionVolume == nil then return false end
 
-	if other.CollisionVolume.collisionType == "Circle" and self.CollisionType == "Cirlce" then
+	if other.CollisionVolume.CollisionType == "Circle" and self.CollisionType == "Cirlce" then
 		return self:CircleCircleCollision(other.CollisionVolume)
 	end
 end

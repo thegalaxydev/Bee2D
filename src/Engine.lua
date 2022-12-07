@@ -4,7 +4,6 @@ local RunService = game:GetService("RunService")
 local Bee2D = require(script.Parent.Main)
 local Scene = require(script.Parent.Components.Scene)
 local Stopwatch = require(script.Parent.Components.Stopwatch)
-local Scenes = script.Parent.Scenes
 
 Engine.SCREEN_WIDTH = 800
 Engine.SCREEN_HEIGHT = 450
@@ -24,6 +23,8 @@ function Engine.Start()
 end
 
 function Engine.Update(deltaTime: number)
+	Bee2D.FPS = 1 / deltaTime
+
 	if _currentScene ~= nil then
 		_currentScene:Update(deltaTime)
 	end
@@ -101,16 +102,19 @@ function Engine.RemoveScene(scene: Scene.Scene)
 	end
 end
 
-function Engine.Run()
-	local _stopwatch = Stopwatch.new();
-	_stopwatch:Start();
-
-	for _, Scene in pairs(Scenes:GetChildren()) do
+function Engine:LoadScenes(SceneFolder)
+	print(SceneFolder)
+	for _, Scene in pairs(SceneFolder:GetChildren()) do
 		if Scene:IsA("ModuleScript") then
 			local scene = require(Scene)
 			Engine.AddScene(scene)
 		end
 	end
+end
+
+function Engine.Run()
+	local _stopwatch = Stopwatch.new();
+	_stopwatch:Start();
 
 	Engine.Start()
 
@@ -125,6 +129,8 @@ function Engine.Run()
 
 		Engine.Update(deltaTime);
 		Engine.Draw();
+		
+		Bee2D.DrawFPS();
 
 		lastTime = currentTime;
 

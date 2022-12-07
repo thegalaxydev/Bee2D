@@ -1,6 +1,6 @@
 local Sprite = {}
-local Bee2D = require(script.Parent.Parent.Main)
-local Transform2D = require(script.Parent.Transform2D)
+local Bee2D = require(script.Parent.Parent.Parent.Main)
+local Transform2D = require(script.Parent.Parent.Transform2D)
 Sprite.__index = Sprite
 Sprite.__class = "Sprite"
 

@@ -1,8 +1,8 @@
 local Actor = {}
 local Collider = require(script.Parent.Collider)
 local Transform2D = require(script.Parent.Transform2D)
-local Input = require(script.Parent.Input)
-local Sprite = require(script.Parent.Sprite)
+local Input = require(script.Parent.Interface.Input)
+local Sprite = require(script.Parent.Interface.Sprite)
 local Bee2D = require(script.Parent.Parent.Main)
 
 Actor.__index = Actor
@@ -23,7 +23,7 @@ function Actor.new(name: string, graphic: Sprite.Sprite)
 	self.Graphic = graphic
 	self.Transform = Transform2D.new(self)
 	self.CollisionVolume = Collider.new(self, "Circle")
-	self.CollisionVolume.CollisionInformation.Radius = self.Transform:GetScale().X / 2
+	self.CollisionVolume.CollisionInformation.Radius = self.Transform:GetGlobalScale().X / 2
 
 	return self
 end
@@ -32,12 +32,12 @@ function Actor:Start()
 end
 
 function Actor:Update(deltaTime)
-	self.CollisionVolume.Radius = self.Transform:GetScale().X / 2
+	self.CollisionVolume.Radius = self.Transform:GetGlobalScale().X / 2
 end
 
 
 function Actor:Translate(direction: Vector2)
-	self.Transform:SetPosition(self.Transform:GetPosition() + direction)
+	self.Transform:SetLocalPosition(self.Transform:GetLocalPosition() + direction)
 end
 
 function Actor:Draw()

@@ -4,16 +4,34 @@ local PlayerGui = Player:WaitForChild("PlayerGui")
 
 local Window: ScreenGui
 local Frame: Frame
+local Button = require(script.Parent.Components.Interface.Button)
 
 local _fullscreen = false;
 
 Bee2D.WindowSizeAbsolute = nil;
 Bee2D.WindowSize = Vector2.new(800,450)
+Bee2D.FPS = 0
 
 local _windowOpen
 
 function Bee2D.DrawFPS()
-
+	assert(Window and Frame, "[Bee2D] Window is not initialized")
+	local fps = Instance.new("TextLabel")
+	fps.Name = "FPS"
+	fps.Text = "FPS: " .. tostring(math.round(Bee2D.FPS))
+	fps.TextColor3 = Color3.new(0,0,0)
+	fps.TextStrokeTransparency = 0
+	fps.TextStrokeColor3 = Color3.new(1,1,1)
+	fps.TextScaled = true
+	fps.TextSize = 14
+	fps.TextWrapped = true
+	fps.TextXAlignment = Enum.TextXAlignment.Left
+	fps.TextYAlignment = Enum.TextYAlignment.Top
+	fps.BackgroundTransparency = 1
+	fps.Size = UDim2.new(0, 100, 0, 20)
+	fps.AnchorPoint = Vector2.new(1, 0)
+	fps.Position = UDim2.new(1, 0, 0, 0)
+	fps.Parent = Frame
 end
 
 function Bee2D:SetFullscreen(bool: boolean)
@@ -55,6 +73,22 @@ function Bee2D.ClearBackground(color: Color3)
 	for _, child in pairs(Frame:GetChildren()) do
 		child:Destroy()
 	end
+end
+
+function Bee2D.CreateButton(image: string, position: Vector2, rotation: number, scale: Vector2, tint: Color3, callbackTable: {()->nil})
+	assert(Window and Frame, "[Bee2D] Window is not initialized")
+
+	local button = Button.new(position, scale)
+	
+	if callbackTable['MouseButton1Down'] then
+		button.MouseButton1Down:Connect(callbackTable['MouseButton1Down'])
+	end
+
+	if callbackTable['MouseButton1Up'] then
+		button.MouseButton1Up:Connect(callbackTable['MouseButton1Up'])
+	end
+
+	Bee2D.DrawImage(image, position, rotation, scale, tint)
 end
 
 function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, scale: Vector2, tint: Color3)
@@ -101,6 +135,20 @@ function Bee2D.DrawRectangleEx(posX: number, posY: number, width: number, height
 	rect.BorderSizePixel = 0
 	rect.BackgroundColor3 = color
 	rect.Parent = Frame
+end
+
+function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3, font: Enum.Font, size: number)
+	assert(Window and Frame, "[Bee2D] Window is not initialized")
+
+	local textLabel = Instance.new("TextLabel")
+	textLabel.Name = "Text"
+	textLabel.Text = text
+	textLabel.TextColor3 = color
+	textLabel.TextSize = size
+	textLabel.Font = font
+	textLabel.AnchorPoint = Vector2.new(0.5,0.5)
+	textLabel.Position = UDim2.new(0, posX, 0, posY)
+	textLabel.Parent = Frame
 end
 
 function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, color: Color3)
