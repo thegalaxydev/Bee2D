@@ -122,7 +122,7 @@ function Engine.Run()
 	local lastTime = 0;
 	local deltaTime = 0;
 
-	while(not Bee2D.WindowShouldClose()) do
+	RunService.RenderStepped:Connect(function()
 		currentTime = _stopwatch.ElapsedTime;
 
 		deltaTime = currentTime - lastTime;
@@ -132,10 +132,14 @@ function Engine.Run()
 		
 		Bee2D.DrawFPS();
 
-		lastTime = currentTime;
+		lastTime = currentTime;		
+	end)
 
-		task.wait()
-	end
+	--while(not Bee2D.WindowShouldClose()) do
+
+
+	--	task.wait()
+	--end
 end
 
 

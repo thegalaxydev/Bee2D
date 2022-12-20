@@ -1,6 +1,16 @@
-# Project place file
-/Bee2D.rbxlx
+#vscode
+.vscode
 
-# Roblox Studio lock files
-/*.rbxlx.lock
-/*.rbxl.lock
+# Source files
+/src/client/*
+/src/server/*
+/src/shared/*
+
+!/src/shared/Classes/*
+
+
+
+
+
+
+

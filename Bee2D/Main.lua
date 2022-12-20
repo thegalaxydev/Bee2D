@@ -1,10 +1,12 @@
 local Bee2D = {}
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Connections = require(script.Parent.Classes.Connections)
+local Event = require(script.Parent.Classes.Event)
 
 local Window: ScreenGui
 local Frame: Frame
-local Button = require(script.Parent.Components.Interface.Button)
 
 local _fullscreen = false;
 
@@ -73,22 +75,6 @@ function Bee2D.ClearBackground(color: Color3)
 	for _, child in pairs(Frame:GetChildren()) do
 		child:Destroy()
 	end
-end
-
-function Bee2D.CreateButton(image: string, position: Vector2, rotation: number, scale: Vector2, tint: Color3, callbackTable: {()->nil})
-	assert(Window and Frame, "[Bee2D] Window is not initialized")
-
-	local button = Button.new(position, scale)
-	
-	if callbackTable['MouseButton1Down'] then
-		button.MouseButton1Down:Connect(callbackTable['MouseButton1Down'])
-	end
-
-	if callbackTable['MouseButton1Up'] then
-		button.MouseButton1Up:Connect(callbackTable['MouseButton1Up'])
-	end
-
-	Bee2D.DrawImage(image, position, rotation, scale, tint)
 end
 
 function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, scale: Vector2, tint: Color3)

@@ -1,11 +1,32 @@
 {
-  "name": "Bee2D",
+  "name": "BeeFramework",
   "tree": {
     "$className": "DataModel",
 
     "ReplicatedStorage": {
+      "$className" : "ReplicatedStorage",
+      "Shared": {
+        "$path": "src/shared"
+      },
       "Bee2D": {
-        "$path": "src"
+        "$path": "Bee2D"
+      }
+    },
+
+    "ServerScriptService": {
+      "$className" : "ServerScriptService",
+      "Server": {
+        "$path": "src/server"
+      }
+    },
+
+    "StarterPlayer": {
+      "$className" : "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className" : "StarterPlayerScripts",
+        "Client": {
+          "$path": "src/client"
+        }
       }
     }
   }
