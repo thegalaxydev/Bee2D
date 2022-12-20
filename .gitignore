@@ -1,12 +1,10 @@
 #vscode
 .vscode
+bee2d.project.json
 
 # Source files
 /src/client/*
 /src/server/*
-/src/shared/*
-
-!/src/shared/Classes/*
 
 
 

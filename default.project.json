@@ -1,5 +1,5 @@
 {
-  "name": "BeeFramework",
+  "name": "Bee2DFramework",
   "tree": {
     "$className": "DataModel",
 
@@ -10,23 +10,6 @@
       },
       "Bee2D": {
         "$path": "Bee2D"
-      }
-    },
-
-    "ServerScriptService": {
-      "$className" : "ServerScriptService",
-      "Server": {
-        "$path": "src/server"
-      }
-    },
-
-    "StarterPlayer": {
-      "$className" : "StarterPlayer",
-      "StarterPlayerScripts": {
-        "$className" : "StarterPlayerScripts",
-        "Client": {
-          "$path": "src/client"
-        }
       }
     }
   }
