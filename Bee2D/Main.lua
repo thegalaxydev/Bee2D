@@ -2,8 +2,8 @@ local Bee2D = {}
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Connections = require(script.Parent.Classes.Connections)
-local Event = require(script.Parent.Classes.Event)
+local Connections = require(ReplicatedStorage.Shared.Classes.Connections)
+local Event = require(ReplicatedStorage.Shared.Classes.Event)
 
 local Window: ScreenGui
 local Frame: Frame
@@ -154,7 +154,7 @@ function Bee2D.DrawBezierQuad(startPos: Vector2, endPos: Vector2, controlPos: Ve
 	--draw a bezier curve
 	local t = 1;
 	local quad = (1 - t)^2 * startPos + 2 * (1 - t) * t * controlPos + t^2 * endPos
-
+-- WIP
 end	
 
 function Bee2D.DrawCircleLine(posX: number, posY: number, radius: number, color: Color3)

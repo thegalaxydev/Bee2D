@@ -1,5 +1,4 @@
-local Classes = script.Parent.Classes
-local Event = require(Classes.Event)
+local Event = require(script.Parent.Event)
 
 local Connections = {}
 Connections.Connections = {}

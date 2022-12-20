@@ -86,6 +86,7 @@ function Engine.AddScene(scene)
 	scene = if scene ~= nil then scene else Scene.new()
 	if scene.Prioritize then
 		_currentScene = scene
+		scene.Start();
 	end
 
 	table.insert(_scenes, scene)
@@ -130,11 +131,10 @@ function Engine.Run()
 		Engine.Update(deltaTime);
 		Engine.Draw();
 		
-		Bee2D.DrawFPS();
-
 		lastTime = currentTime;		
 	end)
 
+	-- alternate method
 	--while(not Bee2D.WindowShouldClose()) do
 
 
