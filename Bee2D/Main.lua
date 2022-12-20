@@ -83,13 +83,12 @@ function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, s
 	local image = Instance.new("ImageLabel")
 	image.Name = "Image"
 	image.Image = texture
-	image.AnchorPoint = Vector2.new(0.5,0.5)
 	image.Size = UDim2.new(0, scale.X, 0, scale.Y)
 	image.Position = UDim2.new(0, position.X, 0, position.Y)
 	image.BackgroundTransparency = 0
 	image.BackgroundColor3 = Color3.new(0,0,0)
 	image.BorderColor3 = Color3.new(1,0,0)
-	image.BorderSizePixel = 2
+	image.BorderSizePixel = 0
 	image.ImageTransparency = 0
 	image.ImageColor3 = tint
 	image.Rotation = rotation
@@ -101,7 +100,6 @@ function Bee2D.DrawRectangle(posX: number, posY: number, width: number, height: 
 
 	local rect = Instance.new("Frame")
 	rect.Name = "Rectangle"
-	rect.AnchorPoint = Vector2.new(0.5,0.5)
 	rect.Size = UDim2.new(0, width, 0, height)
 	rect.Position = UDim2.new(0, posX, 0, posY)
 	rect.BorderSizePixel = 0
@@ -114,7 +112,6 @@ function Bee2D.DrawRectangleEx(posX: number, posY: number, width: number, height
 
 	local rect = Instance.new("Frame")
 	rect.Name = "Rectangle"
-	rect.AnchorPoint = Vector2.new(0.5,0.5)
 	rect.Size = UDim2.new(0, width, 0, height)
 	rect.Position = UDim2.new(0, posX, 0, posY)
 	rect.Rotation = rotation
@@ -132,7 +129,6 @@ function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3,
 	textLabel.TextColor3 = color
 	textLabel.TextSize = size
 	textLabel.Font = font
-	textLabel.AnchorPoint = Vector2.new(0.5,0.5)
 	textLabel.Position = UDim2.new(0, posX, 0, posY)
 	textLabel.Parent = Frame
 end
@@ -144,24 +140,33 @@ function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, col
 	line.BorderSizePixel = 0
 	line.BackgroundColor3 = color
 	
-	line.AnchorPoint = Vector2.new(0.5,0.5)
 	line.Rotation = math.atan2(lineEnd.Y - lineStart.Y, lineEnd.X - lineStart.X) * 180 / math.pi
 	line.Position = UDim2.new(0, (lineStart.X+lineEnd.X)/2, 0, (lineStart.Y+lineEnd.Y)/2)
 	line.Parent = Frame
 end
 
 function Bee2D.DrawBezierQuad(startPos: Vector2, endPos: Vector2, controlPos: Vector2, width: number, color: Color3)
-	--draw a bezier curve
 	local t = 1;
-	local quad = (1 - t)^2 * startPos + 2 * (1 - t) * t * controlPos + t^2 * endPos
--- WIP
+	local numSteps = 100;
+
+
+	for i = 1, numSteps do
+		local t = i / numSteps
+		local point = (1 - t)^2 * startPos + 2 * (1 - t) * t * controlPos + t^2 * endPos
+		local frame = Instance.new("Frame")
+		frame.Size = UDim2.new(0, width, 0, width)
+		frame.Position = UDim2.new(0, point.X, 0, point.Y)
+		frame.BorderSizePixel = 0
+		frame.BackgroundColor3 = color
+		frame.Name = "BezierCurveQuad"
+		frame.Parent = Frame
+	  end
 end	
 
 function Bee2D.DrawCircleLine(posX: number, posY: number, radius: number, color: Color3)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 	local backFrame = Instance.new("Frame")
 	backFrame.Name = "Circle"
-	backFrame.AnchorPoint = Vector2.new(0.5,0.5)
 	backFrame.Size = UDim2.new(0, radius * 2, 0, radius * 2)
 	backFrame.Position = UDim2.new(0, posX, 0, posY)
 	backFrame.BackgroundTransparency = 1

@@ -18,9 +18,38 @@ function Matrix3.new(m00: number, m01: number, m02: number,
 	}, {
 		__index = Matrix3,
 		__class = "Matrix3",
+
 		__tostring = function(self)
 			return string.format("Matrix3(%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
 			self.M00, self.M01, self.M02, self.M10, self.M11, self.M12, self.M20, self.M21, self.M22)
+		end,
+
+		__mul = function(lhs,rhs) : Matrix3
+			return Matrix3.new(
+			(lhs.M00 * rhs.M00) + (lhs.M01 * rhs.M10) + (lhs.M02 * rhs.M20),
+			(lhs.M00 * rhs.M01) + (lhs.M01 * rhs.M11) + (lhs.M02 * rhs.M21),
+			(lhs.M00 * rhs.M02) + (lhs.M01 * rhs.M12) + (lhs.M02 * rhs.M22),
+
+			(lhs.M10 * rhs.M00) + (lhs.M11 * rhs.M10) + (lhs.M12 * rhs.M20),
+			(lhs.M10 * rhs.M01) + (lhs.M11 * rhs.M11) + (lhs.M12 * rhs.M21),
+			(lhs.M10 * rhs.M02) + (lhs.M11 * rhs.M12) + (lhs.M12 * rhs.M22),
+
+			(lhs.M20 * rhs.M00) + (lhs.M21 * rhs.M01) + (lhs.M22 * rhs.M20),
+			(lhs.M20 * rhs.M01) + (lhs.M21 * rhs.M11) + (lhs.M22 * rhs.M21),
+			(lhs.M20 * rhs.M02) + (lhs.M21 * rhs.M12) + (lhs.M22 * rhs.M22));
+		end,
+		
+		__add = function(lhs, rhs): Matrix3
+			return Matrix3.new(
+			 lhs.M00 + rhs.M00, lhs.M01 + rhs.M01, lhs.M02 + rhs.M02,
+			lhs.M10 + rhs.M10, lhs.M11 + rhs.M11, lhs.M02 + rhs.M12,
+			lhs.M20 + rhs.M20, lhs.M21 + rhs.M21, lhs.M22 + rhs.M22);
+		end,
+		
+		__sub = function(lhs, rhs): Matrix3
+			return Matrix3.new(lhs.M00 - rhs.M00, lhs.M01 - rhs.M01, lhs.M02 - rhs.M02,
+			lhs.M10 - rhs.M10, lhs.M11 - rhs.M11, lhs.M02 - rhs.M12,
+			lhs.M20 - rhs.M20, lhs.M21 - rhs.M21, lhs.M22 - rhs.M22);
 		end
 	})
 
@@ -51,32 +80,6 @@ end
 
 function Matrix3.CreateScale(x: number, y: number): Matrix3
 	return Matrix3.new(x,0,0,0,y,0,0,0,1)
-end
-
-function Matrix3.__mul(lhs, rhs): Matrix3
-	local result = {}
-
-	for i = 0, 2 do
-		for j = 0, 2 do
-			for k = 0, 2 do
-				result[i*3+j+1] += lhs[k*3+i+1]*rhs[j*3+k+1]
-			end
-		end
-	end
-	return Matrix3.FromArray(result)
-end
-
-function Matrix3.__add(lhs, rhs): Matrix3
-	return Matrix3.new(
-	 lhs.M00 + rhs.M00, lhs.M01 + rhs.M01, lhs.M02 + rhs.M02,
-	lhs.M10 + rhs.M10, lhs.M11 + rhs.M11, lhs.M02 + rhs.M12,
-	lhs.M20 + rhs.M20, lhs.M21 + rhs.M21, lhs.M22 + rhs.M22);
-end
-
-function Matrix3.__sub(lhs, rhs): Matrix3
-	return Matrix3.new(lhs.M00 - rhs.M00, lhs.M01 - rhs.M01, lhs.M02 - rhs.M02,
-	lhs.M10 - rhs.M10, lhs.M11 - rhs.M11, lhs.M02 - rhs.M12,
-	lhs.M20 - rhs.M20, lhs.M21 - rhs.M21, lhs.M22 - rhs.M22);
 end
 
 return Matrix3

@@ -15,10 +15,10 @@ function Transform2D.new(owner): Transform
 	self.LocalTranslation = Matrix3.Identity()
 	self.LocalScale = Matrix3.Identity()
 
-	self.Parent = newproxy()
+	self.Parent = nil
 	self.Children = {}
 
-	self.LocalRotationAngle = 0;
+	self.LocalRotationAngle = newproxy();
 
 	self.Owner = owner
 

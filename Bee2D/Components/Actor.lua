@@ -33,6 +33,7 @@ end
 
 function Actor:Update(deltaTime)
 	self.CollisionVolume.Radius = self.Transform:GetGlobalScale().X / 2
+	self.Transform:UpdateTransform();
 end
 
 
