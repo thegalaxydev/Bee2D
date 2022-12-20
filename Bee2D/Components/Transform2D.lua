@@ -8,8 +8,8 @@ function Transform2D.new(owner): Transform
 	assert(owner.__class == "Actor", "Transform2D must be initialized with an Actor")
 	local self = setmetatable({}, Transform2D)
 
-	self.Local = newproxy()
-	self.Global = newproxy()
+	self.Local = Matrix3.Identity()
+	self.Global = Matrix3.Identity()
 
 	self.LocalRotation = Matrix3.Identity()
 	self.LocalTranslation = Matrix3.Identity()
@@ -18,7 +18,7 @@ function Transform2D.new(owner): Transform
 	self.Parent = newproxy()
 	self.Children = {}
 
-	self.LocalRotationAngle = newproxy();
+	self.LocalRotationAngle = 0;
 
 	self.Owner = owner
 
