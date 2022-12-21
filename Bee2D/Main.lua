@@ -160,7 +160,7 @@ function Bee2D.DrawBezierQuad(startPos: Vector2, endPos: Vector2, controlPos: Ve
 		frame.BackgroundColor3 = color
 		frame.Name = "BezierCurveQuad"
 		frame.Parent = Frame
-	  end
+	end
 end	
 
 function Bee2D.DrawCircleLine(posX: number, posY: number, radius: number, color: Color3)
