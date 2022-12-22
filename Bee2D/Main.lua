@@ -129,8 +129,23 @@ function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3,
 	textLabel.TextColor3 = color
 	textLabel.TextSize = size
 	textLabel.Font = font
+	textLabel.BackgroundTransparency = 1;
 	textLabel.Position = UDim2.new(0, posX, 0, posY)
 	textLabel.Parent = Frame
+
+	textLabel.Size = UDim2.new(0, textLabel.TextBounds.X, 0, textLabel.TextBounds.Y)
+end
+
+function Bee2D:DrawElement(element: GuiObject)
+	assert(Window and Frame, "[Bee2D] Window is not initialized")
+	assert(element:IsA("GuiObject"), "[Bee2D] Element is not a GuiObject");
+	element.Parent = Frame
+end
+
+function Bee2D:AddToWindow(instance: string)
+	assert(Window and Frame, "[Bee2D] Window is not initialized")
+	local inst = Instance.new(instance)
+	inst.Parent = Frame
 end
 
 function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, color: Color3)
