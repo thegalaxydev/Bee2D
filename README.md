@@ -2,6 +2,8 @@
 
 Bee2D is a semi-barebones 2D game engine integrated into Roblox. Currently, the only way to implement it into your workspace is through Rojo. Simply download the repo and run the `default.project.json` with Rojo to clone it into your game.
 
+Discord Server: https://discord.gg/ptNSRYcvr9
+
 
 # Getting Started
 
