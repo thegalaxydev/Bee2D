@@ -112,7 +112,26 @@ function Engine:LoadScenes(SceneFolder)
 	end
 end
 
-function Engine.Run()
+EngineParams = {
+	-- Allows you to set the scene folder within the Engine.Run without having to run LoadScenes
+	["SceneFolder"] = function(sceneFolder)
+		_scenes = {}
+		Engine:LoadScenes(sceneFolder)
+	end;
+	["ScreenSize"] = function(screenSize: Vector2)
+		Engine.SCREEN_HEIGHT = screenSize.Y
+		Engine.SCREEN_WIDTH = screenSize.X
+	end;
+}
+
+
+function Engine.Run(params: {[string]: any})
+	for parameter, value in pairs(params) do
+		if EngineParams[parameter] then
+			EngineParams[parameter](value)
+		end
+	end
+
 	local _stopwatch = Stopwatch.new();
 	_stopwatch:Start();
 

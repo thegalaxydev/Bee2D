@@ -130,9 +130,9 @@ function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3,
 	textLabel.TextSize = size
 	textLabel.Font = font
 	textLabel.BackgroundTransparency = 1;
+	textLabel.AnchorPoint = Vector2.new(0.5, 0.5)
 	textLabel.Position = UDim2.new(0, posX, 0, posY)
 	textLabel.Parent = Frame
-
 	textLabel.Size = UDim2.new(0, textLabel.TextBounds.X, 0, textLabel.TextBounds.Y)
 end
 
