@@ -92,14 +92,38 @@ function Engine.AddScene(scene)
 	return scene
 end
 
-function Engine.RemoveScene(scene: Scene.Scene)
+function Engine.RemoveScene(scene: Scene.Scene) : boolean
 	assert(scene.__class, "[Bee2D] Scene can only be removed from the engine")
 	assert(scene.__class == "Scene", "[Bee2D] Scene can only be removed from the engine")
 	for i, v in pairs(_scenes) do
 		if v == scene then
 			table.remove(_scenes, i)
+			return true
 		end
 	end
+
+	return false
+end
+
+function Engine.RemoveSceneByName(name: string) : boolean
+	for i, v in pairs(_scenes) do
+		if v.Name == name then
+			table.remove(_scenes, i)
+			return true
+		end
+	end
+
+	return false
+end
+
+function Engine.GetScene(name: string) : Scene.Scene
+	for _, v in pairs(_scenes) do
+		if v.Name == name then
+			return v
+		end
+	end
+
+	return nil
 end
 
 function Engine:LoadScenes(SceneFolder)

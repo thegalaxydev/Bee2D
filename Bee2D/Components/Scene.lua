@@ -7,10 +7,13 @@ local Actor = require(script.Parent.Actor)
 
 export type Scene = {
     Actors: {},
+    Prioritize: boolean,
+    Name: string
 }
 
-function Scene.new()
+function Scene.new(name: string)
     local self = setmetatable({}, Scene)
+    self.Name = name
     self.Actors = {}
     self.Prioritize = false
 
