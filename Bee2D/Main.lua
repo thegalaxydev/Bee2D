@@ -12,6 +12,7 @@ local _fullscreen = false;
 
 Bee2D.WindowSizeAbsolute = nil;
 Bee2D.WindowSize = Vector2.new(800,450)
+Bee2D.BackgroundColor = Color3.fromRGB(0,0,0);
 Bee2D.FPS = 0
 
 local _windowOpen
@@ -55,7 +56,7 @@ function Bee2D.InitWindow(sizeX: number, sizeY: number)
 	Bee2D.WindowSize = (sizeX and sizeY) and Vector2.new(sizeX, sizeY) or Bee2D.WindowSize
 	Frame.Size = (not _fullscreen) and UDim2.new(0, Bee2D.WindowSize.X, 0, Bee2D.WindowSize.Y) or UDim2.new(1, 0, 1, 0)
 	Frame.BorderSizePixel = 0
-	Frame.BackgroundColor3 = Color3.new(1,1,1)
+	Frame.BackgroundColor3 = Bee2D.BackgroundColor
 	Frame.AnchorPoint = Vector2.new(0.5, 0.5)
 	Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
 	Frame.Parent = Window
@@ -71,7 +72,7 @@ end
 
 function Bee2D.ClearBackground(color: Color3)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
-	Frame.BackgroundColor3 = color
+	Frame.BackgroundColor3 = color or Bee2D.BackgroundColor
 	for _, child in pairs(Frame:GetChildren()) do
 		child:Destroy()
 	end

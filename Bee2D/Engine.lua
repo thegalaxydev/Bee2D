@@ -36,7 +36,7 @@ end
 
 
 function Engine.Draw()
-	Bee2D.ClearBackground(Color3.fromRGB(0,0,0))
+	Bee2D.ClearBackground()
 
 	if _currentScene ~= nil then
 		_currentScene:Draw()
@@ -45,6 +45,10 @@ function Engine.Draw()
 	for _,callback in ipairs(_drawCallbacks) do
 		callback[2]()
 	end
+end
+
+function Engine:SetBackgroundColor(color: Color3)
+	Bee2D.BackgroundColor = color
 end
 
 
@@ -150,9 +154,12 @@ EngineParams = {
 
 
 function Engine.Run(params: {[string]: any})
-	for parameter, value in pairs(params) do
-		if EngineParams[parameter] then
-			EngineParams[parameter](value)
+	
+	if params then
+		for parameter, value in pairs(params) do
+			if EngineParams[parameter] then
+				EngineParams[parameter](value)
+			end
 		end
 	end
 
