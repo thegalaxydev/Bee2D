@@ -10,10 +10,17 @@ local Frame: Frame
 
 local _fullscreen = false;
 
+Bee2D.Fullscreen = _fullscreen
 Bee2D.WindowSizeAbsolute = nil;
 Bee2D.WindowSize = Vector2.new(800,450)
 Bee2D.BackgroundColor = Color3.fromRGB(0,0,0);
 Bee2D.FPS = 0
+
+Bee2D.Camera = {
+	Position = Vector2.new(0,0),
+	Zoom = 1,
+	Angle = 0
+}
 
 local _windowOpen
 
@@ -39,6 +46,7 @@ end
 
 function Bee2D:SetFullscreen(bool: boolean)
 	_fullscreen = if bool ~= nil then bool else not _fullscreen
+	Bee2D.Fullscreen = _fullscreen
 end
 
 function Bee2D.InitWindow(sizeX: number, sizeY: number)
@@ -72,6 +80,7 @@ end
 
 function Bee2D.ClearBackground(color: Color3)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
+	Bee2D.WindowSizeAbsolute = Window.AbsoluteSize
 	Frame.BackgroundColor3 = color or Bee2D.BackgroundColor
 	for _, child in pairs(Frame:GetChildren()) do
 		child:Destroy()
@@ -85,7 +94,25 @@ function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, s
 	image.Name = "Image"
 	image.Image = texture
 	image.Size = UDim2.new(0, scale.X, 0, scale.Y)
-	image.Position = UDim2.new(0, position.X, 0, position.Y)
+	image.Position = UDim2.new(0, (position.X - Bee2D.Camera.Position.X)* Bee2D.Camera.Zoom, 0,(position.Y - Bee2D.Camera.Position.Y)* Bee2D.Camera.Zoom)
+	image.BackgroundTransparency = 0
+	image.BackgroundColor3 = Color3.new(0,0,0)
+	image.BorderColor3 = Color3.new(1,0,0)
+	image.BorderSizePixel = 0
+	image.ImageTransparency = 0
+	image.ImageColor3 = tint
+	image.Rotation = rotation
+	image.Parent = Frame
+end
+
+function Bee2D.DrawSprite(texture: string, position: Vector2, rotation: number, scale: Vector2, tint: Color3)
+	assert(Window and Frame, "[Bee2D] Window is not initialized")
+
+	local image = Instance.new("ImageLabel")
+	image.Name = "Image"
+	image.Image = texture
+	image.Size = UDim2.new(0, scale.X * Bee2D.Camera.Zoom, 0, scale.Y * Bee2D.Camera.Zoom)
+	image.Position = UDim2.new(0, position.X * Bee2D.Camera.Zoom, 0, position.Y * Bee2D.Camera.Zoom)
 	image.BackgroundTransparency = 0
 	image.BackgroundColor3 = Color3.new(0,0,0)
 	image.BorderColor3 = Color3.new(1,0,0)
@@ -101,8 +128,8 @@ function Bee2D.DrawRectangle(posX: number, posY: number, width: number, height: 
 
 	local rect = Instance.new("Frame")
 	rect.Name = "Rectangle"
-	rect.Size = UDim2.new(0, width, 0, height)
-	rect.Position = UDim2.new(0, posX, 0, posY)
+	rect.Size = UDim2.new(0, width * Bee2D.Camera.Zoom, 0, height * Bee2D.Camera.Zoom)
+	rect.Position = UDim2.new(0, (posX - Bee2D.Camera.Position.X), 0, (posY - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom)
 	rect.BorderSizePixel = 0
 	rect.BackgroundColor3 = color
 	rect.Parent = Frame
@@ -113,8 +140,8 @@ function Bee2D.DrawRectangleEx(posX: number, posY: number, width: number, height
 
 	local rect = Instance.new("Frame")
 	rect.Name = "Rectangle"
-	rect.Size = UDim2.new(0, width, 0, height)
-	rect.Position = UDim2.new(0, posX, 0, posY)
+	rect.Size = UDim2.new(0, (width * Bee2D.Camera.Zoom), 0, (height * Bee2D.Camera.Zoom))
+	rect.Position = UDim2.new(0, (posX - Bee2D.Camera.Position.X)* Bee2D.Camera.Zoom, 0, (posY - Bee2D.Camera.Position.Y)* Bee2D.Camera.Zoom)
 	rect.Rotation = rotation
 	rect.BorderSizePixel = 0
 	rect.BackgroundColor3 = color
@@ -126,8 +153,8 @@ function Bee2D:DrawModel(model: Model, position: Vector2, rotation: number, scal
 
 	local viewport = Instance.new("ViewportFrame")
 	viewport.Name = "ModelHolder"
-	viewport.Size = UDim2.new(0, scale.X, 0 , scale.Y)
-	viewport.Position = UDim2.new(0, position.X, 0, position.Y)
+	viewport.Size = UDim2.new(0, (scale.X * Bee2D.Camera.Zoom), 0, (scale.Y * Bee2D.Camera.Zoom))
+	viewport.Position = UDim2.new(0, (position.X - Bee2D.Camera.Position.X) * Bee2D.Camera.Zoom, 0, (position.Y - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom)
 	viewport.BackgroundTransparency = 1
 	viewport.Parent = Frame
 
@@ -153,17 +180,22 @@ function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3,
 	textLabel.Text = text
 	textLabel.TextColor3 = color
 	textLabel.TextSize = size
+	
 	textLabel.Font = font
 	textLabel.BackgroundTransparency = 1;
 	textLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-	textLabel.Position = UDim2.new(0, posX, 0, posY)
+	textLabel.Position = UDim2.new(0, (posX - Bee2D.Camera.Position.X) * Bee2D.Camera.Zoom, 0, (posY - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom)
 	textLabel.Parent = Frame
-	textLabel.Size = UDim2.new(0, textLabel.TextBounds.X, 0, textLabel.TextBounds.Y)
+	textLabel.Size = UDim2.new(0, (textLabel.TextBounds.X) * Bee2D.Camera.Zoom, 0, (textLabel.TextBounds.Y) * Bee2D.Camera.Zoom)
+	textLabel.TextScaled = true
 end
 
 function Bee2D:DrawElement(element: GuiObject)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 	assert(element:IsA("GuiObject"), "[Bee2D] Element is not a GuiObject");
+
+	element.Position = UDim2.new(0, (element.Position.X.Offset - Bee2D.Camera.Position.X)  * Bee2D.Camera.Zoom, 0, (element.Position.Y.Offset - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom) 
+
 	element.Parent = Frame
 end
 
@@ -176,9 +208,12 @@ function Bee2D:AddToWindow(instance: string)
 end
 
 function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, color: Color3)
+	lineStart = (lineStart  - Bee2D.Camera.Position)  * Bee2D.Camera.Zoom
+	lineEnd = (lineEnd - Bee2D.Camera.Position)  * Bee2D.Camera.Zoom
+
 	local line = Instance.new("Frame")
 	line.Name = "Line"
-	line.Size = UDim2.new(0, (lineStart - lineEnd).Magnitude, 0, width)
+	line.Size = UDim2.new(0, (lineStart - lineEnd).Magnitude * Bee2D.Camera.Zoom, 0, width * Bee2D.Camera.Zoom)
 	line.BorderSizePixel = 0
 	line.BackgroundColor3 = color
 	
@@ -191,12 +226,15 @@ function Bee2D.DrawBezierQuad(startPos: Vector2, endPos: Vector2, controlPos: Ve
 	local t = 1;
 	local numSteps = 100;
 
+	startPos = (startPos - Bee2D.Camera.Position) * Bee2D.Camera.Zoom
+	endPos = (endPos - Bee2D.Camera.Position) * Bee2D.Camera.Zoom
+	controlPos = (controlPos - Bee2D.Camera.Position) * Bee2D.Camera.Zoom
 
 	for i = 1, numSteps do
 		local t = i / numSteps
 		local point = (1 - t)^2 * startPos + 2 * (1 - t) * t * controlPos + t^2 * endPos
 		local frame = Instance.new("Frame")
-		frame.Size = UDim2.new(0, width, 0, width)
+		frame.Size = UDim2.new(0, width * Bee2D.Camera.Zoom, 0, width * Bee2D.Camera.Zoom)
 		frame.Position = UDim2.new(0, point.X, 0, point.Y)
 		frame.BorderSizePixel = 0
 		frame.BackgroundColor3 = color
@@ -209,8 +247,8 @@ function Bee2D.DrawCircleLine(posX: number, posY: number, radius: number, color:
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 	local backFrame = Instance.new("Frame")
 	backFrame.Name = "Circle"
-	backFrame.Size = UDim2.new(0, radius * 2, 0, radius * 2)
-	backFrame.Position = UDim2.new(0, posX, 0, posY)
+	backFrame.Size = UDim2.new(0, (radius) * 2 * Bee2D.Camera.Zoom, 0, (radius) * 2 * Bee2D.Camera.Zoom)
+	backFrame.Position = UDim2.new(0, (posX - Bee2D.Camera.Position.X) * Bee2D.Camera.Zoom, 0, (posY - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom)
 	backFrame.BackgroundTransparency = 1
 	backFrame.Parent = Frame
 	

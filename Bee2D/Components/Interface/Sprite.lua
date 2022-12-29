@@ -20,6 +20,10 @@ function Sprite.new(color: Color3, image: string)
 
 	return self
 end
+function getScale()
+	return Vector2.new((Bee2D.Fullscreen and Bee2D.WindowSizeAbsolute.X or Bee2D.WindowSize.X) * Bee2D.Camera.Zoom,
+	(Bee2D.Fullscreen and Bee2D.WindowSizeAbsolute.Y or Bee2D.WindowSize.Y) * Bee2D.Camera.Zoom)
+end
 
 function Sprite:Draw(transform: Transform2D.Transform)
 	self.Width = math.round(transform:GetGlobalScale().X);
@@ -35,7 +39,7 @@ function Sprite:Draw(transform: Transform2D.Transform)
 
 	local rotation = transform:GetGlobalRotationAngle();
 
-	Bee2D.DrawImage(self.Image, position, (rotation * 180 / math.pi), Vector2.new(self.Width, self.Height), self.Color)
+	Bee2D.DrawSprite(self.Image, position, (rotation * 180 / math.pi), Vector2.new(self.Width, self.Height), self.Color)
 end
 
 

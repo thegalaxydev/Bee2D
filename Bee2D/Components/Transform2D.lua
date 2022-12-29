@@ -1,5 +1,6 @@
 local Transform2D = {}
 local Matrix3 = require(script.Parent.Parent.Math.Matrix3)
+local Bee2D = require(script.Parent.Parent.Main)
 Transform2D.__index = Transform2D
 
 export type Transform = {}
@@ -39,7 +40,7 @@ function Transform2D:SetLocalRotation(m: Matrix3.Matrix3)
 end
 
 function Transform2D:GetLocalPosition() : Vector2
-	return Vector2.new(self.LocalTranslation.M02, self.LocalTranslation.M12)
+	return (Vector2.new(self.LocalTranslation.M02, self.LocalTranslation.M12) - Bee2D.Camera.Position)
 end
 
 function Transform2D:SetLocalPosition(v: Vector2)
@@ -48,12 +49,12 @@ function Transform2D:SetLocalPosition(v: Vector2)
 end
 
 function Transform2D:GetGlobalPosition() : Vector2
-	return Vector2.new(self.Global.M02, self.Global.M12)
+	return (Vector2.new(self.Global.M02, self.Global.M12) - Bee2D.Camera.Position)
 end
 
 
 function Transform2D:GetLocalScale(): Vector2
-	return Vector2.new(self.LocalScale.M00, self.LocalScale.M11)
+	return Vector2.new(self.LocalScale.M00, self.LocalScale.M11) * Bee2D.Camera.Zoom
 end
 
 function Transform2D:SetLocalScale(v: Vector2)
@@ -66,7 +67,7 @@ function Transform2D:GetGlobalScale()
 	local xAxis = Vector2.new(self.Global.M00, self.Global.M10);
 	local yAxis = Vector2.new(self.Global.M01, self.Global.M11);
 
-	return Vector2.new(xAxis.Magnitude, yAxis.Magnitude);
+	return Vector2.new(xAxis.Magnitude, yAxis.Magnitude) * Bee2D.Camera.Zoom;
 end
 
 function Transform2D:GetForward()
