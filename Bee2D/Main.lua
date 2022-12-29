@@ -121,6 +121,30 @@ function Bee2D.DrawRectangleEx(posX: number, posY: number, width: number, height
 	rect.Parent = Frame
 end
 
+function Bee2D:DrawModel(model: Model, position: Vector2, rotation: number, scale: Vector2)
+	assert(Window and Frame, "[Bee2D] Window is not initialized")
+
+	local viewport = Instance.new("ViewportFrame")
+	viewport.Name = "ModelHolder"
+	viewport.Size = UDim2.new(0, scale.X, 0 , scale.Y)
+	viewport.Position = UDim2.new(0, position.X, 0, position.Y)
+	viewport.BackgroundTransparency = 1
+	viewport.Parent = Frame
+
+	local modelClone = model:Clone()
+	modelClone.Parent = viewport
+	
+	local camera = Instance.new("Camera")
+	camera.CameraType = Enum.CameraType.Scriptable
+	camera.CFrame = modelClone.PrimaryPart and CFrame.new(modelClone.PrimaryPart.Position + Vector3.new(0, 0, -5), modelClone.PrimaryPart.Position) 
+	or CFrame.new(modelClone:GetBoundingBox().Position + Vector3.new(0, 0, -5), modelClone:GetBoundingBox().Position)
+
+	camera.Parent = viewport
+
+
+	return modelClone, camera
+end
+
 function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3, font: Enum.Font, size: number)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 
@@ -147,6 +171,8 @@ function Bee2D:AddToWindow(instance: string)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 	local inst = Instance.new(instance)
 	inst.Parent = Frame
+
+	return inst
 end
 
 function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, color: Color3)

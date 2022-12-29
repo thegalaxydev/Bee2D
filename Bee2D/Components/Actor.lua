@@ -11,7 +11,6 @@ Actor.__class = "Actor"
 export type Actor = {
 	Name: string,
 	Transform: Transform2D.Transform,
-	CollisionVolume: Collider.Collider,
 	Draw: () -> nil,
 }
 
@@ -22,9 +21,6 @@ function Actor.new(name: string, graphic: Sprite.Sprite)
 	self.Name = name
 	self.Graphic = graphic
 	self.Transform = Transform2D.new(self)
-	self.CollisionVolume = Collider.new(self, "Circle")
-	self.CollisionVolume.CollisionInformation.Radius = self.Transform:GetGlobalScale().X / 2
-
 	return self
 end
 
@@ -32,7 +28,6 @@ function Actor:Start()
 end
 
 function Actor:Update(deltaTime)
-	self.CollisionVolume.Radius = self.Transform:GetGlobalScale().X / 2
 	self.Transform:UpdateTransform();
 end
 
@@ -46,13 +41,5 @@ function Actor:Draw()
 		self.Graphic:Draw(self.Transform)
 	end
 end
-
-
-
-function Actor:CheckCollision(other: Actor)
-	return self.CollisionVolume ~= nil and self.CollisionVolume.CheckCollision(other) or false
-end
-
-
 
 return Actor
