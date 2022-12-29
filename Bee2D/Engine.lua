@@ -154,7 +154,6 @@ EngineParams = {
 
 
 function Engine.Run(params: {[string]: any})
-	
 	if params then
 		for parameter, value in pairs(params) do
 			if EngineParams[parameter] then
