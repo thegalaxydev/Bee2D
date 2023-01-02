@@ -1,5 +1,4 @@
 local Collider = {}
-local Bee2D = require(script.Parent.Parent.Main)
 Collider.__index = Collider
 Collider.__class = "Collider"
 

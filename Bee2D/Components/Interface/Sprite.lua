@@ -39,7 +39,7 @@ function Sprite:Draw(transform: Transform2D.Transform)
 
 	local rotation = transform:GetGlobalRotationAngle();
 
-	Bee2D.DrawSprite(self.Image, position, (rotation * 180 / math.pi), Vector2.new(self.Width, self.Height), self.Color)
+	Bee2D.DrawImage(self.Image, position + Bee2D.Camera.Position, (rotation * 180 / math.pi), Vector2.new(self.Width, self.Height), self.Color)
 end
 
 

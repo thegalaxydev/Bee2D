@@ -12,7 +12,7 @@ function IsometricTile.new(tileTexture: string, position: Vector2, gridSnap: boo
 
 	self.TileTexture = tileTexture
 
-	if gridSnap then
+	if gridSnap or gridSnap ~= 0 then
 		position = Vector2.new(math.floor(position.X / gridScale) * gridScale, math.floor(position.Y / gridScale) * gridScale)
 	end
 
@@ -20,6 +20,10 @@ function IsometricTile.new(tileTexture: string, position: Vector2, gridSnap: boo
 	position = Vector2.new(position.X  - position.Y,  (position.X + position.Y) / 2)
 
 	self.Transform:SetLocalPosition(position)
+	self.Transform:setLocalScale(gridScale)
 
 	return self
 end
+
+
+return IsometricTile
