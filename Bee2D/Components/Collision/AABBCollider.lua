@@ -1,31 +1,33 @@
 -- AABBCollider.lua
+local Collider = require(script.Parent.Collider)
 
 local AABBCollider = {}
-AABBCollider.__index = AABBCollider
+AABBCollider.__index = Collider
+AABBCollider.__class = "AABBCollider"
+
 
 function AABBCollider.new(owner)
-	local self = setmetatable({}, AABBCollider)
-	self.owner = owner
-	self.colliderType = "BOX"
+	local self = Collider.new(owner, "AABB")
+	setmetatable(self, {__index = AABBCollider})
 	self.width = owner.Transform.Scale.X
-	self.height = owner.Transform.Scale.Y
+	self.height = owner.Transform.Scalele.Y
 	return self
 end
 
 function AABBCollider:getLeft()
-	return self.owner.Transform.WorldPosition.X - self.width / 2
+	return self.owner.Transform:GetGlobalPosition().X - self.width / 2
 end
 
 function AABBCollider:getRight()
-	return self.owner.Transform.WorldPosition.X + self.width / 2
+	return self.owner.Transform:GetGlobalPosition().X + self.width / 2
 end
 
 function AABBCollider:getTop()
-	return self.owner.Transform.WorldPosition.Y - self.height / 2
+	return self.owner.Transform:GetGlobalPosition().Y - self.height / 2
 end
 
 function AABBCollider:getBottom()
-	return self.owner.Transform.WorldPosition.Y + self.height / 2
+	return self.owner.Transform:GetGlobalPosition().Y + self.height / 2
 end
 
 function AABBCollider:checkCollisionCircle(collider)

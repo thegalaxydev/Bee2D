@@ -1,5 +1,5 @@
 local Actor = {}
-local Collider = require(script.Parent.Collider)
+local Collider = require(script.Parent.Collision.Collider)
 local Transform2D = require(script.Parent.Transform2D)
 local Input = require(script.Parent.Interface.Input)
 local Sprite = require(script.Parent.Interface.Sprite)

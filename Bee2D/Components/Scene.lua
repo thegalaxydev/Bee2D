@@ -22,7 +22,6 @@ end
 
 function Scene:AddActor(actor: Actor)
     assert(actor.__class, "[Bee2D] Actor can only be added to a Scene")
-    assert(actor.__class == "Actor", "[Bee2D] Actor can only be added to a Scene")
     table.insert(self.Actors, actor)
 
     return actor
@@ -30,7 +29,6 @@ end
 
 function Scene:RemoveActor(actor: Actor)
     assert(actor.__class, "[Bee2D] Actor can only be removed from a Scene")
-    assert(actor.__class == "Actor", "[Bee2D] Actor can only be removed from a Scene")
     for i, v in pairs(self.Actors) do
         if v == actor then
             table.remove(self.Actors, i)
