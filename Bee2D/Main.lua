@@ -103,10 +103,10 @@ function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, s
 							   (position.Y - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom / Bee2D.DefaultSize.Y, 0)
 
 
-	image.BackgroundTransparency = 0
+	image.BackgroundTransparency = 1
 	image.BackgroundColor3 = Color3.new(0,0,0)
 	image.BorderColor3 = Color3.new(1,0,0)
-	image.BorderSizePixel = 3
+	image.BorderSizePixel = 0
 	image.ImageTransparency = 0
 	image.ImageColor3 = tint
 	image.Rotation = rotation

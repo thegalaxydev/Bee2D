@@ -12,6 +12,12 @@ export type Actor = {
 	Name: string,
 	Transform: Transform2D.Transform,
 	Draw: () -> nil,
+	Update: (deltaTime: number) -> nil,
+	Translate: (direction: Vector2) -> nil,
+	Active: boolean,
+	Graphic: Sprite.Sprite,
+	_lastPosition: Vector2,
+
 }
 
 function Actor.new(name: string, graphic: Sprite.Sprite)
