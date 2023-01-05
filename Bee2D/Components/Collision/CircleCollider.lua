@@ -1,12 +1,14 @@
--- CircleCollider.lua
+-- Bee2D by Galaxy#1337
 
 local CircleCollider = {}
 local Collider = require(script.Parent.Collider)
 CircleCollider.__index = Collider
 
+setmetatable(CircleCollider, {__index = Collider})
+local mt = {__index = CircleCollider}
 function CircleCollider.new(owner, collisionRadius)
 	local self = Collider.new(owner, "CIRCLE")
-	setmetatable(self, CircleCollider)
+	setmetatable(self, mt)
 	self.owner = owner
 	self.collisionRadius = collisionRadius
 	return self

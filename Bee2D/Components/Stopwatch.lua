@@ -1,3 +1,5 @@
+-- Bee2D by Galaxy#1337
+
 local Stopwatch = {}
 Stopwatch.__index = Stopwatch
 Stopwatch.__class = "Stopwatch"

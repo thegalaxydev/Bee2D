@@ -1,3 +1,5 @@
+-- Bee2D by Galaxy#1337
+
 local Transform2D = {}
 local Matrix3 = require(script.Parent.Parent.Math.Matrix3)
 local Bee2D = require(script.Parent.Parent.Main)

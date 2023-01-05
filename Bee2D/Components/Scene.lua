@@ -1,3 +1,5 @@
+-- Bee2D by Galaxy#1337
+
 local Scene = {}
 Scene.__index = Scene
 Scene.__class = "Scene"

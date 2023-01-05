@@ -1,3 +1,5 @@
+-- Bee2D by Galaxy#1337
+
 local Input = {}
 local UserInputService = game:GetService("UserInputService")
 

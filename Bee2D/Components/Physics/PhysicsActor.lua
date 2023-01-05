@@ -1,3 +1,5 @@
+-- Bee2D by Galaxy#1337
+
 local PhysicsActor = {}
 local Actor = require(script.Parent.Parent.Actor)
 local Sprite = require(script.Parent.Parent.Interface.Sprite)

@@ -1,3 +1,5 @@
+-- Bee2D by Galaxy#1337
+
 local Collider = {}
 Collider.__index = Collider
 Collider.__class = "Collider"
@@ -7,7 +9,7 @@ export type Collider = {
 	CollisionInformation: {}
 }
 
-function Collider.new(owner: {}, collisionType: string)
+function Collider.new(owner: {}, collisionType: string)	
 	local self = setmetatable({}, {__index = Collider})
 	self.Owner = owner
 	self.CollisionType = collisionType

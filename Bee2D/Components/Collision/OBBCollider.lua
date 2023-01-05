@@ -1,11 +1,15 @@
+-- Bee2D by Galaxy#1337
+
 local OBBCollider = {}
 local Collider = require(script.Parent.Collider)
 OBBCollider.__index = Collider
 OBBCollider.__class = "OBBCollider"
 
+setmetatable(OBBCollider, {__index = Collider})
+local mt = {__index = OBBCollider}
 function OBBCollider.new(owner)
 	local self = Collider.new(owner, "OBB")
-	setmetatable(self, {__index = OBBCollider})
+	setmetatable(self, mt)
 	self.halfWidth = owner.Transform.Scale.X / 2
 	self.halfHeight = owner.Transform.Scale.Y / 2
 	self.rotation = owner.Transform:GetGlobalRotationAngle()

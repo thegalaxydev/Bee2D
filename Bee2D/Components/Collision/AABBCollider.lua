@@ -1,14 +1,16 @@
--- AABBCollider.lua
+-- Bee2D by Galaxy#1337
+
 local Collider = require(script.Parent.Collider)
 
 local AABBCollider = {}
 AABBCollider.__index = Collider
 AABBCollider.__class = "AABBCollider"
 
-
+setmetatable(AABBCollider, {__index = Collider})
+local mt = {__index = AABBCollider}
 function AABBCollider.new(owner)
 	local self = Collider.new(owner, "AABB")
-	setmetatable(self, {__index = AABBCollider})
+	setmetatable(self, mt)
 	self.width = owner.Transform.Scale.X
 	self.height = owner.Transform.Scalele.Y
 	return self

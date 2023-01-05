@@ -1,3 +1,5 @@
+-- Bee2D by Galaxy#1337
+
 local Engine = {}
 local RunService = game:GetService("RunService")
 

@@ -1,3 +1,5 @@
+-- Bee2D by Galaxy#1337
+
 local Actor = {}
 local Collider = require(script.Parent.Collision.Collider)
 local Transform2D = require(script.Parent.Transform2D)
