@@ -1,5 +1,3 @@
--- Bee2D by Galaxy#1337
-
 local Sprite = {}
 local Bee2D = require(script.Parent.Parent.Parent.Main)
 local Transform2D = require(script.Parent.Parent.Transform2D)
@@ -41,7 +39,7 @@ function Sprite:Draw(transform: Transform2D.Transform)
 
 	local rotation = transform:GetGlobalRotationAngle();
 
-	Bee2D.DrawImage(self.Image, position, (rotation * 180 / math.pi), Vector2.new(self.Width, self.Height), self.Color)
+	Bee2D.DrawImage(self.Image, position + Bee2D.Camera.Position, (rotation * 180 / math.pi), Vector2.new(self.Width, self.Height), self.Color)
 end
 
 

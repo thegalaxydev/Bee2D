@@ -3,13 +3,14 @@
 local TileMap = {}
 
 local IsometricTile = require(script.Parent.IsometricTile)
-local Bee2D = require(script.Parent.Parent.Main)
+local Tile = require(script.Parent.Tile)
+local Bee2D = require(script.Parent.Parent.Parent.Main)
 
 TileMap.__index = TileMap
 
 
 
-function TileMap.new(gridScale, tilemapData, pos)
+function TileMap.new(gridScale, tilemapData, pos, isometric)
 	local self = setmetatable({}, TileMap)
 	self.Tiles = {}
 
@@ -17,12 +18,11 @@ function TileMap.new(gridScale, tilemapData, pos)
 		for x = 1, #tilemapData[y] do
 			local tileTexture = tilemapData[y][x]
 			local position = Vector2.new((x * gridScale), (y * gridScale))
-			local tile = IsometricTile.new(tileTexture, position, false, gridScale)
+			local tile = (isometric and IsometricTile or Tile).new(tileTexture, position, gridScale)
 			tile.Transform:SetLocalPosition(tile.Transform:GetLocalPosition() + pos)
 			self.Tiles[#self.Tiles + 1] = tile
 		end
 	end
-
 
 	return self
 end
@@ -30,7 +30,7 @@ end
 function TileMap:Update(deltaTime: number)
 	for _, tile in pairs(self.Tiles) do
 		tile:Update(deltaTime)
-		tile.GridScale = 100 / Bee2D.Camera.Zoom
+		tile.GridScale = tile.DefaultScale / Bee2D.Camera.Zoom
 	end
 end
 
