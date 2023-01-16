@@ -9,6 +9,9 @@ local Bee2D = require(script.Parent.Parent.Parent.Main)
 TileMap.__index = TileMap
 
 
+export type TileMap = {
+	Tiles: {}
+}
 
 function TileMap.new(gridScale, pos, isometric, tilemapData)
 	local self = setmetatable({}, TileMap)
@@ -16,12 +19,15 @@ function TileMap.new(gridScale, pos, isometric, tilemapData)
 	
 	for y = 1, #tilemapData do
 		for x = 1, #tilemapData[y] do
-			local tileTexture = tilemapData[y][x]
+			local tileTexture = tilemapData[y][x][1]
+			local tileName = tilemapData[y][x][2]
 			local position = Vector2.new((x * gridScale), (y * gridScale))
-			local tile = (isometric and IsometricTile or Tile).new(tileTexture, position, gridScale)
+			local tile = (isometric and IsometricTile or Tile).new(tileName, tileTexture, position, gridScale)
 
 			tile.GridPosition = Vector2.new(x, y)
 			tile.Transform:SetLocalPosition(tile.Transform:GetLocalPosition() + pos)
+
+			print(tile.Name)
 			
 			self.Tiles[#self.Tiles + 1] = tile
 		end

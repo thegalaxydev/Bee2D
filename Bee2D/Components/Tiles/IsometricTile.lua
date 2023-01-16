@@ -11,8 +11,8 @@ IsometricTile.__class = "IsometricTile"
 
 setmetatable(IsometricTile, {__index = Tile})
 local mt = {__index = IsometricTile}
-function IsometricTile.new(tileTexture: string, position: Vector2, gridScale: number)
-	local self = Tile.new(tileTexture, position, gridScale)
+function IsometricTile.new(tileName: string, tileTexture: string, position: Vector2, gridScale: number)
+	local self = Tile.new(tileName, tileTexture, position, gridScale)
 	setmetatable(self, mt)
 
 	local posX = position.X - position.Y
