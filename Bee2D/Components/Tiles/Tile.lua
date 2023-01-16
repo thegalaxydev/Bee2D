@@ -17,6 +17,7 @@ function Tile.new(tileTexture: string, position: Vector2, gridScale: number)
 	self.TileTexture = tileTexture
 	self.DefaultScale = gridScale
 	self.GridScale = gridScale
+	self.GridPosition = Vector2.new(1, 1)
 
 	self.AbsolutePosition = position
 

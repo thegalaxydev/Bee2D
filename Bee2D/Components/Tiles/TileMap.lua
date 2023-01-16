@@ -10,16 +10,19 @@ TileMap.__index = TileMap
 
 
 
-function TileMap.new(gridScale, tilemapData, pos, isometric)
+function TileMap.new(gridScale, pos, isometric, tilemapData)
 	local self = setmetatable({}, TileMap)
 	self.Tiles = {}
-
+	
 	for y = 1, #tilemapData do
 		for x = 1, #tilemapData[y] do
 			local tileTexture = tilemapData[y][x]
 			local position = Vector2.new((x * gridScale), (y * gridScale))
 			local tile = (isometric and IsometricTile or Tile).new(tileTexture, position, gridScale)
+
+			tile.GridPosition = Vector2.new(x, y)
 			tile.Transform:SetLocalPosition(tile.Transform:GetLocalPosition() + pos)
+			
 			self.Tiles[#self.Tiles + 1] = tile
 		end
 	end

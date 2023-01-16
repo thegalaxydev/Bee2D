@@ -5,8 +5,6 @@ local Bee2D = {}
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Connections = require(ReplicatedStorage.Shared.Classes.Connections)
-local Event = require(ReplicatedStorage.Shared.Classes.Event)
 
 local Window: ScreenGui
 local Frame: Frame

@@ -49,20 +49,20 @@ function Engine.Draw()
 	end
 end
 
-function Engine:SetBackgroundColor(color: Color3)
+function Engine.SetBackgroundColor(color: Color3)
 	Bee2D.BackgroundColor = color
 end
 
 
 -- Bind a function to the draw step, will be called after the engine has drawn every frame
-function Engine:BindToDraw(name: string, callback: () -> nil)
+function Engine.BindToDraw(name: string, callback: () -> nil)
 	assert(type(name) == "string", "[Bee2D] Name must be a string")
 	assert(type(callback) == "function", "[Bee2D] Callback must be a function")
 	table.insert(_drawCallbacks, {name, callback})
 end
 
 -- Unbind a function from the draw step
-function Engine:UnbindFromDraw(name: string)
+function Engine.UnbindFromDraw(name: string)
 	assert(type(name) == "string", "[Bee2D] Name must be a string")
 	for _,callback in pairs(_drawCallbacks) do
 		if callback[1] == name then
@@ -72,14 +72,14 @@ function Engine:UnbindFromDraw(name: string)
 end
 
 -- Bind a function to the draw step, will be called after the engine has updated every frame with delta time.
-function Engine:BindToUpdate(name: string, callback: (number) -> nil)
+function Engine.BindToUpdate(name: string, callback: (number) -> nil)
 	assert(type(name) == "string", "[Bee2D] Name must be a string")
 	assert(type(callback) == "function", "[Bee2D] Callback must be a function")
 	table.insert(_updateCallbacks, {name, callback})
 end
 
 -- Unbind a function from the update step
-function Engine:UnbindFromUpdate(name: string)
+function Engine.UnbindFromUpdate(name: string)
 	assert(type(name) == "string", "[Bee2D] Name must be a string")
 	for callback in pairs(_updateCallbacks) do
 		if callback[1] == name then
@@ -132,7 +132,7 @@ function Engine.GetScene(name: string) : Scene.Scene
 	return nil
 end
 
-function Engine:LoadScenes(SceneFolder)
+function Engine.LoadScenes(SceneFolder)
 	print(SceneFolder)
 	for _, Scene in pairs(SceneFolder:GetChildren()) do
 		if Scene:IsA("ModuleScript") then
@@ -142,11 +142,22 @@ function Engine:LoadScenes(SceneFolder)
 	end
 end
 
+function Engine.SetCurrentScene(scene: Scene.Scene)
+	_currentScene = scene
+end
+
+function Engine.SetCurrentSceneByName(sceneName: string)
+	local scene = Engine.GetScene(sceneName)
+	if scene then
+		_currentScene = scene
+	end
+end
+
 EngineParams = {
 	-- Allows you to set the scene folder within the Engine.Run without having to run LoadScenes
 	["SceneFolder"] = function(sceneFolder)
 		_scenes = {}
-		Engine:LoadScenes(sceneFolder)
+		Engine.LoadScenes(sceneFolder)
 	end;
 	["ScreenSize"] = function(screenSize: Vector2)
 		Engine.SCREEN_HEIGHT = screenSize.Y
