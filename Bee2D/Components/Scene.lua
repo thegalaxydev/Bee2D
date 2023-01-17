@@ -34,7 +34,7 @@ end
 
 function Scene:RemoveActor(actor: Actor)
     assert(actor.__class, "[Bee2D] Actor can only be removed from a Scene")
-    for i, v in pairs(self.Actors) do
+    for i, v in ipairs(self.Actors) do
         if v == actor then
             table.remove(self.Actors, i)
         end
@@ -48,7 +48,7 @@ function Scene:AddTileMap(tileMap: TileMap.TileMap)
 end
 
 function Scene:RemoveTileMap(tileMap: TileMap.TileMap)
-    for i, v in pairs(self.TileMaps) do
+    for i, v in ipairs(self.TileMaps) do
         if v == tileMap then
             table.remove(self.TileMaps, i)
         end
@@ -56,30 +56,30 @@ function Scene:RemoveTileMap(tileMap: TileMap.TileMap)
 end
 
 function Scene:Start()
-    for i, v in pairs(self.Actors) do
+    for _, v in ipairs(self.Actors) do
         v:Start()
     end
 
-    for _,v in pairs(self.TileMaps) do
+    for _, v in ipairs(self.TileMaps) do
         v:Start()
     end
 end
 
 function Scene:Update(deltaTime: number)
-    for i, v in pairs(self.Actors) do
+    for _, v in ipairs(self.Actors) do
         v:Update(deltaTime)
     end
-    for _,v in pairs(self.TileMaps) do
+    for _, v in ipairs(self.TileMaps) do
         v:Update(deltaTime)
     end
 end
 
 function Scene:Draw()
-    for i, v in pairs(self.Actors) do
+    for _, v in ipairs(self.Actors) do
         v:Draw()
     end
 
-    for _,v in pairs(self.TileMaps) do
+    for _, v in ipairs(self.TileMaps) do
         v:Draw( )
     end
 end
