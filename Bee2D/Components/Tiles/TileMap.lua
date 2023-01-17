@@ -13,7 +13,7 @@ export type TileMap = {
 	Tiles: {}
 }
 
-function TileMap.new(gridScale, pos, isometric, tilemapData)
+function TileMap.new(gridScale: number, pos: Vector2, isometric: boolean, tilemapData: { {tileTexture : string, tileName: string} } ) : TileMap
 	local self = setmetatable({}, TileMap)
 	self.Tiles = {}
 	

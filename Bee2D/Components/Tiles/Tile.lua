@@ -10,6 +10,8 @@ Tile.__class = "IsometricTile"
 
 setmetatable(Tile, {__index = Actor})
 local mt = {__index = Tile}
+
+
 function Tile.new(tileName: string, tileTexture: string, position: Vector2, gridScale: number)
 	local self = Actor.new(tileName, Sprite.new(Color3.new(1,1,1), tileTexture))
 	setmetatable(self, mt)

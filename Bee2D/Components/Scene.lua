@@ -34,21 +34,22 @@ end
 
 function Scene:RemoveActor(actor: Actor)
     assert(actor.__class, "[Bee2D] Actor can only be removed from a Scene")
-    for i, v in ipairs(self.Actors) do
+    for i, v in pairs(self.Actors) do
         if v == actor then
             table.remove(self.Actors, i)
         end
     end
 end
 
-function Scene:AddTileMap(tileMap: TileMap.TileMap)
+function Scene:AddTileMap( gridScale: number, pos: Vector2, isometric: boolean, tilemapData: { {tileTexture : string, tileName: string} } ) : TileMap.TileMap
+    local tileMap = TileMap.new(gridScale, pos, isometric, tilemapData)
     table.insert(self.TileMaps, tileMap)
 
     return tileMap
 end
 
 function Scene:RemoveTileMap(tileMap: TileMap.TileMap)
-    for i, v in ipairs(self.TileMaps) do
+    for i, v in pairs(self.TileMaps) do
         if v == tileMap then
             table.remove(self.TileMaps, i)
         end
@@ -56,30 +57,30 @@ function Scene:RemoveTileMap(tileMap: TileMap.TileMap)
 end
 
 function Scene:Start()
-    for _, v in ipairs(self.Actors) do
+    for i, v in pairs(self.Actors) do
         v:Start()
     end
 
-    for _, v in ipairs(self.TileMaps) do
+    for _,v in pairs(self.TileMaps) do
         v:Start()
     end
 end
 
 function Scene:Update(deltaTime: number)
-    for _, v in ipairs(self.Actors) do
+    for i, v in pairs(self.Actors) do
         v:Update(deltaTime)
     end
-    for _, v in ipairs(self.TileMaps) do
+    for _,v in pairs(self.TileMaps) do
         v:Update(deltaTime)
     end
 end
 
 function Scene:Draw()
-    for _, v in ipairs(self.Actors) do
+    for i, v in pairs(self.Actors) do
         v:Draw()
     end
 
-    for _, v in ipairs(self.TileMaps) do
+    for _,v in pairs(self.TileMaps) do
         v:Draw( )
     end
 end
