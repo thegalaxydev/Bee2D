@@ -32,9 +32,9 @@ function Bee2D.DrawFPS()
 	local fps = Instance.new("TextLabel")
 	fps.Name = "FPS"
 	fps.Text = "FPS: " .. tostring(math.round(Bee2D.FPS))
-	fps.TextColor3 = Color3.new(0,0,0)
+	fps.TextColor3 = Color3.new(1,1,1)
 	fps.TextStrokeTransparency = 0
-	fps.TextStrokeColor3 = Color3.new(1,1,1)
+	fps.TextStrokeColor3 = Color3.new(0,0,0)
 	fps.TextScaled = true
 	fps.TextSize = 14
 	fps.TextWrapped = true

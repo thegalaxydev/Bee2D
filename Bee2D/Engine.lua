@@ -73,6 +73,7 @@ end
 
 -- Bind a function to the draw step, will be called after the engine has updated every frame with delta time.
 function Engine.BindToUpdate(name: string, callback: (number) -> nil)
+	print(name)
 	assert(type(name) == "string", "[Bee2D] Name must be a string")
 	assert(type(callback) == "function", "[Bee2D] Callback must be a function")
 	table.insert(_updateCallbacks, {name, callback})
