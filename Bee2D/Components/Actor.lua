@@ -1,12 +1,13 @@
 -- Bee2D by Galaxy#1337
 
-local Actor = {}
+
 local Collider = require(script.Parent.Collision.Collider)
 local Transform2D = require(script.Parent.Transform2D)
 local Input = require(script.Parent.Interface.Input)
 local Sprite = require(script.Parent.Interface.Sprite)
 local Bee2D = require(script.Parent.Parent.Main)
 
+local Actor = {}
 Actor.__index = Actor
 Actor.__class = "Actor"
 
