@@ -6,7 +6,7 @@ local Sprite = require(script.Parent.Parent.Interface.Sprite)
 local Tile = {}
 
 Tile.__index = Actor
-Tile.__class = "IsometricTile"
+Tile.__class = "Tile"
 
 setmetatable(Tile, {__index = Actor})
 
