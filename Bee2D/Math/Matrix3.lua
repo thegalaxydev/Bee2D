@@ -1,5 +1,4 @@
 -- Bee2D by Galaxy#1337
-
 local Matrix3 = {}
 
 export type Matrix3 = {

@@ -8,9 +8,12 @@ local Bee2D = require(script.Parent.Parent.Parent.Main)
 
 TileMap.__index = TileMap
 
+type Tile = Tile.Tile
 
 export type TileMap = {
-	Tiles: {}
+	Tiles: {Tile},
+	Update: (deltaTime: number) -> nil,
+	Draw: () -> nil,
 }
 
 function TileMap.new(gridScale: number, pos: Vector2, isometric: boolean, tilemapData: { {tileTexture : string, tileName: string} } ) : TileMap

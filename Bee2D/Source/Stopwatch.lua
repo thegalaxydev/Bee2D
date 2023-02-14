@@ -4,6 +4,16 @@ local Stopwatch = {}
 Stopwatch.__index = Stopwatch
 Stopwatch.__class = "Stopwatch"
 
+export type Stopwatch = {
+	StartTime: number,
+	ElapsedTime: number,
+	ElapsedMilliseconds: number,
+	IsRunning: boolean,
+	_runTask: thread,
+	Start: () -> nil,
+	Stop: () -> nil,
+}
+
 function Stopwatch.new()
 	local self = setmetatable({}, Stopwatch)
 	self.StartTime = tick()

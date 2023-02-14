@@ -1,10 +1,7 @@
 -- Bee2D by Galaxy#1337
-
-
 local Bee2D = {}
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Window: ScreenGui
 local Frame: Frame

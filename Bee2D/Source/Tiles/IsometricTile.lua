@@ -3,13 +3,33 @@
 local Actor = require(script.Parent.Parent.Actor)
 local Sprite = require(script.Parent.Parent.Interface.Sprite)
 local Tile = require(script.Parent.Tile)
+local TypeDef = require(script.Parent.Parent.TypeDef)
+
 
 local IsometricTile = setmetatable({}, Tile)
 IsometricTile.__index = Tile
 IsometricTile.__class = "IsometricTile"
 
+type Transform = TypeDef.Transform
+type Sprite = Sprite.Sprite
 
-function IsometricTile.new(tileName: string, tileTexture: string, position: Vector2, gridScale: number)
+export type IsometricTile = {
+	Name: string,
+	Transform: Transform,
+	Draw: () -> nil,
+	Update: (deltaTime: number) -> nil,
+	Translate: (direction: Vector2) -> nil,
+	Active: boolean,
+	Graphic: Sprite,
+	_lastPosition: Vector2,
+	TileTexture: string,
+	DefaultScale: number,
+	GridScale: number,
+	GridPosition: Vector2,
+	AbsolutePosition: Vector2,
+}
+
+function IsometricTile.new(tileName: string, tileTexture: string, position: Vector2, gridScale: number): IsometricTile
 	local self = setmetatable(Tile.new(tileName, tileTexture, position, gridScale), IsometricTile)
 
 	local posX = position.X - position.Y
@@ -19,6 +39,5 @@ function IsometricTile.new(tileName: string, tileTexture: string, position: Vect
 	self.Transform:SetLocalPosition(position)
 	return self
 end
-
 
 return IsometricTile

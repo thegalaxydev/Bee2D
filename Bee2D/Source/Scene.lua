@@ -4,12 +4,13 @@ local Scene = {}
 Scene.__index = Scene
 Scene.__class = "Scene"
 
-local Bee2D = require(script.Parent.Parent.Main)
 local Actor = require(script.Parent.Actor)
 local TileMap = require(script.Parent.Tiles.TileMap)
 
+type Actor = Actor.Actor
+
 export type Scene = {
-    Actors: {},
+    Actors: {Actor},
     TileMaps: {},
     Prioritize: boolean,
     Name: string

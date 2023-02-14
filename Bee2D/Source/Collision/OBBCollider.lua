@@ -5,6 +5,13 @@ local Collider = require(script.Parent.Collider)
 OBBCollider.__index = Collider
 OBBCollider.__class = "OBBCollider"
 
+export type OBBCollider = {
+	owner: Instance,
+	halfWidth: number,
+	halfHeight: number,
+	rotation: number,
+}
+
 setmetatable(OBBCollider, {__index = Collider})
 local mt = {__index = OBBCollider}
 
