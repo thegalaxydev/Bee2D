@@ -3,62 +3,57 @@ Event.__index = Event
 Event.__class = "Event"
 
 export type Event = {
-    Callbacks : {};
-    Waiting : {};
+	Callbacks : {};
+	Waiting : {};
+	Connect : (Event, func : () -> nil) -> Connection,
+	Fire : (Event, ...any) -> nil,
+	Wait : (Event) -> any
 }
 export type Connection = {
-    Connected : boolean
+	Connected : boolean,
+	Disconnect: () -> nil
 }
 
 function Event.new() : Event
-    return setmetatable({
-        Callbacks = {};
-        Waiting = {};
-    }, Event)
+	local self = setmetatable({}, Event)
+	self.Callbacks = {}
+	self.Waiting = {}
+
+	return self
 end
-
-
-function revipairs(t)
-    return function(tb : {}, i : number)
-        i = i - 1
-        if i > 0 then
-            return i, tb[i]
-        end
-    end, t, #t + 1
-end
-
 
 function Event:Connect(func) : Connection
-    local connection = {}
-    connection.Connected = true
+	print("Event connected")
+	local connection = {}
+	connection.Connected = true
 
-    function connection:Disconnect()
-        self.Callbacks[func] = nil
-        connection.Connected = false
-        connection = nil
-    end
-    
-    self.Callbacks[func] = newproxy()
+	function connection:Disconnect()
+		self.Callbacks[func] = nil
+		connection.Connected = false
+		connection = nil
+	end
+	
+	self.Callbacks[func] = newproxy()
 
-    return connection
+	return connection
 end
 
 function Event:Fire(...)
-    for func in revipairs(self.Callbacks) do
-        coroutine.create(func)(...)
+	for func in pairs(self.Callbacks) do
+		coroutine.create(func)(...)
 	end
 
-	for _, thread in revipairs(self.Waiting) do
-        table.remove(self.Waiting, thread)
-        coroutine.resume(thread , ...)
+	for _, thread in pairs(self.Waiting) do
+		table.remove(self.Waiting, thread)
+		coroutine.resume(thread , ...)
 	end
 end
 
 function Event:Wait()
-    local thread = coroutine.running()
-    table.insert(self.Waiting, 1, thread)
-    
-    coroutine.yield()
+	local thread = coroutine.running()
+	table.insert(self.Waiting, thread)
+
+	return coroutine.yield()
 end
 
 return Event

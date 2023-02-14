@@ -7,6 +7,7 @@ OBBCollider.__class = "OBBCollider"
 
 setmetatable(OBBCollider, {__index = Collider})
 local mt = {__index = OBBCollider}
+
 function OBBCollider.new(owner)
 	local self = Collider.new(owner, "OBB")
 	setmetatable(self, mt)
@@ -16,7 +17,7 @@ function OBBCollider.new(owner)
 	return self
 end
 
-function OBBCollider:getCorners()
+function OBBCollider:GetCorners()
 	local corners = {
 		Vector2.new(-self.halfWidth, -self.halfHeight),
 		Vector2.new(self.halfWidth, -self.halfHeight),
@@ -35,14 +36,14 @@ function OBBCollider:getCorners()
 	end
 end
 
-function OBBCollider:checkCollisionCircle(collider)
+function OBBCollider:CheckCollisionCircle(collider)
 	if collider.owner == self.owner then
 		return false
 	end
-	return collider:checkCollisionOBB(self)
+	return collider:CheckCollisionOBB(self)
 end
 	
-function OBBCollider:checkCollisionOBB(collider)
+function OBBCollider:CheckCollisionOBB(collider)
 	if collider.owner == self.owner then
 		return false
 	end
@@ -54,8 +55,8 @@ function OBBCollider:checkCollisionOBB(collider)
 		collider.owner.Transform:GetUp()
 	}
 
-	local selfCorners = self:getCorners()
-	local colliderCorners = collider:getCorners()
+	local selfCorners = self:GetCorners()
+	local colliderCorners = collider:GetCorners()
 
 	for i, axis in ipairs(axes) do
 		local selfMin, selfMax = math.huge, -math.huge

@@ -14,7 +14,7 @@ function CircleCollider.new(owner, collisionRadius)
 	return self
 end
 
-function CircleCollider:checkCollisionCircle(otherCollider)
+function CircleCollider:CheckCollisionCircle(otherCollider)
 	if otherCollider.owner == self.owner then
 		return false
 	end
@@ -23,7 +23,7 @@ function CircleCollider:checkCollisionCircle(otherCollider)
 	return distance <= combinedRadii
 end
 
-function CircleCollider:checkCollisionAABB(otherCollider)
+function CircleCollider:CheckCollisionAABB(otherCollider)
 	if otherCollider.owner == self.owner then
 		return false
 	end

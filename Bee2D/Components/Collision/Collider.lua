@@ -17,21 +17,21 @@ function Collider.new(owner: {}, collisionType: string)
 	return self
 end
 
-function Collider:checkCollision(other)
+function Collider:CheckCollision(other)
 	if self.CollisionType == "AABB" then
-		return if other.CollisionType == "AABB" then self:checkCollisionAABB(other)
-			elseif other.CollisionType == "CIRCLE" then self:checkCollisionCircle(other)
-			elseif other.CollisionType == "OBB" then self:checkCollisionOBB(other)
+		return if other.CollisionType == "AABB" then self:CheckCollisionAABB(other)
+			elseif other.CollisionType == "CIRCLE" then self:CheckCollisionCircle(other)
+			elseif other.CollisionType == "OBB" then self:CheckCollisionOBB(other)
 			else false
 	elseif self.CollisionType == "CIRCLE" then
-		return if other.CollisionType == "AABB" then self:checkCollisionAABB(other)
-			elseif other.CollisionType == "CIRCLE" then self:checkCollisionCircle(other)
-			elseif other.CollisionType == "OBB" then self:checkCollisionOBB(other)
+		return if other.CollisionType == "AABB" then self:CheckCollisionAABB(other)
+			elseif other.CollisionType == "CIRCLE" then self:CheckCollisionCircle(other)
+			elseif other.CollisionType == "OBB" then self:CheckCollisionOBB(other)
 			else false
 	elseif self.CollisionType == "OBB" then
-		return if other.CollisionType == "AABB" then self:checkCollisionAABB(other)
-			elseif other.CollisionType == "CIRCLE" then self:checkCollisionCircle(other)
-			elseif other.CollisionType == "OBB" then self:checkCollisionOBB(other)
+		return if other.CollisionType == "AABB" then self:CheckCollisionAABB(other)
+			elseif other.CollisionType == "CIRCLE" then self:CheckCollisionCircle(other)
+			elseif other.CollisionType == "OBB" then self:CheckCollisionOBB(other)
 			else false
 	end
 end

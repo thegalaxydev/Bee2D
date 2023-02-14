@@ -16,37 +16,37 @@ function AABBCollider.new(owner)
 	return self
 end
 
-function AABBCollider:getLeft()
+function AABBCollider:GetLeft()
 	return self.owner.Transform:GetGlobalPosition().X - self.width / 2
 end
 
-function AABBCollider:getRight()
+function AABBCollider:GetRight()
 	return self.owner.Transform:GetGlobalPosition().X + self.width / 2
 end
 
-function AABBCollider:getTop()
+function AABBCollider:GetTop()
 	return self.owner.Transform:GetGlobalPosition().Y - self.height / 2
 end
 
-function AABBCollider:getBottom()
+function AABBCollider:GetBottom()
 	return self.owner.Transform:GetGlobalPosition().Y + self.height / 2
 end
 
-function AABBCollider:checkCollisionCircle(collider)
+function AABBCollider:CheckCollisionCircle(collider)
 	if collider.owner == self.owner then
 		return false
 	end
-	return collider:checkCollisionAABB(self)
+	return collider:CheckCollisionAABB(self)
 end
 
-function AABBCollider:checkCollisionAABB(collider)
+function AABBCollider:CheckCollisionAABB(collider)
 	if collider.owner == self.owner then
 		return false
 	end
-	if collider:getLeft() <= self:getRight() and
-		collider:getTop() <= self:getBottom() and
-		self:getLeft() <= collider:getRight() and
-		self:getTop() <= collider:getBottom() then
+	if collider:GetLeft() <= self:GetRight() and
+		collider:GetTop() <= self:getBottom() and
+		self:GetLeft() <= collider:GetRight() and
+		self:GetTop() <= collider:GetBottom() then
 		return true
 	end
 	return false
