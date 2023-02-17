@@ -33,7 +33,7 @@ end
 function Component:OnCollision(): nil
 end
 
-function Component:Draw(): nil
+function Component:Draw(identifier: number): nil
 end
 
 return Component

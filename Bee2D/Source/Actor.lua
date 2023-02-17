@@ -84,13 +84,13 @@ function Actor:Translate(direction: Vector2)
 	self.Transform:SetLocalPosition(self.Transform:GetLocalPosition() + direction)
 end
 
-function Actor:Draw()
+function Actor:Draw(identifier: number)
 	if self.Graphic then
-		self.Graphic:Draw(self.Transform)
+		self.Graphic:Draw(self.Transform, identifier)
 	end
 
 	for _, comp in pairs(self.Components) do
-		comp:Draw()
+		comp:Draw(identifier)
 	end
 end
 
