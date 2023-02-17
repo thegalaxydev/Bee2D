@@ -25,23 +25,20 @@ function getScale()
 	(Bee2D.Fullscreen and Bee2D.WindowSizeAbsolute.Y or Bee2D.WindowSize.Y) * Bee2D.Camera.Zoom)
 end
 
-function Sprite:Draw(transform: Transform2D.Transform)
+function Sprite:Draw(transform: Transform2D.Transform, identifier: number)
 	self.Width = math.round(transform:GetGlobalScale().X);
 	self.Height = math.round(transform:GetGlobalScale().Y);
 
 	local position = Vector2.new(transform:GetGlobalPosition().X, transform:GetGlobalPosition().Y)
 	local forward = Vector2.new(transform:GetForward().X, transform:GetForward().Y)
 	local up = Vector2.new(transform:GetUp().X, transform:GetUp().Y)
-	
+
 	position -= forward * (self.Width / 2);
 	position -= up * (self.Height / 2);
-	
 
 	local rotation = transform:GetGlobalRotationAngle();
 
-	Bee2D.DrawImage(self.Image, position + Bee2D.Camera.Position, (rotation * 180 / math.pi), Vector2.new(self.Width, self.Height), self.Color)
+	Bee2D.DrawImage(self.Image, position + Bee2D.Camera.Position, (rotation * 180 / math.pi), Vector2.new(self.Width, self.Height), self.Color, identifier)
 end
-
-
 
 return Sprite

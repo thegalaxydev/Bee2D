@@ -5,7 +5,20 @@ local Matrix3 = require(script.Parent.Parent.Math.Matrix3)
 local Bee2D = require(script.Parent.Parent.Main)
 Transform2D.__index = Transform2D
 
-export type Transform = {}
+type Matrix3 = Matrix3.Matrix3
+
+export type Transform = {
+	Parent: Transform?,
+	Children: {Transform},
+	Owner: Actor,
+	Local: Matrix3,
+	Global: Matrix3,
+	LocalRotation: Matrix3,
+	LocalTranslation: Matrix3,
+	LocalScale: Matrix3,
+	LocalRotationAngle: number,
+}
+
 
 function Transform2D.new(owner): Transform
 	assert(owner.__class == "Actor", "Transform2D must be initialized with an Actor")

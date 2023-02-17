@@ -1,10 +1,7 @@
 -- Bee2D by Galaxy#1337
-
-
 local Bee2D = {}
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Window: ScreenGui
 local Frame: Frame
@@ -26,9 +23,25 @@ Bee2D.Camera = {
 
 local _windowOpen
 
+local _UIStorage
+
+local _cache = {}
+
+
 -- Draws the FPS counter on the top left of the window
 function Bee2D.DrawFPS()
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
+	_UIStorage.FPS:Clone().Parent = Frame
+end
+
+-- Set the window to fullscreen or not based on a bool if provided
+function Bee2D:SetFullscreen(bool: boolean)
+	_fullscreen = if bool ~= nil then bool else not _fullscreen
+	Bee2D.Fullscreen = _fullscreen
+	Bee2D.WindowSize = _fullscreen and Bee2D.WindowSizeAbsolute or Bee2D.DefaultSize
+end
+
+function populateStorage()
 	local fps = Instance.new("TextLabel")
 	fps.Name = "FPS"
 	fps.Text = "FPS: " .. tostring(math.round(Bee2D.FPS))
@@ -44,14 +57,30 @@ function Bee2D.DrawFPS()
 	fps.Size = UDim2.new(0, 100, 0, 20)
 	fps.AnchorPoint = Vector2.new(1, 0)
 	fps.Position = UDim2.new(1, 0, 0, 0)
-	fps.Parent = Frame
-end
+	fps.Parent = _UIStorage
 
--- Set the window to fullscreen or not based on a bool if provided
-function Bee2D:SetFullscreen(bool: boolean)
-	_fullscreen = if bool ~= nil then bool else not _fullscreen
-	Bee2D.Fullscreen = _fullscreen
-	Bee2D.WindowSize = _fullscreen and Bee2D.WindowSizeAbsolute or Bee2D.DefaultSize
+	local image = Instance.new("ImageLabel")
+	image.Name = "Image"
+	image.BackgroundTransparency = 1
+	image.BackgroundColor3 = Color3.new(0,0,0)
+	image.BorderColor3 = Color3.new(1,0,0)
+	image.BorderSizePixel = 0
+	image.ImageTransparency = 0
+	image.Parent = _UIStorage
+
+	local rect = Instance.new("Frame")
+	rect.Name = "Rectangle"
+	rect.BorderSizePixel = 0
+	rect.Parent = _UIStorage
+
+	local textLabel = Instance.new("TextLabel")
+	textLabel.Name = "Text"
+	textLabel.TextXAlignment = Enum.TextXAlignment.Center
+	textLabel.TextYAlignment = Enum.TextYAlignment.Top
+	textLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+	textLabel.BackgroundTransparency = 1;
+	textLabel.BackgroundColor3 = Color3.new(1,0,0)
+	textLabel.Parent = _UIStorage
 end
 
 -- Initialize the window with a size if provided
@@ -75,6 +104,11 @@ function Bee2D.InitWindow(sizeX: number, sizeY: number)
 	Frame.AnchorPoint = Vector2.new(0.5, 0.5)
 	Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
 	Frame.Parent = Window
+
+	_UIStorage = Instance.new("Folder")
+	_UIStorage.Parent = script.Parent
+
+	populateStorage()
 end
 
 -- Close the window
@@ -93,140 +127,134 @@ function Bee2D.ClearBackground(color: Color3)
 	Bee2D.WindowSizeAbsolute = Window.AbsoluteSize
 	Bee2D.WindowSize = _fullscreen and Bee2D.WindowSizeAbsolute or Bee2D.DefaultSize
 	Frame.BackgroundColor3 = color or Bee2D.BackgroundColor
+
 	for _, child in pairs(Frame:GetChildren()) do
-		child:Destroy()
+		local id = child:GetAttribute("Identifier")
+
+		if not id then continue end
+
+		if not _cache[id] then
+			_cache[id] = {
+				Object = child,
+				IsUsed = false
+			}
+		else
+			if not _cache[id].IsUsed then
+				_cache[id].Object:Destroy()
+				_cache[id] = nil
+			end
+		end
 	end
 end
 
 -- Draw an image to the window given a texture, position, rotation, size, and image tint
-function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, size: Vector2, tint: Color3)
+function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, size: Vector2, tint: Color3, identifier: number)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
+	if not identifier then warn("[Bee2D] Identifier is not provided. Draw caching may not work properly.") end
 
-	local image = Instance.new("ImageLabel")
-	image.Name = "Image"
+
+	local image
+
+	if _cache[identifier] then
+		image = _cache[identifier].Object
+		_cache[identifier].IsUsed = true
+	else
+		image = _UIStorage.Image:Clone()
+	end
+
 	image.Image = texture
 	image.Size = UDim2.new(0, size.X * Bee2D.Camera.Zoom, 0, size.Y * Bee2D.Camera.Zoom)
 
-	image.Position = UDim2.new(0, (position.X - Bee2D.Camera.Position.X) * Bee2D.Camera.Zoom,
-							   0, (position.Y - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom)
+	image.Position = UDim2.new(0, (position.X - Bee2D.Camera.Position.X),
+							   0, (position.Y - Bee2D.Camera.Position.Y))
 
-
-	image.BackgroundTransparency = 1
-	image.BackgroundColor3 = Color3.new(0,0,0)
-	image.BorderColor3 = Color3.new(1,0,0)
-	image.BorderSizePixel = 0
-	image.ImageTransparency = 0
 	image.ImageColor3 = tint
 	image.Rotation = rotation
+
+	if not image:GetAttribute("Identifier") then
+		image:SetAttribute("Identifier", identifier)
+	end
+
 	image.Parent = Frame
 end
 
--- Draw a rectangle to the window given a position, size, and color
-function Bee2D.DrawRectangle(posX: number, posY: number, width: number, height: number, color: Color3)
+-- Draw a rectangle to the window given a position, size, optional rotation, and color
+function Bee2D.DrawRectangle(posX: number, posY: number, width: number, height: number, color: Color3, rotation: number, identifier: number)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
+	if not identifier then warn("[Bee2D] Identifier is not provided. Draw caching may not work properly.") end
 
-	local rect = Instance.new("Frame")
-	rect.Name = "Rectangle"
-	rect.Size = UDim2.new(0, width * Bee2D.Camera.Zoom, 0, height * Bee2D.Camera.Zoom)
+	local rect
 
-	rect.Position = UDim2.new(0, (posX - Bee2D.Camera.Position.X) * Bee2D.Camera.Zoom,
-							  0, (posY - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom)
-	rect.BorderSizePixel = 0
-	rect.BackgroundColor3 = color
-	rect.Parent = Frame
-end
+	if _cache[identifier] then
+		rect = _cache[identifier].Object
+		_cache[identifier].IsUsed = true
+	else
+		rect = _UIStorage.Rectangle:Clone()
+	end
 
--- Draw a rectangle to the window given a position, size, rotation, and color
-function Bee2D.DrawRectangleEx(posX: number, posY: number, width: number, height: number, rotation: number, color: Color3)
-	assert(Window and Frame, "[Bee2D] Window is not initialized")
-
-	local rect = Instance.new("Frame")
-	rect.Name = "Rectangle"
 	rect.Size = UDim2.new(0, width * Bee2D.Camera.Zoom, 0, height * Bee2D.Camera.Zoom)
 	
 	rect.Position = UDim2.new(0, (posX - Bee2D.Camera.Position.X) * Bee2D.Camera.Zoom,
 							  0, (posY - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom)
-	rect.Rotation = rotation
-	rect.BorderSizePixel = 0
+	rect.Rotation = rotation or 0
 	rect.BackgroundColor3 = color
+
+	if not rect:GetAttribute("Identifier") then
+		rect:SetAttribute("Identifier", identifier)
+	end
+
 	rect.Parent = Frame
-end
-
--- Draws a model on screen with a viewport.
-function Bee2D:DrawModel(model: Model, position: Vector2, rotation: number, scale: Vector2)
-	assert(Window and Frame, "[Bee2D] Window is not initialized")
-
-	local viewport = Instance.new("ViewportFrame")
-	viewport.Name = "ModelHolder"
-	viewport.Size = UDim2.new(0, scale.X * Bee2D.Camera.Zoom, 0, scale.Y * Bee2D.Camera.Zoom)
-	viewport.Position = UDim2.new((position.X - Bee2D.Camera.Position.X) * Bee2D.Camera.Zoom, 0,
-							   (position.Y - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom, 0)
-	viewport.BackgroundTransparency = 1
-	viewport.Parent = Frame
-
-	local modelClone = model:Clone()
-	modelClone.Parent = viewport
-	
-	local camera = Instance.new("Camera")
-	camera.CameraType = Enum.CameraType.Scriptable
-	camera.CFrame = modelClone.PrimaryPart and CFrame.new(modelClone.PrimaryPart.Position + Vector3.new(0, 0, -5), modelClone.PrimaryPart.Position) 
-	or CFrame.new(modelClone:GetBoundingBox().Position + Vector3.new(0, 0, -5), modelClone:GetBoundingBox().Position)
-
-	camera.Parent = viewport
-
-
-	return modelClone, camera
 end
 
 -- Draws text on screen given a position, color, font, and text size.
-function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3, font: Enum.Font, size: number)
+function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3, font: Enum.Font, size: number, identifier: number)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
+	if not identifier then warn("[Bee2D] Identifier is not provided. Draw caching may not work properly.") end
 
-	local textLabel = Instance.new("TextLabel")
-	textLabel.Name = "Text"
+	local textLabel
+
+	if _cache[identifier] then
+		textLabel = _cache[identifier].Object
+		_cache[identifier].IsUsed = true
+	else
+		textLabel = _UIStorage.Text:Clone()
+	end
+
 	textLabel.Text = text
 	textLabel.TextColor3 = color
 	textLabel.TextSize = size
-	textLabel.TextXAlignment = Enum.TextXAlignment.Center
-	textLabel.TextYAlignment = Enum.TextYAlignment.Top
-
-	textLabel.AnchorPoint = Vector2.new(0.5, 0.5)
 	textLabel.Font = font
-	textLabel.BackgroundTransparency = 0;
-	textLabel.BackgroundColor3 = Color3.new(1,0,0)
+
 	textLabel.Position = UDim2.new(0,(posX - Bee2D.Camera.Position.X) * Bee2D.Camera.Zoom,
 	0, (posY - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom)
-	
+
 	textLabel.Parent = Frame
+
 	textLabel.Size = UDim2.new(0, textLabel.TextBounds.X * Bee2D.Camera.Zoom,
 	0, textLabel.TextBounds.Y * Bee2D.Camera.Zoom)
-end
 
--- Draws an element on the screen given a GuiObject
-function Bee2D:DrawElement(element: GuiObject)
-	assert(Window and Frame, "[Bee2D] Window is not initialized")
-	assert(element:IsA("GuiObject"), "[Bee2D] Element is not a GuiObject");
-
-	element.Position = UDim2.new(0, (element.Position.X.Offset - Bee2D.Camera.Position.X)  * Bee2D.Camera.Zoom, 0, (element.Position.Y.Offset - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom) 
-
-	element.Parent = Frame
-end
-
--- Adds any instance to the window
-function Bee2D:AddToWindow(instance: string)
-	assert(Window and Frame, "[Bee2D] Window is not initialized")
-	local inst = Instance.new(instance)
-	inst.Parent = Frame
-
-	return inst
+	if not textLabel:GetAttribute("Identifier") then
+		textLabel:SetAttribute("Identifier", identifier)
+	end
 end
 
 -- Draws a line on the screen given a start and end position, width, and color
-function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, color: Color3)
+function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, color: Color3, identifier: number)
+	assert(Window and Frame, "[Bee2D] Window is not initialized")
+	if not identifier then warn("[Bee2D] Identifier is not provided. Draw caching may not work properly.") end
+
 	lineStart = (lineStart  - Bee2D.Camera.Position)  * Bee2D.Camera.Zoom
 	lineEnd = (lineEnd - Bee2D.Camera.Position)  * Bee2D.Camera.Zoom
 
-	local line = Instance.new("Frame")
+	local line
+
+	if _cache[identifier] then
+		line = _cache[identifier].Object
+		_cache[identifier].IsUsed = true
+	else
+		line = _UIStorage.Rectangle:Clone()
+	end
+
 	line.Name = "Line"
 	line.Size = UDim2.new(0, (lineStart - lineEnd).Magnitude * Bee2D.Camera.Zoom, 0, width * Bee2D.Camera.Zoom)
 	line.BorderSizePixel = 0
@@ -234,29 +262,12 @@ function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, col
 	
 	line.Rotation = math.atan2(lineEnd.Y - lineStart.Y, lineEnd.X - lineStart.X) * 180 / math.pi
 	line.Position = UDim2.new(0, (lineStart.X+lineEnd.X)/2, 0, (lineStart.Y+lineEnd.Y)/2)
-	line.Parent = Frame
-end
-
--- Draws a bezier curve on the screen given a start and end position, control point, width, and color
-function Bee2D.DrawBezierQuad(startPos: Vector2, endPos: Vector2, controlPos: Vector2, width: number, color: Color3)
-	local t = 1;
-	local numSteps = 100;
-
-	startPos = (startPos - Bee2D.Camera.Position) * Bee2D.Camera.Zoom
-	endPos = (endPos - Bee2D.Camera.Position) * Bee2D.Camera.Zoom
-	controlPos = (controlPos - Bee2D.Camera.Position) * Bee2D.Camera.Zoom
-
-	for i = 1, numSteps do
-		local t = i / numSteps
-		local point = (1 - t)^2 * startPos + 2 * (1 - t) * t * controlPos + t^2 * endPos
-		local frame = Instance.new("Frame")
-		frame.Size = UDim2.new(0, width * Bee2D.Camera.Zoom, 0, width * Bee2D.Camera.Zoom)
-		frame.Position = UDim2.new(0, point.X, 0, point.Y)
-		frame.BorderSizePixel = 0
-		frame.BackgroundColor3 = color
-		frame.Name = "BezierCurveQuad"
-		frame.Parent = Frame
+	
+	if not line:GetAttribute("Identifier") then
+		line:SetAttribute("Identifier", identifier)
 	end
+
+	line.Parent = Frame
 end
 
 return Bee2D

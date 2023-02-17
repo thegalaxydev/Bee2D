@@ -101,8 +101,8 @@ function Bee2D.DrawCircleLine(posX: number, posY: number, radius: number, color:
 Actors are more advanced objects that are displayed in a scene.
 Actors also have a Start, Update, and Draw function that can be overriden. These functions are run when you add the actor to a scene like such:
 ```lua
-local Actor = require(ReplicatedStorage.Bee2D.Components.Actor)
-local Sprite = require(ReplicatedStorage.Bee2D.Components.Interface.Sprite)
+local Actor = require(ReplicatedStorage.Bee2D.Source.Actor)
+local Sprite = require(ReplicatedStorage.Bee2D.Source.Interface.Sprite)
 -- Sprite class is used to display the actor
 
 local Player = YourSceneName:AddActor(Actor.new("Player",  Sprite.new(Color3.new(1,1,1), "imagelinkhere")))

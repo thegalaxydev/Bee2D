@@ -4,8 +4,8 @@ local Engine = {}
 local RunService = game:GetService("RunService")
 
 local Bee2D = require(script.Parent.Main)
-local Scene = require(script.Parent.Components.Scene)
-local Stopwatch = require(script.Parent.Components.Stopwatch)
+local Scene = require(script.Parent.Source.Scene)
+local Stopwatch = require(script.Parent.Source.Stopwatch)
 
 Engine.SCREEN_WIDTH = 800
 Engine.SCREEN_HEIGHT = 450

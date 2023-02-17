@@ -4,6 +4,11 @@ local CircleCollider = {}
 local Collider = require(script.Parent.Collider)
 CircleCollider.__index = Collider
 
+export type CircleCollider = {
+	owner: Actor,
+	collisionRadius: number,
+}
+
 setmetatable(CircleCollider, {__index = Collider})
 local mt = {__index = CircleCollider}
 function CircleCollider.new(owner, collisionRadius)

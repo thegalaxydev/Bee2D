@@ -4,12 +4,13 @@ local Scene = {}
 Scene.__index = Scene
 Scene.__class = "Scene"
 
-local Bee2D = require(script.Parent.Parent.Main)
 local Actor = require(script.Parent.Actor)
 local TileMap = require(script.Parent.Tiles.TileMap)
 
+type Actor = Actor.Actor
+
 export type Scene = {
-    Actors: {},
+    Actors: {Actor},
     TileMaps: {},
     Prioritize: boolean,
     Name: string
@@ -77,11 +78,11 @@ end
 
 function Scene:Draw()
     for i, v in ipairs(self.Actors) do
-        v:Draw()
+        v:Draw(i)
     end
 
-    for _,v in ipairs(self.TileMaps) do
-        v:Draw( )
+    for i, v in ipairs(self.TileMaps) do
+        v:Draw(i)
     end
 end
 

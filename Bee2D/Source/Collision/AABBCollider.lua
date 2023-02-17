@@ -6,6 +6,12 @@ local AABBCollider = {}
 AABBCollider.__index = Collider
 AABBCollider.__class = "AABBCollider"
 
+export type AABBCollider = {
+	owner: Actor,
+	width: number,
+	height: number,
+}
+
 setmetatable(AABBCollider, {__index = Collider})
 local mt = {__index = AABBCollider}
 function AABBCollider.new(owner)
