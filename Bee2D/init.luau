@@ -231,9 +231,13 @@ function Engine.Run(params: {[string]: any} | nil)
 		t = t or {}
 		for _, child in ipairs(instance:GetChildren()) do
 			if child:IsA("Folder") then
-				t[child.Name] = buildTable(child)
+				if t then
+					t[child.Name] = buildTable(child)
+				end
 			elseif child:IsA("ModuleScript") then
-				t[child.Name] = require(child)
+				if t then
+					t[child.Name] = require(child)
+				end
 			end
 		end
 		return t

@@ -1,6 +1,6 @@
--- Bee2D by Galaxy#1337
---- @class Bee2D
-local Bee2D = {}
+-- Renderer by Galaxy#1337
+--- @class Renderer
+local Renderer = {}
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
@@ -13,33 +13,33 @@ type Cache = TypeDef.Cache
 
 local _fullscreen = false;
 
---- @prop Bee2D.Fullscreen boolean
---- @within Bee2D
-Bee2D.Fullscreen = _fullscreen
+--- @prop Renderer.Fullscreen boolean
+--- @within Renderer
+Renderer.Fullscreen = _fullscreen
 
---- @prop Bee2D.WindowSizeAbsolute Vector2
---- @within Bee2D
-Bee2D.WindowSizeAbsolute = nil;
+--- @prop Renderer.WindowSizeAbsolute Vector2
+--- @within Renderer
+Renderer.WindowSizeAbsolute = nil;
 
---- @prop Bee2D.DefaultSize Vector2
---- @within Bee2D
-Bee2D.DefaultSize = Vector2.new(800,450)
+--- @prop Renderer.DefaultSize Vector2
+--- @within Renderer
+Renderer.DefaultSize = Vector2.new(800,450)
 
---- @prop Bee2D.WindowSize Vector2
---- @within Bee2D
-Bee2D.WindowSize = Vector2.new(800,450)
+--- @prop Renderer.WindowSize Vector2
+--- @within Renderer
+Renderer.WindowSize = Vector2.new(800,450)
 
---- @prop Bee2D.BackgroundColor Color3
---- @within Bee2D
-Bee2D.BackgroundColor = Color3.fromRGB(0,0,0);
+--- @prop Renderer.BackgroundColor Color3
+--- @within Renderer
+Renderer.BackgroundColor = Color3.fromRGB(0,0,0);
 
---- @prop Bee2D.FPS number
---- @within Bee2D
-Bee2D.FPS = 0
+--- @prop Renderer.FPS number
+--- @within Renderer
+Renderer.FPS = 0
 
---- @prop Bee2D.Camera {Position: Vector2, Zoom: number, Angle: number}
---- @within Bee2D
-Bee2D.Camera = {
+--- @prop Renderer.Camera {Position: Vector2, Zoom: number, Angle: number}
+--- @within Renderer
+Renderer.Camera = {
 	Position = Vector2.new(0,0),
 	Zoom = 1,
 	Angle = 0
@@ -49,32 +49,32 @@ local _windowOpen
 
 local _UIStorage
 
---- @prop Bee2D.ActiveCache Cache
---- @within Bee2D
-Bee2D.ActiveCache = nil
+--- @prop Renderer.ActiveCache Cache
+--- @within Renderer
+Renderer.ActiveCache = nil
 
 --[=[
 	Draws the FPS counter on the top left of the window
 ]=]
-function Bee2D.DrawFPS()
-	assert(Window and Frame, "[Bee2D] Window is not initialized")
+function Renderer.DrawFPS()
+	assert(Window and Frame, "[Renderer] Window is not initialized")
 	_UIStorage.FPS:Clone().Parent = Frame
 end
 
 --[=[
 	Set the window to fullscreen or not based on a bool if provided
 ]=]
-function Bee2D:SetFullscreen(bool: boolean)
+function Renderer:SetFullscreen(bool: boolean)
 	_fullscreen = if bool ~= nil then bool else not _fullscreen
-	Bee2D.Fullscreen = _fullscreen
-	Bee2D.WindowSize = _fullscreen and Bee2D.WindowSizeAbsolute or Bee2D.DefaultSize
+	Renderer.Fullscreen = _fullscreen
+	Renderer.WindowSize = _fullscreen and Renderer.WindowSizeAbsolute or Renderer.DefaultSize
 end
 
 
 function populateStorage()
 	local fps = Instance.new("TextLabel")
 	fps.Name = "FPS"
-	fps.Text = "FPS: " .. tostring(math.round(Bee2D.FPS))
+	fps.Text = "FPS: " .. tostring(math.round(Renderer.FPS))
 	fps.TextColor3 = Color3.new(1,1,1)
 	fps.TextStrokeTransparency = 0
 	fps.TextStrokeColor3 = Color3.new(0,0,0)
@@ -116,23 +116,23 @@ end
 --[=[
 	Initialize the window with a size if provided, otherwise use the default size
 ]=]
-function Bee2D.InitWindow(sizeX: number, sizeY: number)
+function Renderer.InitWindow(sizeX: number, sizeY: number)
 	if Window then Window:Destroy() end
 	Window = Instance.new("ScreenGui")
-	Window.Name = "Bee2D"
+	Window.Name = "Renderer"
 	Window.IgnoreGuiInset = true
 	Window.Parent = PlayerGui
-	Bee2D.WindowSizeAbsolute = Window.AbsoluteSize
+	Renderer.WindowSizeAbsolute = Window.AbsoluteSize
 
 	if Frame then Frame:Destroy() end
 	Frame = Instance.new("Frame")
 	Frame.Name = "Main"
 
-	Bee2D.WindowSize = (sizeX and sizeY) and Vector2.new(sizeX, sizeY) or Bee2D.WindowSize
-	Bee2D.DefaultSize = Bee2D.WindowSize
-	Frame.Size = (not _fullscreen) and UDim2.new(0, Bee2D.WindowSize.X, 0, Bee2D.WindowSize.Y) or UDim2.new(1, 0, 1, 0)
+	Renderer.WindowSize = (sizeX and sizeY) and Vector2.new(sizeX, sizeY) or Renderer.WindowSize
+	Renderer.DefaultSize = Renderer.WindowSize
+	Frame.Size = (not _fullscreen) and UDim2.new(0, Renderer.WindowSize.X, 0, Renderer.WindowSize.Y) or UDim2.new(1, 0, 1, 0)
 	Frame.BorderSizePixel = 0
-	Frame.BackgroundColor3 = Bee2D.BackgroundColor
+	Frame.BackgroundColor3 = Renderer.BackgroundColor
 	Frame.AnchorPoint = Vector2.new(0.5, 0.5)
 	Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
 	Frame.Parent = Window
@@ -146,7 +146,7 @@ end
 --[=[
 	Close the window
 ]=]
-function Bee2D.CloseWindow()
+function Renderer.CloseWindow()
 	_windowOpen = false
 end
 
@@ -155,7 +155,7 @@ end
 
 	@return boolean -- True if the window should close
 ]=]
-function Bee2D.WindowShouldClose(): boolean
+function Renderer.WindowShouldClose(): boolean
 	return _windowOpen
 end
 
@@ -164,11 +164,11 @@ end
 
 	@param color Color3? -- The color to clear the background with
 ]=]
-function Bee2D.ClearBackground(color: Color3?)
-	assert(Window and Frame, "[Bee2D] Window is not initialized")
-	Bee2D.WindowSizeAbsolute = Window.AbsoluteSize
-	Bee2D.WindowSize = _fullscreen and Bee2D.WindowSizeAbsolute or Bee2D.DefaultSize
-	Frame.BackgroundColor3 = color or Bee2D.BackgroundColor
+function Renderer.ClearBackground(color: Color3?)
+	assert(Window and Frame, "[Renderer] Window is not initialized")
+	Renderer.WindowSizeAbsolute = Window.AbsoluteSize
+	Renderer.WindowSize = _fullscreen and Renderer.WindowSizeAbsolute or Renderer.DefaultSize
+	Frame.BackgroundColor3 = color or Renderer.BackgroundColor
 end
 
 --[=[
@@ -183,23 +183,23 @@ end
 	
 	@return ImageLabel -- The image that was drawn
 ]=]
-function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, size: Vector2, tint: Color3, cacheIndex: number?) : ImageLabel
-	assert(Window and Frame, "[Bee2D] Window is not initialized")
-	if not cacheIndex then warn("[Bee2D] Cache index is not provided. Draw caching may not work properly.") end
+function Renderer.DrawImage(texture: string, position: Vector2, rotation: number, size: Vector2, tint: Color3, cacheIndex: number?) : ImageLabel
+	assert(Window and Frame, "[Renderer] Window is not initialized")
+	if not cacheIndex then warn("[Renderer] Cache index is not provided. Draw caching may not work properly.") end
 
 	local image
 
-	if Bee2D.ActiveCache and Bee2D.ActiveCache:GetObject(cacheIndex) then
-		image = Bee2D.ActiveCache:GetObject(cacheIndex)
+	if Renderer.ActiveCache and Renderer.ActiveCache:GetObject(cacheIndex) then
+		image = Renderer.ActiveCache:GetObject(cacheIndex)
 	else
 		image = _UIStorage.Image:Clone()
 	end
 
 	image.Image = texture
-	image.Size = UDim2.new(0, size.X * Bee2D.Camera.Zoom, 0, size.Y * Bee2D.Camera.Zoom)
+	image.Size = UDim2.new(0, size.X * Renderer.Camera.Zoom, 0, size.Y * Renderer.Camera.Zoom)
 
-	image.Position = UDim2.new(0, (position.X - Bee2D.Camera.Position.X),
-							   0, (position.Y - Bee2D.Camera.Position.Y))
+	image.Position = UDim2.new(0, (position.X - Renderer.Camera.Position.X),
+							   0, (position.Y - Renderer.Camera.Position.Y))
 
 	image.ImageColor3 = tint
 	image.Rotation = rotation
@@ -222,21 +222,21 @@ end
 
 	@return Frame -- The rectangle that was drawn
 ]=]
-function Bee2D.DrawRectangle(posX: number, posY: number, width: number, height: number, color: Color3, rotation: number, cacheIndex: number?)
-	assert(Window and Frame, "[Bee2D] Window is not initialized")
+function Renderer.DrawRectangle(posX: number, posY: number, width: number, height: number, color: Color3, rotation: number, cacheIndex: number?)
+	assert(Window and Frame, "[Renderer] Window is not initialized")
 
 	local rect
 
-	if Bee2D.ActiveCache and Bee2D.ActiveCache:GetObject(cacheIndex) then
-		rect = Bee2D.ActiveCache:GetObject(cacheIndex)
+	if Renderer.ActiveCache and Renderer.ActiveCache:GetObject(cacheIndex) then
+		rect = Renderer.ActiveCache:GetObject(cacheIndex)
 	else
 		rect = _UIStorage.Rectangle:Clone()
 	end
 	
-	rect.Size = UDim2.new(0, width * Bee2D.Camera.Zoom, 0, height * Bee2D.Camera.Zoom)
+	rect.Size = UDim2.new(0, width * Renderer.Camera.Zoom, 0, height * Renderer.Camera.Zoom)
 	
-	rect.Position = UDim2.new(0, (posX - Bee2D.Camera.Position.X) * Bee2D.Camera.Zoom,
-							  0, (posY - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom)
+	rect.Position = UDim2.new(0, (posX - Renderer.Camera.Position.X) * Renderer.Camera.Zoom,
+							  0, (posY - Renderer.Camera.Position.Y) * Renderer.Camera.Zoom)
 	rect.Rotation = rotation or 0
 	rect.BackgroundColor3 = color
 
@@ -258,13 +258,13 @@ end
 	
 	@return TextLabel -- The text that was drawn
 ]=]
-function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3, font: Enum.Font, size: number, cacheIndex: number?)
-	assert(Window and Frame, "[Bee2D] Window is not initialized")
+function Renderer.DrawText(text: string, posX: number, posY: number, color: Color3, font: Enum.Font, size: number, cacheIndex: number?)
+	assert(Window and Frame, "[Renderer] Window is not initialized")
 
 	local textLabel
 	
-	if Bee2D.ActiveCache and Bee2D.ActiveCache:GetObject(cacheIndex) then
-		textLabel = Bee2D.ActiveCache:GetObject(cacheIndex)
+	if Renderer.ActiveCache and Renderer.ActiveCache:GetObject(cacheIndex) then
+		textLabel = Renderer.ActiveCache:GetObject(cacheIndex)
 	else
 		textLabel = _UIStorage.Text:Clone()
 	end
@@ -274,13 +274,13 @@ function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3,
 	textLabel.TextSize = size
 	textLabel.Font = font
 
-	textLabel.Position = UDim2.new(0,(posX - Bee2D.Camera.Position.X) * Bee2D.Camera.Zoom,
-		0, (posY - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom)
+	textLabel.Position = UDim2.new(0,(posX - Renderer.Camera.Position.X) * Renderer.Camera.Zoom,
+		0, (posY - Renderer.Camera.Position.Y) * Renderer.Camera.Zoom)
 
 	textLabel.Parent = Frame
 
-	textLabel.Size = UDim2.new(0, textLabel.TextBounds.X * Bee2D.Camera.Zoom,
-		0, textLabel.TextBounds.Y * Bee2D.Camera.Zoom)
+	textLabel.Size = UDim2.new(0, textLabel.TextBounds.X * Renderer.Camera.Zoom,
+		0, textLabel.TextBounds.Y * Renderer.Camera.Zoom)
 
 	return textLabel
 end
@@ -296,23 +296,23 @@ end
 
 	@return Frame -- The line that was drawn
 ]=]
-function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, color: Color3, cacheIndex: number?) : Frame
-	assert(Window and Frame, "[Bee2D] Window is not initialized")
+function Renderer.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, color: Color3, cacheIndex: number?) : Frame
+	assert(Window and Frame, "[Renderer] Window is not initialized")
 
-	lineStart = (lineStart  - Bee2D.Camera.Position)  * Bee2D.Camera.Zoom
-	lineEnd = (lineEnd - Bee2D.Camera.Position)  * Bee2D.Camera.Zoom
+	lineStart = (lineStart  - Renderer.Camera.Position)  * Renderer.Camera.Zoom
+	lineEnd = (lineEnd - Renderer.Camera.Position)  * Renderer.Camera.Zoom
 
 	local line
 
-	if Bee2D.ActiveCache and Bee2D.ActiveCache:GetObject(cacheIndex) then
-		line = Bee2D.ActiveCache:GetObject(cacheIndex)
+	if Renderer.ActiveCache and Renderer.ActiveCache:GetObject(cacheIndex) then
+		line = Renderer.ActiveCache:GetObject(cacheIndex)
 	else
 		line = _UIStorage.Rectangle:Clone()
 	end
 	
 
 	line.Name = "Line"
-	line.Size = UDim2.new(0, (lineStart - lineEnd).Magnitude * Bee2D.Camera.Zoom, 0, width * Bee2D.Camera.Zoom)
+	line.Size = UDim2.new(0, (lineStart - lineEnd).Magnitude * Renderer.Camera.Zoom, 0, width * Renderer.Camera.Zoom)
 	line.BorderSizePixel = 0
 	line.BackgroundColor3 = color
 	
@@ -324,4 +324,4 @@ function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, col
 	return line
 end
 
-return Bee2D
+return Renderer
