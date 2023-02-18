@@ -92,7 +92,7 @@ end
 function Engine.AddScene(scene)
 	scene = if scene ~= nil then scene else Scene.new("DefaultScene")
 	if scene.Prioritize then
-		_currentScene = scene
+		Engine.SetCurrentScene(scene)
 	end
 
 	table.insert(_scenes, scene)

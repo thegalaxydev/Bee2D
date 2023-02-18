@@ -25,9 +25,6 @@ local _windowOpen
 
 local _UIStorage
 
-local _cache = {}
-
-
 
 -- Draws the FPS counter on the top left of the window
 function Bee2D.DrawFPS()
@@ -130,38 +127,18 @@ function Bee2D.ClearBackground(color: Color3 | nil)
 	Frame.BackgroundColor3 = color or Bee2D.BackgroundColor
 
 	for _, child in pairs(Frame:GetChildren()) do
-		local id = child:GetAttribute("Identifier")
-
-		if not id then continue end
-
-		if not _cache[id] then
-			_cache[id] = {
-				Object = child,
-				IsUsed = false
-			}
-		else
-			if not _cache[id].IsUsed then
-				_cache[id].Object:Destroy()
-				_cache[id] = nil
-			end
-		end
+		child:Destroy()
 	end
 end
 
 -- Draw an image to the window given a texture, position, rotation, size, and image tint
-function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, size: Vector2, tint: Color3, identifier: number)
+function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, size: Vector2, tint: Color3)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
-	if not identifier then warn("[Bee2D] Identifier is not provided. Draw caching may not work properly.") end
 
 
 	local image
 
-	if _cache[identifier] then
-		image = _cache[identifier].Object
-		_cache[identifier].IsUsed = true
-	else
-		image = _UIStorage.Image:Clone()
-	end
+	image = _UIStorage.Image:Clone()
 
 	image.Image = texture
 	image.Size = UDim2.new(0, size.X * Bee2D.Camera.Zoom, 0, size.Y * Bee2D.Camera.Zoom)
@@ -172,26 +149,17 @@ function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, s
 	image.ImageColor3 = tint
 	image.Rotation = rotation
 
-	if not image:GetAttribute("Identifier") then
-		image:SetAttribute("Identifier", identifier)
-	end
-
 	image.Parent = Frame
 end
 
 -- Draw a rectangle to the window given a position, size, optional rotation, and color
-function Bee2D.DrawRectangle(posX: number, posY: number, width: number, height: number, color: Color3, rotation: number, identifier: number)
+function Bee2D.DrawRectangle(posX: number, posY: number, width: number, height: number, color: Color3, rotation: number)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
-	if not identifier then warn("[Bee2D] Identifier is not provided. Draw caching may not work properly.") end
 
 	local rect
 
-	if _cache[identifier] then
-		rect = _cache[identifier].Object
-		_cache[identifier].IsUsed = true
-	else
-		rect = _UIStorage.Rectangle:Clone()
-	end
+	rect = _UIStorage.Rectangle:Clone()
+	
 
 	rect.Size = UDim2.new(0, width * Bee2D.Camera.Zoom, 0, height * Bee2D.Camera.Zoom)
 	
@@ -200,26 +168,17 @@ function Bee2D.DrawRectangle(posX: number, posY: number, width: number, height: 
 	rect.Rotation = rotation or 0
 	rect.BackgroundColor3 = color
 
-	if not rect:GetAttribute("Identifier") then
-		rect:SetAttribute("Identifier", identifier)
-	end
-
 	rect.Parent = Frame
 end
 
 -- Draws text on screen given a position, color, font, and text size.
-function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3, font: Enum.Font, size: number, identifier: number)
+function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3, font: Enum.Font, size: number)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
-	if not identifier then warn("[Bee2D] Identifier is not provided. Draw caching may not work properly.") end
 
 	local textLabel
 
-	if _cache[identifier] then
-		textLabel = _cache[identifier].Object
-		_cache[identifier].IsUsed = true
-	else
-		textLabel = _UIStorage.Text:Clone()
-	end
+	textLabel = _UIStorage.Text:Clone()
+
 
 	textLabel.Text = text
 	textLabel.TextColor3 = color
@@ -233,10 +192,6 @@ function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3,
 
 	textLabel.Size = UDim2.new(0, textLabel.TextBounds.X * Bee2D.Camera.Zoom,
 	0, textLabel.TextBounds.Y * Bee2D.Camera.Zoom)
-
-	if not textLabel:GetAttribute("Identifier") then
-		textLabel:SetAttribute("Identifier", identifier)
-	end
 end
 
 -- Draws a line on the screen given a start and end position, width, and color
@@ -249,12 +204,7 @@ function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, col
 
 	local line
 
-	if _cache[identifier] then
-		line = _cache[identifier].Object
-		_cache[identifier].IsUsed = true
-	else
-		line = _UIStorage.Rectangle:Clone()
-	end
+	line = _UIStorage.Rectangle:Clone()
 
 	line.Name = "Line"
 	line.Size = UDim2.new(0, (lineStart - lineEnd).Magnitude * Bee2D.Camera.Zoom, 0, width * Bee2D.Camera.Zoom)
@@ -263,10 +213,6 @@ function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, col
 	
 	line.Rotation = math.atan2(lineEnd.Y - lineStart.Y, lineEnd.X - lineStart.X) * 180 / math.pi
 	line.Position = UDim2.new(0, (lineStart.X+lineEnd.X)/2, 0, (lineStart.Y+lineEnd.Y)/2)
-	
-	if not line:GetAttribute("Identifier") then
-		line:SetAttribute("Identifier", identifier)
-	end
 
 	line.Parent = Frame
 end

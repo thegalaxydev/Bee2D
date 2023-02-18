@@ -79,11 +79,11 @@ end
 
 function Scene:Draw()
     for i, v in ipairs(self.Actors) do
-        v:Draw(i)
+        v:Draw()
     end
 
     for i, v in ipairs(self.TileMaps) do
-        v:Draw(i)
+        v:Draw()
     end
 end
 
