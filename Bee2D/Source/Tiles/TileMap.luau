@@ -1,11 +1,10 @@
 -- Bee2D by Galaxy#1337
-
-local TileMap = {}
-
 local IsometricTile = require(script.Parent.IsometricTile)
 local Tile = require(script.Parent.Tile)
 local Bee2D = require(script.Parent.Parent.Parent.Main)
 
+--- @class TileMap
+local TileMap = {}
 TileMap.__index = TileMap
 
 type Tile = Tile.Tile
@@ -14,8 +13,17 @@ export type TileMap = {
 	Tiles: {Tile},
 	Update: (deltaTime: number) -> nil,
 	Draw: () -> nil,
-}
+} & typeof(TileMap)
 
+--[=[
+	Constructor for TileMap
+
+	@param gridScale number -- Scale of the tile
+	@param pos Vector2 -- Position of the tile
+	@param isometric boolean -- Is the tilemap isometric
+
+	@return TileMap -- A new tilemap object
+]=]
 function TileMap.new(gridScale: number, pos: Vector2, isometric: boolean, tilemapData: { {tileTexture : string, tileName: string} } ) : TileMap
 	local self = setmetatable({}, TileMap)
 	self.Tiles = {}
@@ -25,7 +33,8 @@ function TileMap.new(gridScale: number, pos: Vector2, isometric: boolean, tilema
 			local tileTexture = tilemapData[y][x][1]
 			local tileName = tilemapData[y][x][2]
 			local position = Vector2.new((x * gridScale), (y * gridScale))
-			local tile = (isometric and IsometricTile or Tile).new(tileName, tileTexture, position, gridScale)
+			local tileType = isometric and IsometricTile or Tile
+			local tile = tileType.new(tileName, tileTexture, position, gridScale)
 
 			tile.GridPosition = Vector2.new(x, y)
 			tile.Transform:SetLocalPosition(tile.Transform:GetLocalPosition() + pos)
@@ -39,6 +48,11 @@ function TileMap.new(gridScale: number, pos: Vector2, isometric: boolean, tilema
 	return self
 end
 
+--[=[
+	Updates the tilemap
+
+	@param deltaTime number -- Delta time of the game
+]=]
 function TileMap:Update(deltaTime: number)
 	for _, tile in pairs(self.Tiles) do
 		tile:Update(deltaTime)
@@ -46,6 +60,9 @@ function TileMap:Update(deltaTime: number)
 	end
 end
 
+--[=[
+	Draws the tilemap
+]=]
 function TileMap:Draw()
 	for _, tile in pairs(self.Tiles) do
 		tile:Draw()

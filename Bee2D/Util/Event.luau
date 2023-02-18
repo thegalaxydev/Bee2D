@@ -22,7 +22,7 @@ function Event.new() : Event
 	return self
 end
 
-function Event:Connect(func) : Connection
+function Event:Connect(func) : Connection?
 	print("Event connected")
 	local connection = {}
 	connection.Connected = true
@@ -30,7 +30,6 @@ function Event:Connect(func) : Connection
 	function connection:Disconnect()
 		self.Callbacks[func] = nil
 		connection.Connected = false
-		connection = nil
 	end
 	
 	self.Callbacks[func] = newproxy()
@@ -40,7 +39,7 @@ end
 
 function Event:Fire(...)
 	for func in pairs(self.Callbacks) do
-		coroutine.create(func)(...)
+		coroutine.wrap(func)(...)
 	end
 
 	for _, thread in pairs(self.Waiting) do

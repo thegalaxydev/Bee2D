@@ -1,3 +1,7 @@
+-- Bee2D by Galaxy#1337
+
+--- @class Component
+--- Main component class
 local Component = {}
 Component.__index = Component
 Component.__class = "Component"
@@ -9,13 +13,11 @@ type Actor = TypeDef.Actor
 export type Component = {
 	Owner: Actor,
 	Name: string,
-	Start: () -> nil,
 	Update: (deltaTime: number) -> nil,
 	OnCollision: () -> nil,
-	Draw: () -> nil,
 }
 
-function Component.new(owner: Actor, name: string)
+function Component.new(owner: Actor, name: string) : Component
 	local self = setmetatable({}, Component)
 
 	self.Owner = owner
@@ -24,19 +26,11 @@ function Component.new(owner: Actor, name: string)
 	return self
 end
 
-function Component:Start(): nil
+function Component:Update(deltaTime: number)
 	return
 end
 
-function Component:Update(deltaTime: number): nil
-	return
-end
-
-function Component:OnCollision(): nil
-	return
-end
-
-function Component:Draw(identifier: number): nil
+function Component:OnCollision(other: Actor)
 	return
 end
 

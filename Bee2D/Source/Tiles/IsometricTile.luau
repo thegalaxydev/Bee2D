@@ -1,32 +1,28 @@
 -- Bee2D by Galaxy#1337
 
-local Actor = require(script.Parent.Parent.Actor)
 local Sprite = require(script.Parent.Parent.Interface.Sprite)
 local Tile = require(script.Parent.Tile)
 local TypeDef = require(script.Parent.Parent.TypeDef)
 
-
-local IsometricTile = setmetatable({}, Tile)
-IsometricTile.__index = Tile
-IsometricTile.__class = "IsometricTile"
+--- @class IsometricTile
+local IsometricTile = {}
+IsometricTile.__index = IsometricTile
 
 type Transform = TypeDef.Transform
 type Sprite = Sprite.Sprite
 
-export type IsometricTile = {
-	Name: string,
-	Transform: Transform,
-	Translate: (direction: Vector2) -> nil,
-	Active: boolean,
-	Graphic: Sprite,
-	_lastPosition: Vector2,
-	TileTexture: string,
-	DefaultScale: number,
-	GridScale: number,
-	GridPosition: Vector2,
-	AbsolutePosition: Vector2,
-}
+export type IsometricTile = typeof(Tile)
 
+--[=[
+	Constructor for IsometricTile
+
+	@param tileName string -- Name of the tile
+	@param tileTexture string -- Texture of the tile
+	@param position Vector2 -- Position of the tile
+	@param gridScale number -- Scale of the tile
+
+	@return IsometricTile -- A new isometric tile object
+]=]
 function IsometricTile.new(tileName: string, tileTexture: string, position: Vector2, gridScale: number): IsometricTile
 	local self = setmetatable(Tile.new(tileName, tileTexture, position, gridScale), IsometricTile)
 

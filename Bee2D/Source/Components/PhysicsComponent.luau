@@ -7,8 +7,16 @@ local TypeDef = require(script.Parent.Parent.TypeDef)
 local Component = require(script.Parent.Component)
 
 type Actor = TypeDef.Actor
+type Component = Component.Component
 
-function PhysicsComponent.new(owner: Actor, name: string)
+export type PhysicsComponent = {
+	Owner: Actor,
+	Name: string,
+	Update: (deltaTime: number) -> nil,
+	OnCollision: () -> nil,
+} & typeof(PhysicsComponent) & typeof(Component)
+
+function PhysicsComponent.new(owner: Actor, name: string) : PhysicsComponent | Component
 	local self = setmetatable(Component.new(owner, name), PhysicsComponent)
 
 

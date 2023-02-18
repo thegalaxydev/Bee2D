@@ -1,4 +1,6 @@
 -- Bee2D by Galaxy#1337
+
+--- @class Matrix3
 local Matrix3 = {}
 
 export type Matrix3 = {
@@ -9,6 +11,22 @@ export type Matrix3 = {
 	Identity: Matrix3
 }
 
+--[=[
+This is the default constructor for the `Matrix3` class.
+
+@tag Matrix3
+
+@param m00 number
+@param m01 number
+@param m02 number
+@param m10 number
+@param m11 number
+@param m12 number
+@param m20 number
+@param m21 number
+@param m22 number
+
+]=]
 function Matrix3.new(m00: number, m01: number, m02: number,
 					m10: number, m11: number, m12: number,
 					m20: number, m21: number, m22: number)
@@ -21,7 +39,7 @@ function Matrix3.new(m00: number, m01: number, m02: number,
 		__class = "Matrix3",
 
 		__tostring = function(self)
-			return string.format("Matrix3(%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+			return string.format("{ %s, %s, %s }, { %s, %s, %s }, { %s, %s, %s }", 
 			self.M00, self.M01, self.M02, self.M10, self.M11, self.M12, self.M20, self.M21, self.M22)
 		end,
 
@@ -57,28 +75,68 @@ function Matrix3.new(m00: number, m01: number, m02: number,
 	return self
 end
 
+--[=[
+	Default identity return for Matrix3
+
+	@tag Matrix3
+	
+	@return Matrix3 -- New Matrix3 [1, 0, 0] [0, 1, 0] [0, 0, 1]
+]=]
 function Matrix3.Identity()
 	return Matrix3.new(1, 0, 0, 0, 1, 0, 0, 0, 1)
 end
 
-function Matrix3.FromArray(a): Matrix3
+--[=[
+	Returns a new Matrix3 given an array.
+
+	@tag Matrix3
+
+	@return Matrix3 -- New Matrix3 from the given array.
+]=]
+function Matrix3.FromArray(a: {number}): Matrix3
 	return Matrix3.new(
 		a[1], a[4], a[7],
 		a[2], a[5], a[8],
 		a[3], a[6], a[9])
 end
 
+--[=[
+	Creates a rotation matrix given a rotation in radians.
+	
+	@tag Matrix3
 
+	@param radians -- The rotation amount in radians.
+
+	@return Matrix3 -- New Matrix3 rotation matrix.
+]=]
 function Matrix3.CreateRotation(radians: number): Matrix3
 	local cos = math.cos(radians)
 	local sin = math.sin(radians)
 	return Matrix3.new(cos, sin, 0, -sin, cos, 0, 0, 0, 1);
 end
 
+--[=[
+	Creates a new translation matrix given an x and y position.
+	@tag Matrix3
+
+	@param x -- The x position.
+	@param y -- The y position.
+
+	@return Matrix3 -- New Matrix3 translation matrix.
+]=]
 function Matrix3.CreateTranslation(x: number, y:number): Matrix3
 	return Matrix3.new(1,0,0,0,1,0,x,y,1)
 end
 
+--[=[
+	Creates a new scale matrix given an x and y scale.
+	@tag Matrix3
+
+	@param x -- The x scale.
+	@param y -- The y scale.
+
+	@return Matrix3 -- New Matrix3 scale matrix.
+]=]
 function Matrix3.CreateScale(x: number, y: number): Matrix3
 	return Matrix3.new(x,0,0,0,y,0,0,0,1)
 end

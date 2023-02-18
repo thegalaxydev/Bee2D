@@ -1,20 +1,43 @@
 -- Bee2D by Galaxy#1337
+--- @class Bee2D
 local Bee2D = {}
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
+local TypeDef = require(script.Parent.Source.TypeDef)
 
 local Window: ScreenGui
 local Frame: Frame
 
+type Cache = TypeDef.Cache
+
 local _fullscreen = false;
 
+--- @prop Bee2D.Fullscreen boolean
+--- @within Bee2D
 Bee2D.Fullscreen = _fullscreen
+
+--- @prop Bee2D.WindowSizeAbsolute Vector2
+--- @within Bee2D
 Bee2D.WindowSizeAbsolute = nil;
+
+--- @prop Bee2D.DefaultSize Vector2
+--- @within Bee2D
 Bee2D.DefaultSize = Vector2.new(800,450)
+
+--- @prop Bee2D.WindowSize Vector2
+--- @within Bee2D
 Bee2D.WindowSize = Vector2.new(800,450)
+
+--- @prop Bee2D.BackgroundColor Color3
+--- @within Bee2D
 Bee2D.BackgroundColor = Color3.fromRGB(0,0,0);
+
+--- @prop Bee2D.FPS number
+--- @within Bee2D
 Bee2D.FPS = 0
 
+--- @prop Bee2D.Camera {Position: Vector2, Zoom: number, Angle: number}
+--- @within Bee2D
 Bee2D.Camera = {
 	Position = Vector2.new(0,0),
 	Zoom = 1,
@@ -25,21 +48,27 @@ local _windowOpen
 
 local _UIStorage
 
-
+--- @prop Bee2D.ActiveCache Cache
+--- @within Bee2D
 Bee2D.ActiveCache = nil
 
--- Draws the FPS counter on the top left of the window
+--[=[
+	Draws the FPS counter on the top left of the window
+]=]
 function Bee2D.DrawFPS()
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 	_UIStorage.FPS:Clone().Parent = Frame
 end
 
--- Set the window to fullscreen or not based on a bool if provided
+--[=[
+	Set the window to fullscreen or not based on a bool if provided
+]=]
 function Bee2D:SetFullscreen(bool: boolean)
 	_fullscreen = if bool ~= nil then bool else not _fullscreen
 	Bee2D.Fullscreen = _fullscreen
 	Bee2D.WindowSize = _fullscreen and Bee2D.WindowSizeAbsolute or Bee2D.DefaultSize
 end
+
 
 function populateStorage()
 	local fps = Instance.new("TextLabel")
@@ -83,7 +112,9 @@ function populateStorage()
 	textLabel.Parent = _UIStorage
 end
 
--- Initialize the window with a size if provided
+--[=[
+	Initialize the window with a size if provided, otherwise use the default size
+]=]
 function Bee2D.InitWindow(sizeX: number, sizeY: number)
 	if Window then Window:Destroy() end
 	Window = Instance.new("ScreenGui")
@@ -111,26 +142,47 @@ function Bee2D.InitWindow(sizeX: number, sizeY: number)
 	populateStorage()
 end
 
--- Close the window
+--[=[
+	Close the window
+]=]
 function Bee2D.CloseWindow()
 	_windowOpen = false
 end
 
--- Is set to true if the window should close
+--[=[
+	Returns true if the window should close
+
+	@return boolean -- True if the window should close
+]=]
 function Bee2D.WindowShouldClose(): boolean
 	return _windowOpen
 end
 
--- Clear the window and set the background color
-function Bee2D.ClearBackground(color: Color3 | nil)
+--[=[
+	Clear the window background with a color if provided, otherwise use the default color
+
+	@param color Color3? -- The color to clear the background with
+]=]
+function Bee2D.ClearBackground(color: Color3?)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 	Bee2D.WindowSizeAbsolute = Window.AbsoluteSize
 	Bee2D.WindowSize = _fullscreen and Bee2D.WindowSizeAbsolute or Bee2D.DefaultSize
 	Frame.BackgroundColor3 = color or Bee2D.BackgroundColor
 end
 
--- Draw an image to the window given a texture, position, rotation, size, and image tint
-function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, size: Vector2, tint: Color3, cacheIndex: number?)
+--[=[
+	Draws an image to the window
+
+	@param texture string -- The texture to draw
+	@param position Vector2 -- The position to draw the image at
+	@param rotation number -- The rotation of the image
+	@param size Vector2 -- The size of the image
+	@param tint Color3 -- The tint of the image
+	@param cacheIndex number? -- The cache index to pull from
+	
+	@return ImageLabel -- The image that was drawn
+]=]
+function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, size: Vector2, tint: Color3, cacheIndex: number?) : ImageLabel
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 	if not cacheIndex then warn("[Bee2D] Cache index is not provided. Draw caching may not work properly.") end
 
@@ -156,7 +208,19 @@ function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, s
 	return image
 end
 
--- Draw a rectangle to the window given a position, size, optional rotation, and color
+--[=[
+	Draws a rectangle to the window
+
+	@param posX number -- The X position to draw the rectangle at
+	@param posY number -- The Y position to draw the rectangle at
+	@param width number -- The width of the rectangle
+	@param height number -- The height of the rectangle
+	@param color Color3 -- The color of the rectangle
+	@param rotation number -- The rotation of the rectangle
+	@param cacheIndex number? -- The cache index to pull from
+
+	@return Frame -- The rectangle that was drawn
+]=]
 function Bee2D.DrawRectangle(posX: number, posY: number, width: number, height: number, color: Color3, rotation: number, cacheIndex: number?)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 
@@ -180,7 +244,19 @@ function Bee2D.DrawRectangle(posX: number, posY: number, width: number, height: 
 	return rect
 end
 
--- Draws text on screen given a position, color, font, and text size.
+--[=[
+	Draws text to the window
+
+	@param text string -- The text to draw
+	@param posX number -- The X position to draw the text at
+	@param posY number -- The Y position to draw the text at
+	@param color Color3 -- The color of the text
+	@param font Enum.Font -- The font of the text
+	@param size number -- The size of the text
+	@param cacheIndex number? -- The cache index to pull from
+	
+	@return TextLabel -- The text that was drawn
+]=]
 function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3, font: Enum.Font, size: number, cacheIndex: number?)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 
@@ -208,8 +284,18 @@ function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3,
 	return textLabel
 end
 
--- Draws a line on the screen given a start and end position, width, and color
-function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, color: Color3, cacheIndex: number?)
+--[=[
+	Draws a line to the window
+
+	@param lineStart Vector2 -- The start position of the line
+	@param lineEnd Vector2 -- The end position of the line
+	@param width number -- The width of the line
+	@param color Color3 -- The color of the line
+	@param cacheIndex number? -- The cache index to pull from
+
+	@return Frame -- The line that was drawn
+]=]
+function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, color: Color3, cacheIndex: number?) : Frame
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 
 	lineStart = (lineStart  - Bee2D.Camera.Position)  * Bee2D.Camera.Zoom

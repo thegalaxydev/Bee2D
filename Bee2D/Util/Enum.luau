@@ -5,9 +5,9 @@ for _, enum in pairs(Enum:GetEnums()) do
 		_enumInit[tostring(enum)][enumItem.Name] = enumItem.Value
 	end
 end
-Enum = {}
+
+local Enum = {}
 Enum.__index = Enum
-Enum.__class = "Enum"
 Enum.__objects = _enumInit
 
 local EnumItem = {}

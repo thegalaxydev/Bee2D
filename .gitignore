@@ -1,8 +1,9 @@
 #vscode
 .vscode
 
-#scene test
+#Rojo includes
 Init/Client/Scenes
-
-#sourcemap
 sourcemap.json
+
+#Doc build
+build

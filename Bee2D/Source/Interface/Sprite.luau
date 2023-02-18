@@ -1,6 +1,9 @@
-local Sprite = {}
 local Bee2D = require(script.Parent.Parent.Parent.Main)
 local Transform2D = require(script.Parent.Parent.Transform2D)
+
+--- @class Sprite
+local Sprite = {}
+
 Sprite.__index = Sprite
 Sprite.__class = "Sprite"
 
@@ -14,6 +17,12 @@ export type Sprite = {
 
 type Transform = Transform2D.Transform
 
+--[=[
+	Constructor for the Sprite class.
+
+	@param color Color3 -- The color of the sprite.
+	@param image string -- The image of the sprite as a roblox asset ID.
+]=]
 function Sprite.new(color: Color3, image: string)
 	local self = setmetatable({}, Sprite)
 	self.Width = newproxy()
@@ -25,6 +34,11 @@ function Sprite.new(color: Color3, image: string)
 	return self
 end
 
+--[=[
+	Draws the sprite to the screen.
+
+	@param transform Transform -- The transform of the actor to draw from.
+]=]
 function Sprite:Draw(transform: Transform)
 	self.Width = math.round(transform:GetGlobalScale().X);
 	self.Height = math.round(transform:GetGlobalScale().Y);
