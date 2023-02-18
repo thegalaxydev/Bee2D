@@ -74,7 +74,7 @@ function OBBCollider:CheckCollisionOBB(collider)
 			local colliderMin, colliderMax = math.huge, -math.huge
 
 			for _, corner in ipairs(colliderCorners) do
-				local projection = corner:Dot(axis)
+				projection = corner:Dot(axis)
 				colliderMin = math.min(colliderMin, projection)
 				colliderMax = math.max(colliderMax, projection)
 			end
@@ -87,3 +87,5 @@ function OBBCollider:CheckCollisionOBB(collider)
 
 	return true
 end
+
+return OBBCollider

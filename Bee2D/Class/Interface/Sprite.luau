@@ -1,4 +1,4 @@
-local Bee2D = require(script.Parent.Parent.Parent.Main)
+local Bee2D = require(script.Parent.Parent.Parent.Renderer)
 local Transform2D = require(script.Parent.Parent.Transform2D)
 
 --- @class Sprite

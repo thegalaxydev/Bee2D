@@ -1,7 +1,7 @@
--- Bee2D by Galaxy#1337
+-- Renderer by Galaxy#1337
 local IsometricTile = require(script.Parent.IsometricTile)
 local Tile = require(script.Parent.Tile)
-local Bee2D = require(script.Parent.Parent.Parent.Main)
+local Renderer = require(script.Parent.Parent.Parent.Renderer)
 
 --- @class TileMap
 local TileMap = {}
@@ -56,7 +56,7 @@ end
 function TileMap:Update(deltaTime: number)
 	for _, tile in pairs(self.Tiles) do
 		tile:Update(deltaTime)
-		tile.GridScale = tile.DefaultScale / Bee2D.Camera.Zoom
+		tile.GridScale = tile.DefaultScale / Renderer.Camera.Zoom
 	end
 end
 

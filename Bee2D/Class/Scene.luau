@@ -1,6 +1,6 @@
 -- Bee2D by Galaxy#1337
 local Actor = require(script.Parent.Actor)
-local Bee2D = require(script.Parent.Parent.Main)
+local Bee2D = require(script.Parent.Parent.Renderer)
 local TileMap = require(script.Parent.Tiles.TileMap)
 local Cache = require(script.Parent.Cache)
 

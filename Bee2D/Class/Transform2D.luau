@@ -1,6 +1,6 @@
--- Bee2D by Galaxy#1337
+-- Renderer by Galaxy#1337
 local Matrix3 = require(script.Parent.Parent.Math.Matrix3)
-local Bee2D = require(script.Parent.Parent.Main)
+local Renderer = require(script.Parent.Parent.Renderer)
 local TypeDef = require(script.Parent.TypeDef)
 
 --- @class Transform2D
@@ -83,7 +83,7 @@ end
 	@return Vector2 -- Local position of the Transform
 ]=]
 function Transform2D:GetLocalPosition() : Vector2
-	return (Vector2.new(self.LocalTranslation.M02, self.LocalTranslation.M12) - Bee2D.Camera.Position)
+	return (Vector2.new(self.LocalTranslation.M02, self.LocalTranslation.M12) - Renderer.Camera.Position)
 end
 
 --[=[
@@ -102,14 +102,14 @@ end
 	@return Vector2 -- Global position of the Transform
 ]=]
 function Transform2D:GetGlobalPosition() : Vector2
-	return (Vector2.new(self.Global.M02, self.Global.M12) - Bee2D.Camera.Position)
+	return (Vector2.new(self.Global.M02, self.Global.M12) - Renderer.Camera.Position)
 end
 
 --[=[
 	Sets the global position of the Transform
 ]=]
 function Transform2D:GetLocalScale(): Vector2
-	return Vector2.new(self.LocalScale.M00, self.LocalScale.M11) * Bee2D.Camera.Zoom
+	return Vector2.new(self.LocalScale.M00, self.LocalScale.M11) * Renderer.Camera.Zoom
 end
 
 --[=[
@@ -132,7 +132,7 @@ function Transform2D:GetGlobalScale(): Vector2
 	local xAxis = Vector2.new(self.Global.M00, self.Global.M10);
 	local yAxis = Vector2.new(self.Global.M01, self.Global.M11);
 
-	return Vector2.new(xAxis.Magnitude, yAxis.Magnitude) * Bee2D.Camera.Zoom;
+	return Vector2.new(xAxis.Magnitude, yAxis.Magnitude) * Renderer.Camera.Zoom;
 end
 
 --[=[

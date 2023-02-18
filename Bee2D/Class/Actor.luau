@@ -1,7 +1,6 @@
 -- Bee2D by Galaxy#1337
 local Transform2D = require(script.Parent.Transform2D)
 local Sprite = require(script.Parent.Interface.Sprite)
-
 local Component = require(script.Parent.Components.Component)
 
 --- @class Actor

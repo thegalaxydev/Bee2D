@@ -22,3 +22,5 @@ function PhysicsComponent.new(owner: Actor, name: string) : PhysicsComponent | C
 
 	return self
 end
+
+return PhysicsComponent
