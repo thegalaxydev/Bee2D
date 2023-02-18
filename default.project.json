@@ -5,9 +5,6 @@
 
     "ReplicatedStorage": {
       "$className" : "ReplicatedStorage",
-      "Shared": {
-        "$path": "src/shared"
-      },
       "Bee2D": {
         "$path": "Bee2D"
       }
