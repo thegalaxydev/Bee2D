@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[360],{15038:e=>{e.exports=JSON.parse('{"functions":[],"properties":[],"types":[],"name":"Component","desc":"Main component class","source":{"line":5,"path":"Bee2D/Source/Components/Component.luau"}}')}}]);

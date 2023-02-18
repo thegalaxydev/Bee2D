@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="plugin-moonwave plugin-id-moonwave">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="generator" content="Docusaurus v2.0.1">
+<title data-rh="true">Engine | Bee2D</title><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://thegalaxydev.github.io/Bee2D/api/Engine"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="Engine | Bee2D"><meta data-rh="true" name="description" content="Static Engine Class"><meta data-rh="true" property="og:description" content="Static Engine Class"><link data-rh="true" rel="canonical" href="https://thegalaxydev.github.io/Bee2D/api/Engine"><link data-rh="true" rel="alternate" href="https://thegalaxydev.github.io/Bee2D/api/Engine" hreflang="en"><link data-rh="true" rel="alternate" href="https://thegalaxydev.github.io/Bee2D/api/Engine" hreflang="x-default"><link rel="stylesheet" href="/Bee2D/assets/css/styles.ce453ceb.css">
+<link rel="preload" href="/Bee2D/assets/js/runtime~main.4db9c4e9.js" as="script">
+<link rel="preload" href="/Bee2D/assets/js/main.d50a85bd.js" as="script">
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
+<div role="region"><a href="#" class="skipToContent_fXgn">Skip to main content</a></div><nav class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Navigation bar toggle" class="navbar__toggle clean-btn" type="button" tabindex="0"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/Bee2D/"><b class="navbar__title text--truncate">Bee2D</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/Bee2D/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/thegalaxydev/Bee2D" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="searchBox_ZlJk"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input type="search" id="search_input_react" placeholder="Press S to Search..." aria-label="Search" class="navbar__search-input search-bar"></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div class="main-wrapper mainWrapper_z2l0 docPageContainer_wNNk"><div class="docPage_Dpn1"><div class="docSidebarContainer_o_re"><div class="sidebar_njMd"><nav class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/Actor">​Actor</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/Bee2D">​Bee2​D</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/Cache">​Cache</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/Component">​Component</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/Connections">​Connections</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" href="/Bee2D/api/Engine">​Engine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/IsometricTile">​Isometric​Tile</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/Matrix3">​Matrix3</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/Remote">​Remote</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/RemoteService">​Remote​Service</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/Scene">​Scene</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/Sprite">​Sprite</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/Stopwatch">​Stopwatch</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/Tile">​Tile</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/TileMap">​Tile​Map</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Bee2D/api/Transform2D">​Transform2​D</a></li></ul></nav></div></div><main class="docMainContainer_HJE1"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_MU3C"><div class="docItemContainer_Wv98"><article><div class="member_J0w1 markdown"><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_oUs_"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><header><h1 class="docTitle_mZRt" style="text-decoration:none"><span style="display:inline-block">Engine</span></h1><div class="luaClassTags_EipM"></div><div>
+<p>Static Engine Class</p>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Start"><code style="text-decoration:none">Start</code><a class="hash-link" href="#Start" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L26"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">Start</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Main Start function, called automatically by Engine.Run()</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Update"><code style="text-decoration:none">Update</code><a class="hash-link" href="#Update" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L37"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">Update</code><code>(</code><code>deltaTime<!-- -->: </code><code class="blue_P4bS">number</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Engine update function, called every frame.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Draw"><code style="text-decoration:none">Draw</code><a class="hash-link" href="#Draw" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L52"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">Draw</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Engine draw function, called every frame after update.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="SetBackgroundColor"><code style="text-decoration:none">SetBackgroundColor</code><a class="hash-link" href="#SetBackgroundColor" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L67"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">SetBackgroundColor</code><code>(</code><code>color<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Color3" target="_blank" rel="noopener noreferrer">Color3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Sets the background color of the Window.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="BindToDraw"><code style="text-decoration:none">BindToDraw</code><a class="hash-link" href="#BindToDraw" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L75"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">BindToDraw</code><code>(</code><div class="inset_uKQm"><div><code>name<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code></div><div><code>callback<!-- -->: </code><code class="purple_ieR2">(</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="purple_ieR2">(</code><code class="purple_ieR2">)</code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Binds a callback to the draw step of the engine, given a name.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="UnbindFromDraw"><code style="text-decoration:none">UnbindFromDraw</code><a class="hash-link" href="#UnbindFromDraw" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L84"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">UnbindFromDraw</code><code>(</code><code>name<!-- -->: </code><code class="blue_P4bS">string</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Unbinds a callback from the draw step of the engine, given a name.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="BindToUpdate"><code style="text-decoration:none">BindToUpdate</code><a class="hash-link" href="#BindToUpdate" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L96"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">BindToUpdate</code><code>(</code><div class="inset_uKQm"><div><code>name<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code></div><div><code>callback<!-- -->: </code><code class="purple_ieR2">(</code><code class="blue_P4bS">number</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="blue_P4bS">nil</code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Binds a callback to the update step of the engine, given a name.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="UnbindFromUpdate"><code style="text-decoration:none">UnbindFromUpdate</code><a class="hash-link" href="#UnbindFromUpdate" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L106"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">UnbindFromUpdate</code><code>(</code><code>name<!-- -->: </code><code class="blue_P4bS">string</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Unbinds a callback from the update step of the engine, given a name.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="AddScene"><code style="text-decoration:none">AddScene</code><a class="hash-link" href="#AddScene" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L118"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">AddScene</code><code>(</code><code>scene<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Bee2D/api/Scene">Scene</a></code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Adds a scene to the engine.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="RemoveScene"><code style="text-decoration:none">RemoveScene</code><a class="hash-link" href="#RemoveScene" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L131"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">RemoveScene</code><code>(</code><code>scene<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Bee2D/api/Scene">Scene</a></code><code>) → </code><code class="blue_P4bS">boolean</code></div><div>
+<p>Removes a scene from the engine given the scene.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="RemoveSceneByName"><code style="text-decoration:none">RemoveSceneByName</code><a class="hash-link" href="#RemoveSceneByName" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L145"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">RemoveSceneByName</code><code>(</code><code>name<!-- -->: </code><code class="blue_P4bS">string</code><code>) → </code><code class="blue_P4bS">boolean</code></div><div>
+<p>Removes a scene from the engine given a name.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetScene"><code style="text-decoration:none">GetScene</code><a class="hash-link" href="#GetScene" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L159"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">GetScene</code><code>(</code><code>name<!-- -->: </code><code class="blue_P4bS">string</code><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Bee2D/api/Scene">Scene?</a></code></div><div>
+<p>Gets a scene from the engine given a name.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="LoadScenes"><code style="text-decoration:none">LoadScenes</code><a class="hash-link" href="#LoadScenes" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L173"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">LoadScenes</code><code>(</code><code>SceneFolder<!-- -->: </code><code class="blue_P4bS">Container</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Loads all scenes from a container. Any scene with priority will be set as the current scene.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="SetCurrentScene"><code style="text-decoration:none">SetCurrentScene</code><a class="hash-link" href="#SetCurrentScene" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L186"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">SetCurrentScene</code><code>(</code><code>scene<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/Bee2D/api/Scene">Scene</a></code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Sets the current scene of the engine.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="SetCurrentSceneByName"><code style="text-decoration:none">SetCurrentSceneByName</code><a class="hash-link" href="#SetCurrentSceneByName" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L194"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">SetCurrentSceneByName</code><code>(</code><code>sceneName<!-- -->: </code><code class="blue_P4bS">string</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Sets the current scene of the engine given a name.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Run"><code style="text-decoration:none">Run</code><a class="hash-link" href="#Run" title="Direct link to heading">​</a></h3><span class="badge_Ba2I" style="color:#f1c40f"><span class="badgeTooltip_cWXP">This is a yielding function. When called, it will pause the Lua thread that called the function until a result is ready to be returned, without interrupting other scripts.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#f1c40f" role="img" aria-label="This is a yielding function. When called, it will pause the Lua thread that called the function until a result is ready to be returned, without interrupting other scripts."><path d="M96.4 11.9c-1.4-2.5-4-4-6.9-4H10.8c-2.9 0-5.4 1.5-6.9 4-1.4 2.5-1.4 5.5 0 7.9L43.3 88c1.4 2.5 4 4 6.9 4 2.9 0 5.4-1.5 6.9-4l39.3-68.2c1.4-2.4 1.4-5.4 0-7.9zM46.3 54.5c1.1-1.1 2.3-1.6 3.8-1.6s2.8.5 3.8 1.6c1.1 1.1 1.6 2.3 1.6 3.8s-.5 2.8-1.6 3.8c-1.1 1.1-2.3 1.6-3.8 1.6s-2.8-.5-3.8-1.6c-1.1-1.1-1.6-2.3-1.6-3.8.1-1.5.6-2.8 1.6-3.8zm-.5-4.9V21.8h8.8v27.8h-8.8z"></path></svg> <!-- -->Yields</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/thegalaxydev/Bee2D/blob/master/Bee2D/Engine.luau#L221"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Engine<!-- -->.</code><code class="green_DgR4">Run</code><code>(</code><code>params<!-- -->: </code><code class="purple_ieR2">{</code><span><code>[</code><code class="blue_P4bS">string</code><code>]</code></span><code>: </code><code class="blue_P4bS">any</code><code class="purple_ieR2">}</code><code class="op_lSLc"> | </code><code class="blue_P4bS">nil</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>
+  Runs the engine. Goes through all params and sets them if they exist.
+  This initializes the engine and starts the render loop, yielding anything below it
+  indefinitely.
+</p>
+</div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
+    &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;Start&quot;,
+            &quot;desc&quot;: &quot;Main Start function, called automatically by Engine.Run()&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 26,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Update&quot;,
+            &quot;desc&quot;: &quot;Engine update function, called every frame.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;deltaTime&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 37,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Draw&quot;,
+            &quot;desc&quot;: &quot;Engine draw function, called every frame after update.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 52,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;SetBackgroundColor&quot;,
+            &quot;desc&quot;: &quot;Sets the background color of the Window.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;color&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Color3&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 67,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;BindToDraw&quot;,
+            &quot;desc&quot;: &quot;Binds a callback to the draw step of the engine, given a name.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;callback&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;()-&gt;()&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 75,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;UnbindFromDraw&quot;,
+            &quot;desc&quot;: &quot;Unbinds a callback from the draw step of the engine, given a name.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 84,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;BindToUpdate&quot;,
+            &quot;desc&quot;: &quot;Binds a callback to the update step of the engine, given a name.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;callback&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(number) -&gt; nil&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 96,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;UnbindFromUpdate&quot;,
+            &quot;desc&quot;: &quot;Unbinds a callback from the update step of the engine, given a name.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 106,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;AddScene&quot;,
+            &quot;desc&quot;: &quot;Adds a scene to the engine.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;scene&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Scene&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 118,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;RemoveScene&quot;,
+            &quot;desc&quot;: &quot;Removes a scene from the engine given the scene.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;scene&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Scene&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean\r\n&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 131,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;RemoveSceneByName&quot;,
+            &quot;desc&quot;: &quot;Removes a scene from the engine given a name.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean\r\n&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 145,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;GetScene&quot;,
+            &quot;desc&quot;: &quot;Gets a scene from the engine given a name.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Scene?\r\n&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 159,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;LoadScenes&quot;,
+            &quot;desc&quot;: &quot;Loads all scenes from a container. Any scene with priority will be set as the current scene.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;SceneFolder&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Container&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 173,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;SetCurrentScene&quot;,
+            &quot;desc&quot;: &quot;Sets the current scene of the engine.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;scene&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;Scene&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 186,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;SetCurrentSceneByName&quot;,
+            &quot;desc&quot;: &quot;Sets the current scene of the engine given a name.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;sceneName&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 194,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Run&quot;,
+            &quot;desc&quot;: &quot;Runs the engine. Goes through all params and sets them if they exist.\nThis initializes the engine and starts the render loop, yielding anything below it \nindefinitely.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;params&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;{[string]: any} | nil&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;yields&quot;: true,
+            &quot;source&quot;: {
+                &quot;line&quot;: 221,
+                &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+            }
+        }
+    ],
+    &quot;properties&quot;: [],
+    &quot;types&quot;: [],
+    &quot;name&quot;: &quot;Engine&quot;,
+    &quot;desc&quot;: &quot;Static Engine Class&quot;,
+    &quot;source&quot;: {
+        &quot;line&quot;: 12,
+        &quot;path&quot;: &quot;Bee2D/Engine.luau&quot;
+    }
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#AddScene" class="table-of-contents__link toc-highlight">.AddScene</a></li><li><a href="#BindToDraw" class="table-of-contents__link toc-highlight">.BindToDraw</a></li><li><a href="#BindToUpdate" class="table-of-contents__link toc-highlight">.BindToUpdate</a></li><li><a href="#Draw" class="table-of-contents__link toc-highlight">.Draw</a></li><li><a href="#GetScene" class="table-of-contents__link toc-highlight">.GetScene</a></li><li><a href="#LoadScenes" class="table-of-contents__link toc-highlight">.LoadScenes</a></li><li><a href="#RemoveScene" class="table-of-contents__link toc-highlight">.RemoveScene</a></li><li><a href="#RemoveSceneByName" class="table-of-contents__link toc-highlight">.RemoveSceneByName</a></li><li><a href="#Run" class="table-of-contents__link toc-highlight">.Run</a></li><li><a href="#SetBackgroundColor" class="table-of-contents__link toc-highlight">.SetBackgroundColor</a></li><li><a href="#SetCurrentScene" class="table-of-contents__link toc-highlight">.SetCurrentScene</a></li><li><a href="#SetCurrentSceneByName" class="table-of-contents__link toc-highlight">.SetCurrentSceneByName</a></li><li><a href="#Start" class="table-of-contents__link toc-highlight">.Start</a></li><li><a href="#UnbindFromDraw" class="table-of-contents__link toc-highlight">.UnbindFromDraw</a></li><li><a href="#UnbindFromUpdate" class="table-of-contents__link toc-highlight">.UnbindFromUpdate</a></li><li><a href="#Update" class="table-of-contents__link toc-highlight">.Update</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2023 thegalaxydev. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+<script src="/Bee2D/assets/js/runtime~main.4db9c4e9.js"></script>
+<script src="/Bee2D/assets/js/main.d50a85bd.js"></script>
+</body>
+</html>
