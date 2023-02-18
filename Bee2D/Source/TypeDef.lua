@@ -80,13 +80,9 @@ export type Transform = {
 }
 
 export type Stopwatch = {
-	StartTime: number,
-	ElapsedTime: number,
-	ElapsedMilliseconds: number,
-	IsRunning: boolean,
-	_runTask: RBXScriptConnection,
-	Start: () -> nil,
-	Stop: () -> nil,
+	Start: () -> (),
+	Peek: () -> number,
+	Poll: () -> number,
 }
 
 export type Scene = {

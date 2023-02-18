@@ -175,24 +175,15 @@ function Engine.Run(params: {[string]: any} | nil)
 		end
 	end
 
-	local _stopwatch = Stopwatch.new();
-	_stopwatch:Start();
-
 	Engine.Start()
-
-	local currentTime = 0;
-	local lastTime = 0;
-	local deltaTime = 0;
+	
+	local stopwatch = Stopwatch.new()
 
 	RunService.RenderStepped:Connect(function()
-		currentTime = _stopwatch.ElapsedTime;
-
-		deltaTime = currentTime - lastTime;
+		local deltaTime = stopwatch:Poll()
 
 		Engine.Update(deltaTime);
-		Engine.Draw();
-		
-		lastTime = currentTime;		
+		Engine.Draw();	
 	end)
 
 	-- alternate method
