@@ -13,7 +13,8 @@ export type Scene = {
     Actors: {Actor},
     TileMaps: {},
     Prioritize: boolean,
-    Name: string
+    Name: string,
+    __class: string
 }
 
 function Scene.new(name: string)

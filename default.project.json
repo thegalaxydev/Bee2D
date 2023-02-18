@@ -1,13 +1,36 @@
 {
-  "name": "Bee2DFramework",
-  "tree": {
-    "$className": "DataModel",
+	"name": "Bee2DFramework",
+	"tree": {
+		"$className": "DataModel",
 
-    "ReplicatedStorage": {
-      "$className" : "ReplicatedStorage",
-      "Bee2D": {
-        "$path": "Bee2D"
-      }
-    }
-  }
+		"ReplicatedStorage": {
+			"$className" : "ReplicatedStorage",
+			"Bee2D": {
+				"$path": "Bee2D",
+				"Storage": {
+					"$className": "Folder",
+					"Remote": { 
+						"$className": "RemoteFunction"
+					}
+				}
+			}
+		},
+
+		"ServerScriptService": {
+			"$className" : "ServerScriptService",
+			"Bee2DServer": {
+				"$path": "Init/Server"
+			}
+		},
+		
+		"StarterPlayer": {
+			"$className" : "StarterPlayer",
+			"StarterPlayerScripts": {
+				"$className" : "StarterPlayerScripts",
+				"Bee2DClient": {
+					"$path": "Init/Client"
+				}
+			}
+		}
+	}
 }

@@ -1,11 +1,8 @@
 -- Bee2D by Galaxy#1337
 
 
-local Collider = require(script.Parent.Collision.Collider)
 local Transform2D = require(script.Parent.Transform2D)
-local Input = require(script.Parent.Interface.Input)
 local Sprite = require(script.Parent.Interface.Sprite)
-local Bee2D = require(script.Parent.Parent.Main)
 
 local Component = require(script.Parent.Components.Component)
 
@@ -26,6 +23,8 @@ export type Actor = {
 	Active: boolean,
 	Graphic: Sprite,
 	_lastPosition: Vector2,
+	Components: {Component},
+	__class: string
 }
 
 function Actor.new(name: string, graphic: Sprite)
@@ -57,12 +56,14 @@ function Actor:RemoveComponent(component: Component)
 	end
 end
 
-function Actor:GetComponent(name: string)
+function Actor:GetComponent(name: string) : Component | nil
 	for _, comp in pairs(self.Components) do
 		if comp.Name == name then
 			return comp
 		end
 	end
+
+	return
 end
 
 function Actor:Update(deltaTime: number)

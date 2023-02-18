@@ -28,6 +28,7 @@ local _UIStorage
 local _cache = {}
 
 
+
 -- Draws the FPS counter on the top left of the window
 function Bee2D.DrawFPS()
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
@@ -122,7 +123,7 @@ function Bee2D.WindowShouldClose(): boolean
 end
 
 -- Clear the window and set the background color
-function Bee2D.ClearBackground(color: Color3)
+function Bee2D.ClearBackground(color: Color3 | nil)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 	Bee2D.WindowSizeAbsolute = Window.AbsoluteSize
 	Bee2D.WindowSize = _fullscreen and Bee2D.WindowSizeAbsolute or Bee2D.DefaultSize

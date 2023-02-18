@@ -1,14 +1,5 @@
 #vscode
 .vscode
-bee2d.project.json
 
-# Source files
-/src/client/*
-/src/server/*
-
-
-
-
-
-
-
+#sourcemap
+sourcemap.json

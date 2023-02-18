@@ -25,15 +25,19 @@ function Component.new(owner: Actor, name: string)
 end
 
 function Component:Start(): nil
+	return
 end
 
 function Component:Update(deltaTime: number): nil
+	return
 end
 
 function Component:OnCollision(): nil
+	return
 end
 
 function Component:Draw(identifier: number): nil
+	return
 end
 
 return Component

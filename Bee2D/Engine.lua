@@ -90,7 +90,7 @@ function Engine.UnbindFromUpdate(name: string)
 end
 
 function Engine.AddScene(scene)
-	scene = if scene ~= nil then scene else Scene.new()
+	scene = if scene ~= nil then scene else Scene.new("DefaultScene")
 	if scene.Prioritize then
 		_currentScene = scene
 	end
@@ -123,14 +123,14 @@ function Engine.RemoveSceneByName(name: string) : boolean
 	return false
 end
 
-function Engine.GetScene(name: string) : Scene.Scene
+function Engine.GetScene(name: string) : Scene.Scene | nil
 	for _, v in pairs(_scenes) do
 		if v.Name == name then
 			return v
 		end
 	end
 
-	return nil
+	return
 end
 
 function Engine.LoadScenes(SceneFolder)
@@ -166,8 +166,7 @@ EngineParams = {
 	end;
 }
 
-
-function Engine.Run(params: {[string]: any})
+function Engine.Run(params: {[string]: any} | nil)
 	if params then
 		for parameter, value in pairs(params) do
 			if EngineParams[parameter] then
