@@ -227,18 +227,19 @@ function Engine.Run(params: {[string]: any} | nil)
 		end
 	end
 
-	local function buildTable(instance: Instance): {[any]: any}
-		local t = Engine
+	local function buildTable(instance: Instance, t: {[any]: any}?)
+		t = t or {}
 		for _, child in ipairs(instance:GetChildren()) do
 			if child:IsA("Folder") then
 				t[child.Name] = buildTable(child)
 			elseif child:IsA("ModuleScript") then
-				print(child.Name)
 				t[child.Name] = require(child)
 			end
 		end
 		return t
 	end
+	
+	buildTable(script, Engine)
 	
 
 	Engine.Start()
