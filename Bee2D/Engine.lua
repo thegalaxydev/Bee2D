@@ -5,7 +5,6 @@ local RunService = game:GetService("RunService")
 
 local Bee2D = require(script.Parent.Main)
 local Scene = require(script.Parent.Source.Scene)
-local Stopwatch = require(script.Parent.Source.Stopwatch)
 
 Engine.SCREEN_WIDTH = 800
 Engine.SCREEN_HEIGHT = 450
@@ -176,12 +175,8 @@ function Engine.Run(params: {[string]: any} | nil)
 	end
 
 	Engine.Start()
-	
-	local stopwatch = Stopwatch.new()
 
-	RunService.RenderStepped:Connect(function()
-		local deltaTime = stopwatch:Poll()
-
+	RunService.RenderStepped:Connect(function(deltaTime)
 		Engine.Update(deltaTime);
 		Engine.Draw();	
 	end)

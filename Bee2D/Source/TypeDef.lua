@@ -79,12 +79,6 @@ export type Transform = {
 	LocalRotationAngle: number,
 }
 
-export type Stopwatch = {
-	Start: () -> (),
-	Peek: () -> number,
-	Poll: () -> number,
-}
-
 export type Scene = {
     Actors: {Actor},
     TileMaps: {},
