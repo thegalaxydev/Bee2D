@@ -86,16 +86,6 @@ export type Transform = {
 	LocalRotationAngle: number,
 }
 
-export type Stopwatch = {
-	StartTime: number,
-	ElapsedTime: number,
-	ElapsedMilliseconds: number,
-	IsRunning: boolean,
-	_runTask: RBXScriptConnection,
-	Start: () -> nil,
-	Stop: () -> nil,
-}
-
 export type Scene = {
     Actors: {Actor},
     TileMaps: {},
