@@ -8,7 +8,6 @@ local Component = require(script.Parent.Components.Component)
 
 local Actor = {}
 Actor.__index = Actor
-Actor.__class = "Actor"
 
 type Sprite = Sprite.Sprite
 type Component = Component.Component
@@ -24,8 +23,7 @@ export type Actor = {
 	Graphic: Sprite,
 	_lastPosition: Vector2,
 	Components: {Component},
-	__class: string
-}
+} & typeof(Actor)
 
 function Actor.new(name: string, graphic: Sprite)
 	local self = setmetatable({}, Actor)
@@ -85,14 +83,17 @@ function Actor:Translate(direction: Vector2)
 	self.Transform:SetLocalPosition(self.Transform:GetLocalPosition() + direction)
 end
 
-function Actor:Draw()
-	if self.Graphic then
-		self.Graphic:Draw(self.Transform)
-	end
-
+function Actor:Draw() : GuiObject?
 	for _, comp in pairs(self.Components) do
 		comp:Draw()
 	end
+	
+	local graphic
+	if self.Graphic then
+		graphic = self.Graphic:Draw(self.Transform)
+	end
+
+	return graphic
 end
 
 return Actor

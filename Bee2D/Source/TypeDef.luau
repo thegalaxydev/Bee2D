@@ -3,11 +3,18 @@ export type Component = {
 	Name: string,
 }
 
+export type Cache = {
+	_objects: {GuiObject},
+	_available: {number},
+	OnCompress: (object: GuiObject, index: number) -> (),
+}
+
 export type Sprite = {
 	Width: number,
 	Height: number,
 	Color: Color3,
 	Image: string,
+	CacheIndex: number?
 }
 
 export type Tile = {

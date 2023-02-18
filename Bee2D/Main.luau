@@ -26,6 +26,8 @@ local _windowOpen
 local _UIStorage
 
 
+Bee2D.ActiveCache = nil
+
 -- Draws the FPS counter on the top left of the window
 function Bee2D.DrawFPS()
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
@@ -125,20 +127,20 @@ function Bee2D.ClearBackground(color: Color3 | nil)
 	Bee2D.WindowSizeAbsolute = Window.AbsoluteSize
 	Bee2D.WindowSize = _fullscreen and Bee2D.WindowSizeAbsolute or Bee2D.DefaultSize
 	Frame.BackgroundColor3 = color or Bee2D.BackgroundColor
-
-	for _, child in pairs(Frame:GetChildren()) do
-		child:Destroy()
-	end
 end
 
 -- Draw an image to the window given a texture, position, rotation, size, and image tint
-function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, size: Vector2, tint: Color3)
+function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, size: Vector2, tint: Color3, cacheIndex: number?)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
-
+	if not cacheIndex then warn("[Bee2D] Cache index is not provided. Draw caching may not work properly.") end
 
 	local image
 
-	image = _UIStorage.Image:Clone()
+	if Bee2D.ActiveCache and Bee2D.ActiveCache:GetObject(cacheIndex) then
+		image = Bee2D.ActiveCache:GetObject(cacheIndex)
+	else
+		image = _UIStorage.Image:Clone()
+	end
 
 	image.Image = texture
 	image.Size = UDim2.new(0, size.X * Bee2D.Camera.Zoom, 0, size.Y * Bee2D.Camera.Zoom)
@@ -150,17 +152,22 @@ function Bee2D.DrawImage(texture: string, position: Vector2, rotation: number, s
 	image.Rotation = rotation
 
 	image.Parent = Frame
+
+	return image
 end
 
 -- Draw a rectangle to the window given a position, size, optional rotation, and color
-function Bee2D.DrawRectangle(posX: number, posY: number, width: number, height: number, color: Color3, rotation: number)
+function Bee2D.DrawRectangle(posX: number, posY: number, width: number, height: number, color: Color3, rotation: number, cacheIndex: number?)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 
 	local rect
 
-	rect = _UIStorage.Rectangle:Clone()
+	if Bee2D.ActiveCache and Bee2D.ActiveCache:GetObject(cacheIndex) then
+		rect = Bee2D.ActiveCache:GetObject(cacheIndex)
+	else
+		rect = _UIStorage.Rectangle:Clone()
+	end
 	
-
 	rect.Size = UDim2.new(0, width * Bee2D.Camera.Zoom, 0, height * Bee2D.Camera.Zoom)
 	
 	rect.Position = UDim2.new(0, (posX - Bee2D.Camera.Position.X) * Bee2D.Camera.Zoom,
@@ -169,42 +176,53 @@ function Bee2D.DrawRectangle(posX: number, posY: number, width: number, height: 
 	rect.BackgroundColor3 = color
 
 	rect.Parent = Frame
+
+	return rect
 end
 
 -- Draws text on screen given a position, color, font, and text size.
-function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3, font: Enum.Font, size: number)
+function Bee2D.DrawText(text: string, posX: number, posY: number, color: Color3, font: Enum.Font, size: number, cacheIndex: number?)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
 
 	local textLabel
-
-	textLabel = _UIStorage.Text:Clone()
-
-
+	
+	if Bee2D.ActiveCache and Bee2D.ActiveCache:GetObject(cacheIndex) then
+		textLabel = Bee2D.ActiveCache:GetObject(cacheIndex)
+	else
+		textLabel = _UIStorage.Text:Clone()
+	end
+		
 	textLabel.Text = text
 	textLabel.TextColor3 = color
 	textLabel.TextSize = size
 	textLabel.Font = font
 
 	textLabel.Position = UDim2.new(0,(posX - Bee2D.Camera.Position.X) * Bee2D.Camera.Zoom,
-	0, (posY - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom)
+		0, (posY - Bee2D.Camera.Position.Y) * Bee2D.Camera.Zoom)
 
 	textLabel.Parent = Frame
 
 	textLabel.Size = UDim2.new(0, textLabel.TextBounds.X * Bee2D.Camera.Zoom,
-	0, textLabel.TextBounds.Y * Bee2D.Camera.Zoom)
+		0, textLabel.TextBounds.Y * Bee2D.Camera.Zoom)
+
+	return textLabel
 end
 
 -- Draws a line on the screen given a start and end position, width, and color
-function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, color: Color3, identifier: number)
+function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, color: Color3, cacheIndex: number?)
 	assert(Window and Frame, "[Bee2D] Window is not initialized")
-	if not identifier then warn("[Bee2D] Identifier is not provided. Draw caching may not work properly.") end
 
 	lineStart = (lineStart  - Bee2D.Camera.Position)  * Bee2D.Camera.Zoom
 	lineEnd = (lineEnd - Bee2D.Camera.Position)  * Bee2D.Camera.Zoom
 
 	local line
 
-	line = _UIStorage.Rectangle:Clone()
+	if Bee2D.ActiveCache and Bee2D.ActiveCache:GetObject(cacheIndex) then
+		line = Bee2D.ActiveCache:GetObject(cacheIndex)
+	else
+		line = _UIStorage.Rectangle:Clone()
+	end
+	
 
 	line.Name = "Line"
 	line.Size = UDim2.new(0, (lineStart - lineEnd).Magnitude * Bee2D.Camera.Zoom, 0, width * Bee2D.Camera.Zoom)
@@ -215,6 +233,8 @@ function Bee2D.DrawLine(lineStart: Vector2, lineEnd: Vector2, width: number, col
 	line.Position = UDim2.new(0, (lineStart.X+lineEnd.X)/2, 0, (lineStart.Y+lineEnd.Y)/2)
 
 	line.Parent = Frame
+
+	return line
 end
 
 return Bee2D

@@ -17,11 +17,10 @@ export type Transform = {
 	LocalTranslation: Matrix3,
 	LocalScale: Matrix3,
 	LocalRotationAngle: number,
-}
+} & typeof(Transform2D)
 
 
 function Transform2D.new(owner): Transform
-	assert(owner.__class == "Actor", "Transform2D must be initialized with an Actor")
 	local self = setmetatable({}, Transform2D)
 
 	self.Local = Matrix3.Identity()

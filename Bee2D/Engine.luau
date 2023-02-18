@@ -100,8 +100,6 @@ function Engine.AddScene(scene)
 end
 
 function Engine.RemoveScene(scene: Scene.Scene) : boolean
-	assert(scene.__class, "[Bee2D] Scene can only be removed from the engine")
-	assert(scene.__class == "Scene", "[Bee2D] Scene can only be removed from the engine")
 	for i, v in pairs(_scenes) do
 		if v == scene then
 			table.remove(_scenes, i)
@@ -145,6 +143,7 @@ end
 
 function Engine.SetCurrentScene(scene: Scene.Scene)
 	_currentScene = scene
+	Bee2D.ActiveCache = scene.Objects
 end
 
 function Engine.SetCurrentSceneByName(sceneName: string)

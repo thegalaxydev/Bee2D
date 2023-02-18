@@ -16,8 +16,6 @@ type Sprite = Sprite.Sprite
 export type IsometricTile = {
 	Name: string,
 	Transform: Transform,
-	Draw: () -> nil,
-	Update: (deltaTime: number) -> nil,
 	Translate: (direction: Vector2) -> nil,
 	Active: boolean,
 	Graphic: Sprite,

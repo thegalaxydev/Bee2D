@@ -1,5 +1,8 @@
 #vscode
 .vscode
 
+#scene test
+Init/Client/Scenes
+
 #sourcemap
 sourcemap.json

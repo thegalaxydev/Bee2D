@@ -9,23 +9,23 @@ export type Sprite = {
 	Height: number,
 	Color: Color3,
 	Image: string,
+	CacheIndex: number?
 }
+
+type Transform = Transform2D.Transform
 
 function Sprite.new(color: Color3, image: string)
 	local self = setmetatable({}, Sprite)
 	self.Width = newproxy()
 	self.Height = newproxy()
 	self.Color = color
+	self.CacheIndex = nil
 	self.Image = image
 
 	return self
 end
-function getScale()
-	return Vector2.new((Bee2D.Fullscreen and Bee2D.WindowSizeAbsolute.X or Bee2D.WindowSize.X) * Bee2D.Camera.Zoom,
-	(Bee2D.Fullscreen and Bee2D.WindowSizeAbsolute.Y or Bee2D.WindowSize.Y) * Bee2D.Camera.Zoom)
-end
 
-function Sprite:Draw(transform: Transform2D.Transform, identifier: number)
+function Sprite:Draw(transform: Transform)
 	self.Width = math.round(transform:GetGlobalScale().X);
 	self.Height = math.round(transform:GetGlobalScale().Y);
 
@@ -38,7 +38,8 @@ function Sprite:Draw(transform: Transform2D.Transform, identifier: number)
 
 	local rotation = transform:GetGlobalRotationAngle();
 
-	Bee2D.DrawImage(self.Image, position + Bee2D.Camera.Position, (rotation * 180 / math.pi), Vector2.new(self.Width, self.Height), self.Color)
+	return Bee2D.DrawImage(self.Image, position + Bee2D.Camera.Position, (rotation * 180 / math.pi), 
+		Vector2.new(self.Width, self.Height), self.Color, self.CacheIndex)
 end
 
 return Sprite

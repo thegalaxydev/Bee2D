@@ -45,7 +45,9 @@ function Tile.new(tileName: string, tileTexture: string, position: Vector2, grid
 	return self
 end
 
-function Tile:Update()
+function Tile:Update(deltaTime: number)
+	Actor.Update(self, deltaTime)
+
 	self.Transform:SetLocalScale(Vector2.new(self.GridScale, self.GridScale))
 	self.Transform:UpdateTransform();
 end
