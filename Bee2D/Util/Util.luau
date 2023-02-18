@@ -7,18 +7,6 @@ Util.SafeRun = function(Function, ...)
     end
 end
 
-function Util.TypeCheck(obj: {any}, className : string) : boolean
-    if typeof(obj) == "table" then
-        if obj.__class then
-            if obj.__class == className then
-                return true
-            end
-        end
-    end
-
-    return false
-end
-
 function Util.FormatTime(seconds)
     if seconds <= 0 then
         return "0 seconds"
