@@ -53,6 +53,7 @@ end
 	@param component -- Component The component to add to the actor.
 ]=]
 function Actor:AddComponent(component: Component)
+	component.Owner = self;
 	table.insert(self.Components, component)
 end
 

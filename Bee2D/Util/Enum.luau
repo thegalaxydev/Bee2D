@@ -49,13 +49,12 @@ function Enum.new(name: string): Enum
 	return self
 end
 
-function Enum.GetEnums()
-	return Enum.__objects
-end
-
-
 function Enum:GetEnumItems() : {}
 		return self._items
+end
+
+function Enum.GetEnums()
+	return Enum.__objects
 end
 
 function Enum:AddItem(itemName: string) : EnumItem

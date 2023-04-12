@@ -9,6 +9,13 @@ export type Cache = {
 	OnCompress: (object: GuiObject, index: number) -> (),
 }
 
+export type AnimatorComponent = {
+	Owner: Actor,
+	Name: string,
+	Update: (deltaTime: number) -> nil,
+	OnCollision: () -> nil,
+} 
+
 export type Sprite = {
 	Width: number,
 	Height: number,

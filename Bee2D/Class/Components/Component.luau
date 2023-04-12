@@ -17,10 +17,10 @@ export type Component = {
 	OnCollision: () -> nil,
 }
 
-function Component.new(owner: Actor, name: string) : Component
+function Component.new(name: string) : Component
 	local self = setmetatable({}, Component)
 
-	self.Owner = owner
+	self.Owner = nil
 	self.Name = name
 
 	return self

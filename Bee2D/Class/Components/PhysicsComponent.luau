@@ -16,8 +16,8 @@ export type PhysicsComponent = {
 	OnCollision: () -> nil,
 } & typeof(PhysicsComponent) & typeof(Component)
 
-function PhysicsComponent.new(owner: Actor, name: string) : PhysicsComponent | Component
-	local self = setmetatable(Component.new(owner, name), PhysicsComponent)
+function PhysicsComponent.new(name: string) : PhysicsComponent | Component
+	local self = setmetatable(Component.new(name), PhysicsComponent)
 
 
 	return self
