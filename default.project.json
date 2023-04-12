@@ -14,23 +14,6 @@
 					}
 				}
 			}
-		},
-
-		"ServerScriptService": {
-			"$className" : "ServerScriptService",
-			"Bee2DServer": {
-				"$path": "Init/Server"
-			}
-		},
-		
-		"StarterPlayer": {
-			"$className" : "StarterPlayer",
-			"StarterPlayerScripts": {
-				"$className" : "StarterPlayerScripts",
-				"Bee2DClient": {
-					"$path": "Init/Client"
-				}
-			}
 		}
 	}
 }

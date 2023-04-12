@@ -12,7 +12,7 @@ Bee2D has a bit of a learning curve, but once you get into it, it's extremely si
 
 ```lua
 local Engine = require(Services.ReplicatedStorage.Bee2D.Engine)
-local Bee2D = require(Services.ReplicatedStorage.Bee2D.Main)
+local Bee2D = require(Services.ReplicatedStorage.Bee2D)
 ```
 
 From there, there's a couple of built-in functions you can set up.
