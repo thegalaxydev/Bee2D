@@ -1,0 +1,8 @@
+[package]
+name = "thegalaxydev/bee2d"
+description = "A game engine within a game engine designed to make functional and optimized 2D games."
+version = "0.1.2"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]

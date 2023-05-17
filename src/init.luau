@@ -166,6 +166,29 @@ function Engine.GetScene(name: string) : Scene?
 	return
 end
 
+--[=[
+	Returns the requested module from the path provided or nil if not found as well as a log message.
+]=]
+function Engine.Retrieve(path: string) : ({[any]: any}?, string)
+	local split = string.split(path, "/")
+	local current = script
+	for i = 1, #split do
+		if current then
+			current = current:FindFirstChild(split[i])
+		else
+			return nil, "Path not found."
+		end
+	end
+
+	if not current then return nil, "Path not found." end
+
+	if current:IsA("ModuleScript") then
+		return require(current), "Module retrieved."
+	end
+
+	return current, "Directory retrieved."
+end
+
 
 --[=[
 	Loads all scenes from a container. Any scene with priority will be set as the current scene.
