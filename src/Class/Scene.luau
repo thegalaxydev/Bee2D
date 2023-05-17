@@ -37,7 +37,7 @@ function Scene.new(name: string)
     self.Objects = Cache.new()
     self.Prioritize = false
 
-    self.Object.OnCompress = function(object: GuiObject, index: number)
+    self.Objects.OnCompress = function(object: GuiObject, index: number)
     end
 
     return self
