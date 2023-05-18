@@ -194,7 +194,6 @@ end
 	Loads all scenes from a container. Any scene with priority will be set as the current scene.
 ]=]
 function Engine.LoadScenes(SceneFolder: Container)
-	print(SceneFolder)
 	for _, Scene in pairs(SceneFolder:GetChildren()) do
 		if Scene:IsA("ModuleScript") then
 			local scene = require(Scene)
@@ -218,6 +217,7 @@ function Engine.SetCurrentSceneByName(sceneName: string)
 	local scene = Engine.GetScene(sceneName)
 	if scene then
 		_currentScene = scene
+		Renderer.ActiveCache = scene.Objects
 	end
 end
 

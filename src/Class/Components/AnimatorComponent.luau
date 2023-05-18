@@ -18,6 +18,8 @@ export type AnimatorComponent = {
 	Playing: boolean,
 } & typeof(AnimatorComponent) & typeof(Component)
 
+setmetatable(AnimatorComponent, Component)
+
 function AnimatorComponent.new(name: string, animations: {Animation}) : AnimatorComponent | Component
 	local self = setmetatable(Component.new(name), AnimatorComponent)
 

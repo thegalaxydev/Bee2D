@@ -18,7 +18,9 @@ export type SpriteComponent = {
 	OnCollision: () -> nil,
 } & typeof(SpriteComponent) & typeof(Component)
 
-function SpriteComponent.new(name: string, image: string, color: Color3) : SpriteComponent | Component
+setmetatable(SpriteComponent, Component)
+
+function SpriteComponent.new(name: string, image: string, color: Color3, Pixelated: boolean?) : SpriteComponent
 	local self = setmetatable(Component.new(name), SpriteComponent) 
 	
 	self.Width = 0;
@@ -26,6 +28,8 @@ function SpriteComponent.new(name: string, image: string, color: Color3) : Sprit
 	self.Color = color
 	self.CacheIndex = nil
 	self.Image = image
+
+	self.Pixelated = Pixelated or false
 
 	return self
 end
@@ -46,8 +50,7 @@ function SpriteComponent:Draw()
 	local rotation = transform:GetGlobalRotationAngle();
 
 	return Bee2D.DrawImage(self.Image, position + Bee2D.Camera.Position, (rotation * 180 / math.pi), 
-		Vector2.new(self.Width, self.Height), self.Color, self.CacheIndex)	
-
+		Vector2.new(self.Width, self.Height), self.Color, self.Pixelated, self.CacheIndex)	
 end
 
 

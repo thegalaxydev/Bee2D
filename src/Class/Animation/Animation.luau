@@ -48,7 +48,6 @@ function Animation:Update(deltaTime: number)
 	if not self._playing then return end
 
 	local spriteComponent = self.Owner:GetComponent("SpriteComponent")
-	
 
 	self._timeElapsed = self._timeElapsed + deltaTime
 	local timePerFrame = 1 / self.FrameRate
