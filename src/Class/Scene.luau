@@ -8,8 +8,6 @@ local Cache = require(script.Parent.Cache)
 local Scene = {}
 Scene.__index = Scene
 
-
-
 type Actor = Actor.Actor
 type Cache = Cache.Cache
 
@@ -37,7 +35,7 @@ function Scene.new(name: string)
     self.Objects = Cache.new()
     self.Prioritize = false
 
-    self.Object.OnCompress = function(object: GuiObject, index: number)
+    self.Objects.OnCompress = function(object: GuiObject, index: number)
     end
 
     return self
@@ -118,13 +116,21 @@ end
 ]=]
 function Scene:Draw()  
     for i, v in ipairs(self.Actors) do 
-        if not v.Graphic then continue end
+        if v:GetComponent("SpriteComponent") or v:GetComponent("SpriteSheetComponent") then  
+            local spriteComponent = v:GetComponent("SpriteComponent") or v:GetComponent("SpriteSheetComponent")
 
-        local guiObject = v:Draw()
+            local guiObject = spriteComponent:Draw()
 
-        if not v.Graphic.CacheIndex then
-            v.Graphic.CacheIndex = self.Objects:PushObject(guiObject)
-        end     
+            if not spriteComponent.CacheIndex then
+                spriteComponent.CacheIndex = self.Objects:PushObject(guiObject)
+            end     
+        end
+
+        for _, Component in pairs(v.Components) do
+            if Component.Draw and Component.Name ~= "SpriteComponent" and Component.Name ~= "SpriteSheetComponent" then
+                Component:Draw()
+            end
+        end
     end
 end
 

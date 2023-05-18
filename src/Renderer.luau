@@ -111,6 +111,26 @@ function populateStorage()
 	textLabel.BackgroundTransparency = 1;
 	textLabel.BackgroundColor3 = Color3.new(1,0,0)
 	textLabel.Parent = _UIStorage
+
+	local spriteBackground = Instance.new("Frame")
+	spriteBackground.Name = "SpriteSheet"
+	spriteBackground.BorderSizePixel = 0
+	spriteBackground.BackgroundTransparency = 1
+	spriteBackground.ClipsDescendants = true
+	spriteBackground.Parent = _UIStorage
+
+	local aspectRatio = Instance.new("UIAspectRatioConstraint")
+	aspectRatio.Name = "AspectRatio"
+	aspectRatio.AspectRatio = 1
+	aspectRatio.Parent = spriteBackground
+
+	local spriteSheet = Instance.new("ImageLabel")
+	spriteSheet.Name = "SpriteSheet"
+	spriteSheet.BackgroundTransparency = 1
+	spriteSheet.BorderSizePixel = 0
+	spriteSheet.ImageTransparency = 0
+	spriteSheet.Parent = spriteBackground
+
 end
 
 --[=[
@@ -133,6 +153,7 @@ function Renderer.InitWindow(sizeX: number, sizeY: number)
 	Frame.Size = (not _fullscreen) and UDim2.new(0, Renderer.WindowSize.X, 0, Renderer.WindowSize.Y) or UDim2.new(1, 0, 1, 0)
 	Frame.BorderSizePixel = 0
 	Frame.BackgroundColor3 = Renderer.BackgroundColor
+	Frame.ClipsDescendants = true
 	Frame.AnchorPoint = Vector2.new(0.5, 0.5)
 	Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
 	Frame.Parent = Window
@@ -183,7 +204,7 @@ end
 	
 	@return ImageLabel -- The image that was drawn
 ]=]
-function Renderer.DrawImage(texture: string, position: Vector2, rotation: number, size: Vector2, tint: Color3, cacheIndex: number?) : ImageLabel
+function Renderer.DrawImage(texture: string, position: Vector2, rotation: number, size: Vector2, tint: Color3, pixelated: boolean, cacheIndex: number?) : ImageLabel
 	assert(Window and Frame, "[Renderer] Window is not initialized")
 	if not cacheIndex then warn("[Renderer] Cache index is not provided. Draw caching may not work properly.") end
 
@@ -194,7 +215,7 @@ function Renderer.DrawImage(texture: string, position: Vector2, rotation: number
 	else
 		image = _UIStorage.Image:Clone()
 	end
-
+	if pixelated then image.ResampleMode = Enum.ResamplerMode.Pixelated end
 	image.Image = texture
 	image.Size = UDim2.new(0, size.X * Renderer.Camera.Zoom, 0, size.Y * Renderer.Camera.Zoom)
 
@@ -207,6 +228,45 @@ function Renderer.DrawImage(texture: string, position: Vector2, rotation: number
 	image.Parent = Frame
 
 	return image
+end
+
+--[=[
+	Draws a sprite sheet to the window
+
+	@param texture string -- The texture to draw
+	@param position Vector2 -- The position to draw the image at
+	@param rotation number -- The rotation of the image
+	@param size Vector2 -- The size of the image
+	@param spriteSize Vector2 -- The height and width of the sprite sheet
+	@param cacheIndex number? -- The cache index to pull from
+	
+	@return Frame -- The sprite sheet that was drawn
+]=]
+function Renderer.DrawSpriteSheet(texture: string, position: Vector2, rotation: number, size: Vector2, 
+	spriteSize: Vector2, sheetPosition: Vector2, pixelated: boolean,  cacheIndex: number?) : Frame
+	assert(Window and Frame, "[Renderer] Window is not initialized")
+	if not cacheIndex then warn("[Renderer] Cache index is not provided. Draw caching may not work properly.") end
+
+	local spriteSheet
+
+	if Renderer.ActiveCache and Renderer.ActiveCache:GetObject(cacheIndex) then
+		spriteSheet = Renderer.ActiveCache:GetObject(cacheIndex)
+	else
+		spriteSheet = _UIStorage.SpriteSheet:Clone()
+	end
+	spriteSheet.Size = UDim2.new(0, size.X * Renderer.Camera.Zoom, 0, size.Y * Renderer.Camera.Zoom)
+
+	spriteSheet.Position = UDim2.new(0, (position.X - Renderer.Camera.Position.X),
+							   0, (position.Y - Renderer.Camera.Position.Y))
+	
+	if pixelated then spriteSheet.SpriteSheet.ResampleMode = Enum.ResamplerMode.Pixelated end
+	spriteSheet.Rotation = rotation
+	spriteSheet.SpriteSheet.Image = texture
+	spriteSheet.SpriteSheet.Size = UDim2.new(spriteSize.X, 0, spriteSize.Y, 0)
+	spriteSheet.SpriteSheet.Position = UDim2.new(sheetPosition.X, 0, sheetPosition.Y, 0)
+	spriteSheet.Parent = Frame
+
+	return spriteSheet	
 end
 
 --[=[

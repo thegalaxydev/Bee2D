@@ -1,19 +1,6 @@
 {
-	"name": "Bee2DFramework",
+	"name": "bee2d",
 	"tree": {
-		"$className": "DataModel",
-
-		"ReplicatedStorage": {
-			"$className" : "ReplicatedStorage",
-			"Bee2D": {
-				"$path": "Bee2D",
-				"Storage": {
-					"$className": "Folder",
-					"Remote": { 
-						"$className": "RemoteFunction"
-					}
-				}
-			}
-		}
+		"$path": "src"
 	}
 }

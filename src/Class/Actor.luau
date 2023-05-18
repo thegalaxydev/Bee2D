@@ -28,13 +28,12 @@ export type Actor = {
 
 	@return Actor -- A new actor object
 ]=]
-function Actor.new(name: string, graphic: Sprite) : Actor
+function Actor.new(name: string) : Actor
 	local self = setmetatable({}, Actor)
 
 	self._lastPosition = Vector2.new(0, 0)
 	self.Active = true
 	self.Name = name
-	self.Graphic = graphic
 	self.Transform = Transform2D.new(self)
 	self.Components = {}
 
@@ -118,18 +117,6 @@ end
 ]=]
 function Actor:Translate(direction: Vector2)
 	self.Transform:SetLocalPosition(self.Transform:GetLocalPosition() + direction)
-end
-
---[=[
-	Draws the actor's graphic on the screen. This is called every frame.
-]=]
-function Actor:Draw() : GuiObject?
-	local graphic
-	if self.Graphic then
-		graphic = self.Graphic:Draw(self.Transform)
-	end
-
-	return graphic
 end
 
 return Actor

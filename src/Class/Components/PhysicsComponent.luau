@@ -15,7 +15,7 @@ export type PhysicsComponent = {
 	Update: (deltaTime: number) -> nil,
 	OnCollision: () -> nil,
 } & typeof(PhysicsComponent) & typeof(Component)
-
+setmetatable(PhysicsComponent, Component)
 function PhysicsComponent.new(name: string) : PhysicsComponent | Component
 	local self = setmetatable(Component.new(name), PhysicsComponent)
 
